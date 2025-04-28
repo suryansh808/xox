@@ -1,0 +1,167 @@
+#landingpage {
+  
+  section {
+    padding: 60px 20px;
+    max-width: 1500px;
+    margin: auto;
+    border-bottom: 1px solid #bebebe;
+  }
+  
+  h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #cac4c4;
+    text-align: center;
+  }
+  
+  p {
+    font-size: 1.1rem;
+    margin: 10px 0;
+    text-align: center;
+  }
+  
+  /* Flex Section for About & How It Works */
+  .flex-section {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+  }
+  
+  .flex-section.reverse {
+    flex-direction: row-reverse;
+  }
+  
+  .image-wrapper, .content-wrapper {
+    flex: 1 1 45%;
+    min-width: 300px;
+  }
+  
+  .content-wrapper {
+    text-align: left;
+  }
+  
+  .image-wrapper img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+  }
+  
+  /* Features Section */
+  .features-section ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .features-section ul li {
+    background: #080808;
+    color: white;
+    margin: 10px;
+    padding: 15px 20px;
+    border-radius: 8px;
+    flex: 1 1 40%;
+    max-width: 45%;
+    text-align: center;
+  }
+  
+  .features-section ul li:hover {
+    background: #161414;
+    transition: background 0.3s;
+    box-shadow: 0 2px 6px rgba(122, 121, 121, 0.3);
+  }
+  
+  /* Steps in How It Works */
+  .steps {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+    text-align: center;
+  }
+  
+  .step {
+    flex: 1 1 30%;
+    background-color: #080808;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .step:hover {
+    background-color: #111010;
+    transition: background 0.3s;
+    box-shadow: 0 2px 6px rgba(122, 121, 121, 0.3);
+  }
+  
+  /* Testimonials */
+  .testimonials blockquote {
+    font-style: italic;
+    margin: 20px auto;
+    max-width: 700px;
+    padding: 20px;
+    border-left: 4px solid #5e5f61;
+    background-color: #080808;
+    border-radius: 5px;
+    color: #f2f2f2;
+    text-align: left;
+  }
+  
+  /* Call to Action */
+  .cta-section {
+    margin-top: 10px;
+    background-image: url('https://img.freepik.com/free-photo/enjoy-life-daily-planner-concept_53876-121196.jpg?t=st=1745412795~exp=1745416395~hmac=e42db5a82a839ff6caa96943bae85029816809afd834a2086ec1bb2fffcb9162&w=996');
+    background-size: cover;
+    background-repeat: no-repeat;
+    object-position: center;
+    color: #000000;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    font-weight: 600;
+    text-align: center;
+    padding: 60px 20px;
+  }
+  
+  .cta-section button {
+    margin-top: 20px;
+    padding: 12px 30px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 6px;
+    background-color: #080808;
+    color: #f2f4f7;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .cta-section button:hover {
+    background-color: #161414;
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .flex-section,
+    .flex-section.reverse {
+      flex-direction: column;
+      text-align: center;
+    }
+  
+    .content-wrapper {
+      text-align: center;
+    }
+  
+    .features-section ul li {
+      max-width: 100%;
+      flex: 1 1 100%;
+    }
+  
+    .step {
+      flex: 1 1 100%;
+    }
+  }
+  
+}
+

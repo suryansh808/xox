@@ -1,0 +1,125 @@
+#company-profile {
+  display: flex;
+  justify-content: center;
+  padding: 80px 20px;
+  
+  
+  .company-logo-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 200px;
+  }
+  
+  .logo-upload-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 150px;
+    height: 150px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+
+    img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+  } 
+  
+  .logo-placeholder {
+    width: 150px;
+    height: 150px;
+    display: flex;
+    align-items: were;
+    justify-content: center;
+    background: #f0f0f0;
+    border-radius: 8px;
+    color: #666;
+    font-size: 0.9rem;
+  }
+  
+  .logo-upload-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  
+  .overlay-label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+    border-radius: 8px;
+    z-index: 10; /* Ensure overlay is clickable */
+  }
+  
+  .logo-upload-container:hover .overlay-label {
+    opacity: 1;
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
+  .icon-style {
+    font-size: 24px;
+    color: white;
+  }
+  
+  .upload-btn {
+    padding: 0.5rem 1rem;
+    background: #353333;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background 0.2s;
+    z-index: 5; /* Ensure button is clickable */
+    pointer-events: auto; /* Ensure button is interactive */
+  }
+  
+  .upload-btn:disabled {
+    background: #ccc;
+    color: #666;
+    cursor: not-allowed;
+    pointer-events: none; /* Disable pointer events when button is disabled */
+  }
+  
+  .upload-btn:hover:not(:disabled) {
+    background: #0056b3;
+  }
+  
+  .company-details {
+    flex: 1;
+    padding: 0 20px;
+  }
+  
+  .company-details h2 {
+    color: #ffffff;
+    font-size: 2rem;
+  }
+  
+  .company-details p {
+    margin: 0.5rem 0;
+    color: #ffffff;
+  }
+  
+  .company-details strong {
+    color: #ffffff;
+  }
+  
+  }

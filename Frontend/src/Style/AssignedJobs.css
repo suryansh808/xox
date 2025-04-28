@@ -1,0 +1,230 @@
+#assigned-job {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #27272a;
+    padding: 1rem;
+  
+  
+  .job-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #ffffff;
+  }
+  
+  .job-table {
+    min-width: 100%;
+    border-collapse: collapse;
+    display: block;
+  }
+  
+  @media (min-width: 768px) {
+    .job-table {
+      display: table;
+    }
+  }
+  
+  .table-header {
+    display: block;
+  }
+  
+  @media (min-width: 768px) {
+    .table-header {
+      display: table-header-group;
+    }
+  }
+  
+  .header-row {
+    border: 1px solid #ffffff;
+    text-transform: capitalize;
+    display: block;
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+  
+  @media (min-width: 768px) {
+    .header-row {
+      border: none;
+      display: table-row;
+      position: relative;
+      top: auto;
+      left: auto;
+    }
+  }
+  
+  .header-cell {
+    background-color: #000000;
+    padding: 0.5rem;
+    color: #ffffff;
+    font-weight: 700;
+    text-align: left;
+    display: block;
+  }
+  
+  @media (min-width: 768px) {
+    .header-cell {
+      border: 1px solid #ffffff;
+      display: table-cell;
+    }
+  }
+  
+  .table-body {
+    display: block;
+  }
+  
+  @media (min-width: 768px) {
+    .table-body {
+      display: table-row-group;
+    }
+  }
+  
+  .no-jobs-row,
+  .job-row {
+    background-color: #ffffff;
+    border: 1px solid #6b7280;
+    text-transform: capitalize;
+    display: block;
+  }
+  
+  @media (min-width: 768px) {
+    .no-jobs-row,
+    .job-row {
+      border: none;
+      display: table-row;
+    }
+  }
+  
+  .no-jobs-cell {
+    padding: 0.5rem;
+    text-align: center;
+    display: block;
+  }
+  
+  .job-cell {
+    padding: 0.5rem;
+    text-align: left;
+    display: block;
+  }
+  
+  @media (min-width: 768px) {
+    .no-jobs-cell,
+    .job-cell {
+      border: 1px solid #6b7280;
+      display: table-cell;
+    }
+  }
+  
+  .job-count-cell {
+    cursor: pointer;
+    color: #2563eb;
+  }
+  
+  .job-count-cell:hover {
+    text-decoration: underline;
+  }
+  
+  .company-logo {
+    width: 50px;
+    height: auto;
+    object-fit: contain;
+  }
+  
+  .dialog-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+  }
+  
+  .dialog-box {
+    background-color: #ffffff;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    max-width: 90vw;
+    width: 100%;
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+  
+  .dialog-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .dialog-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #27272a;
+  }
+  
+  .dialog-close {
+    color: #6b7280;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .dialog-close:hover {
+    color: #27272a;
+  }
+  
+  .dialog-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .dialog-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #f9fafb;
+  }
+  
+  .dialog-table-header {
+    background-color: #e5e7eb;
+  }
+  
+  .dialog-header-row {
+    text-transform: capitalize;
+  }
+  
+  .dialog-header-cell {
+    padding: 0.5rem;
+    font-weight: 600;
+    text-align: left;
+    border: 1px solid #d1d5db;
+    color: #27272a;
+    font-size: 0.875rem;
+  }
+  
+  .dialog-table-body {
+    background-color: #ffffff;
+  }
+  
+  .dialog-job-row {
+    border: 1px solid #d1d5db;
+  }
+  
+  .dialog-job-cell {
+    padding: 0.5rem;
+    text-align: left;
+    border: 1px solid #d1d5db;
+    color: #4b5563;
+    font-size: 0.875rem;
+  }
+  
+  .error-message {
+    color: #dc2626;
+    font-size: 0.875rem;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  }
