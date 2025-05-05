@@ -1,4 +1,4 @@
-
+import {Link} from 'react-router-dom';
 const projects = [
   {
     title: 'Virtual Job Fair 2024',
@@ -43,7 +43,7 @@ const Projects = () => {
 
       <section className="cta">
         <h2>Want to collaborate with Doltec?</h2>
-        <button>Partner With Us</button>
+        <button><Link to="/contactus">Partner With Us</Link></button>
       </section>
     </div>
    </div>
