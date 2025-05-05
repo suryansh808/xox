@@ -4,7 +4,7 @@ import API from "../API";
 
 const ManageThoughts = () => {
   const [thoughts, setThoughts] = useState([]);
-  const [replyText, setReplyText] = useState({});
+  // const [replyText, setReplyText] = useState({});
   const [selectedThought, setSelectedThought] = useState(null);
 
   const fetchThoughts = async () => {

@@ -61,9 +61,7 @@ router.put("/changevisible/:id", async (req, res) => {
 });
 
 // Show and hide a reply
-router.put(
-  "/changerepliesvisibilty/:thoughtId/replies/:replyIndex",
-  async (req, res) => {
+router.put("/changerepliesvisibilty/:thoughtId/replies/:replyIndex",async (req, res) => {
     try {
       const thought = await Thought.findById(req.params.thoughtId);
       if (!thought)

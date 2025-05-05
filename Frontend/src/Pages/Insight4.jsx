@@ -47,6 +47,7 @@ const Insight4 = () => {
     const newReply = { text: replyText[thoughtId], createdAt: new Date().toISOString(), };
     try {
       await axios.post(`${API}/thoughtsreplies/${thoughtId}`, newReply);
+      alert("submited")
       if (selectedThought && selectedThought._id === thoughtId) {
         setSelectedThought((prev) => ({
           ...prev,
