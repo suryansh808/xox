@@ -1,37 +1,81 @@
+import React from "react";
 
-const WhatwedoIndustries = () => {
+const industries = [
+  {
+    name: "Information Technology",
+    icon: "💻",
+    description: "Software, AI, Data Science jobs and more.",
+  },
+  {
+    name: "Healthcare",
+    icon: "🩺",
+    description: "Nursing, clinical research, and health tech roles.",
+  },
+  {
+    name: "Finance",
+    icon: "💰",
+    description: "Banking, FinTech, accounting, and more.",
+  },
+  {
+    name: "Engineering",
+    icon: "🏗️",
+    description: "Mechanical, Civil, and Electrical engineering jobs.",
+  },
+  {
+    name: "Education",
+    icon: "🎓",
+    description: "Teaching, EdTech, curriculum design roles.",
+  },
+  {
+    name: "Marketing & Sales",
+    icon: "📈",
+    description: "Digital marketing, sales, and brand roles.",
+  },
+];
+
+const Industries = () => {
   return (
-    <>
-      <div id="mainpage">
-        <h1>INDUSTRIES</h1>
-        <div className="list">
-          <h2>Industries1</h2>
-          <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
+    <div id="industries">
+      <div className="industries-page">
+        {/* Hero Section */}
+        <section className="hero">
+          <h1>Explore Opportunities Across Industries</h1>
           <p>
-            {" "}
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error
-            obcaecati enim numquam maiores accusamus, fugit quaerat ratione
-            optio, temporibus beatae quibusdam iure voluptatibus dolor facilis
-            ullam, eum non consequatur hic eaque debitis doloremque neque iste.
-            Exercitationem iusto ullam recusandae sapiente velit necessitatibus
-            dolore error, quod facere eos deserunt repudiandae soluta excepturi,
-            quibusdam maxime laborum voluptas quas, minus hic? Eos nihil
-            consequatur at natus voluptas illum mollitia minus dolor aliquid
-            perspiciatis et, delectus quas voluptatibus molestias, dolore
-            temporibus sed, magni similique ipsum aperiam totam! Fuga possimus
-            aut illum maxime pariatur ut, cupiditate voluptas suscipit quidem
-            quibusdam deleniti quaerat quia. Harum itaque tempore saepe
-            molestias, est debitis pariatur a accusamus aspernatur quidem
-            asperiores minus provident! Iure cum minus unde, accusamus culpa
-            ducimus eveniet asperiores alias magni voluptas quo aperiam
-            inventore totam reiciendis ex veritatis? Delectus quibusdam,
-            veritatis ratione ipsum nemo neque fugit voluptatem velit ad
-            nesciunt quo commodi fuga! Modi, repudiandae quae.
+            At Doltec, we connect students and professionals with jobs across a
+            wide range of industries.
           </p>
-        </div>
+        </section>
+
+        {/* Industry Cards */}
+        <section className="industry-grid">
+          {industries.map((industry, index) => (
+            <div className="industry-card" key={index}>
+              <div className="icon">{industry.icon}</div>
+              <h3>{industry.name}</h3>
+              <p>{industry.description}</p>
+            </div>
+          ))}
+        </section>
+
+        {/* Why Doltec */}
+        <section className="why-doltec">
+          <h2>Why Choose Doltec?</h2>
+          <ul>
+            <li>✔ Tailored job listings by industry.</li>
+            <li>✔ Trusted by leading companies and startups.</li>
+            <li>✔ Easy application process for students and freshers.</li>
+          </ul>
+        </section>
+
+        {/* CTA Section */}
+        <section className="cta">
+          <h2>Ready to take the next step?</h2>
+          <button>Post a Job</button>
+          <button className="secondary">Explore Jobs</button>
+        </section>
       </div>
-    </>
+    </div>
   );
 };
 
-export default WhatwedoIndustries;
+export default Industries;

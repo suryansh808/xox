@@ -74,6 +74,41 @@ const Landingpage = () => {
         <p>Join thousands of users who trust JobPortal to simplify their job search and hiring process. It's fast, smart, and built for you.</p>   
         <Link to="ContactUs"><button>Register Now</button></Link>
       </section>
+
+      {/* Footer */}
+      <div className='recrutment__footer'>
+        <div className="recruitment__footer__container">
+          <div>
+            <h2>Doltec</h2>
+            <p>BUILDING AWARENESS WITH WISDOM.</p>
+          </div>
+          <div >
+            <h2>Useful Links</h2>
+            <ul className='usefull__links'>
+              <li><Link to="Industries">Industries</Link></li>
+              <li><Link to="Services">Services</Link></li>
+              <li><Link to="Overview">Overview</Link></li>
+              <li><Link to="Product">Product</Link></li>
+              <li><Link to="Mission">Mission</Link></li>
+              <li><Link to="Vission">Vission</Link></li>
+              <li><Link to="Project">Project</Link></li>
+              <li><Link to="About">About</Link></li>
+            </ul>
+          </div>
+          <div>
+            <h2>Connect With Us</h2>
+            <ul className='connentus'>
+              <li><i class="fa fa-phone" aria-hidden="true"></i> <a href="tel:+0000000000">0000000000</a></li>
+              <li><i class="fa fa-whatsapp" aria-hidden="true"></i> <a href="https://wa.me/">0000000000</a></li>
+              <li><i class="fa fa-envelope" aria-hidden="true"></i> <a href="mailto:support@doltec.com">support@doltec.com</a></li>
+              <li><i class="fa fa-map-marker" aria-hidden="true"></i> <a>Bangalore Karnataka</a></li>
+            </ul>
+          </div>
+        </div>
+        <div className="copyrights">
+          <p>© {new Date().getFullYear()} Doltec. All rights reserved.</p>
+        </div>
+      </div>
     </div>
   );
 };

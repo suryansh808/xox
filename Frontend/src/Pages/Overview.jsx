@@ -1,15 +1,81 @@
-const WhatwedoOverview = () => {
+
+const Overview = () => {
   return (
-    <>
-    <div id="mainpage">
-        <h1>WHAT WE DO</h1>
-        <div>
-            <h2>Overview</h2>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio aspernatur praesentium ipsa, tempore amet, laborum rerum vitae odio magnam ea facere? Culpa nihil minus dignissimos corrupti laudantium sed architecto enim porro! Quaerat nisi quisquam laboriosam veritatis magni ea, consequatur reprehenderit sequi id sit atque, quia non enim facere. Id expedita dignissimos consectetur placeat. Delectus quam maiores asperiores. Laborum, impedit, maiores cum laboriosam minus exercitationem dolorum hic rem eaque minima doloremque voluptate fugit, ad mollitia aspernatur ex reprehenderit nobis amet dolor at veniam! Magni nemo maiores at pariatur officia magnam nobis odio? Totam minima itaque alias. Quasi dignissimos accusamus ad quibusdam maxime expedita illo consequatur distinctio recusandae doloribus. Perspiciatis sequi asperiores quia rem nulla id eaque corporis odio aperiam hic facere repudiandae, alias, quaerat neque minus aut delectus, consectetur quis culpa libero voluptas optio? Enim itaque assumenda deserunt iste accusamus, totam, tempora doloribus fuga ut repellat consequuntur aperiam voluptate omnis aliquid! Porro cumque, ut cupiditate facere vitae accusantium aperiam, reprehenderit saepe possimus maxime quidem maiores reiciendis repellendus? Quas maiores reprehenderit accusamus maxime, libero ad perspiciatis officiis explicabo, eius dolorem atque. Debitis distinctio, similique eius incidunt, numquam recusandae aspernatur sed deserunt cum iusto corrupti soluta cumque doloremque quos eum impedit. Culpa id dicta cum ducimus expedita? Saepe quasi deleniti harum error temporibus dignissimos possimus enim voluptates, iste fuga. Debitis ab enim quae. Unde, minus ratione, delectus amet quis dignissimos corrupti asperiores maiores deleniti accusantium animi assumenda culpa obcaecati enim tempora repudiandae dolor nostrum vero quibusdam sed perferendis similique. Nesciunt sunt fugiat quae, voluptas commodi impedit quasi magni quam qui, placeat ut est recusandae adipisci, nihil debitis iure. Dolores, ut? Maiores necessitatibus minus voluptas iure voluptatum quisquam est cumque repellat doloribus recusandae? Animi obcaecati sequi modi temporibus deserunt alias at. Corrupti maiores voluptatem nostrum quis! Nemo repellendus laborum sit, temporibus dignissimos quam quod!</p>
+    <div id="overview">
+      {/* Hero Section */}
+      <section className="hero-section">
+         <div>
+         <h1>Welcome to [Doltec]</h1>
+        <p>Connecting Employers with the Best Talent</p>
+        <button className="cta-btn">Post a Job</button>
+         </div>
+      </section>
+
+      {/* How It Works Section */}
+      <section className="how-it-works">
+        <h2>How It Works</h2>
+        <div className="steps">
+          <div className="step">
+            <h3>For Employers</h3>
+            <ul>
+              <li><i class="fa fa-check-circle" aria-hidden="true"></i> Create an Account</li>
+              <li><i class="fa fa-check-circle" aria-hidden="true"></i> Post a Job</li>
+              <li><i class="fa fa-check-circle" aria-hidden="true"></i> Review Applications</li>
+              <li><i class="fa fa-check-circle" aria-hidden="true"></i> Hire the Best Talent</li>
+            </ul>
+          </div>
+          <div className="step">
+            <h3>For Students</h3>
+            <ul>
+              <li><i class="fa fa-check-circle" aria-hidden="true"></i> Sign Up</li>
+              <li><i class="fa fa-check-circle" aria-hidden="true"></i> Browse Jobs</li>
+              <li><i class="fa fa-check-circle" aria-hidden="true"></i> Apply for Jobs</li>
+              <li><i class="fa fa-check-circle" aria-hidden="true"></i> Get Hired</li>
+            </ul>
+          </div>
         </div>
+      </section>
+
+      {/* Key Features Section */}
+      <section className="key-features">
+        <h2>Key Features & Benefits</h2>
+        <div className="features">
+          <div className="feature">
+            <h3>For Job Seekers</h3>
+            <ul>
+              <li>Personalized Job Recommendations</li>
+              <li>Easy Application Process</li>
+              <li>Access to Internships & Full-Time Roles</li>
+              <li>Interview Preparation & Career Resources</li>
+            </ul>
+          </div>
+          <div className="feature">
+            <h3>For Employers</h3>
+            <ul>
+              <li>Easy Job Posting & Management</li>
+              <li>Access to a Wide Talent Pool</li>
+              <li>Candidate Screening Tools</li>
+              <li>Insights & Analytics to Track Job Posting Success</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* Success Stories Section */}
+      <section className="success-stories">
+        <h2>Success Stories</h2>
+        <div className="testimonials">
+          <p>"I landed my first job through [Your Website Name]. Highly recommend!" - Student</p>
+          <p>"We've hired multiple interns through the platform. It's a game-changer!" - Employer</p>
+        </div>
+      </section>
+
+      {/* Call to Action Section */}
+      <section className="cta-section">
+        <button className="cta-btn">Start Your Job Search Now</button>
+      </section>
     </div>
-    </>
   );
 };
 
-export default WhatwedoOverview;
+export default Overview;

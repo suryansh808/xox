@@ -31,7 +31,7 @@ const CompanyJoblist = () => {
         <table className="job-table">
           <thead>
             <tr>
-              <th>Logo</th>
+              <th>S.No</th>
               <th>Company Nam</th>
               <th>Title</th>
               <th>Location</th>
@@ -43,13 +43,7 @@ const CompanyJoblist = () => {
             {jobs.length ? (
               jobs.map((job, index) => (
                 <tr key={index}>
-                  <td>
-                    <img
-                      className="company-logo"
-                      src={job.companyLogoUrl || "/default-logo.png"}
-                      alt="logo"
-                    />
-                  </td>
+                  <td>{index + 1}</td>
                   <td>{job.companyName || "N/A"}</td>
                   <td>{job.jobTitle || "N/A"}</td>
                   <td>{job.location || "N/A"}</td>

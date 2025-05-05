@@ -5,7 +5,7 @@ import App from './App.jsx'
 
 import './Style/Header.css'
 import './Style/Footer.css'
-import './Style/DropDownPages.css'
+// import './Style/DropDownPages.css'
 import './Style/Contactus.css'
 import './Style/ToggleComponent.css'
 import './Style/Recruitment.css'
@@ -32,8 +32,11 @@ import './Style/Joblist.css'
 import './Style/AssignedJobs.css'
 import './Style/CompanyProfile.css'
 import './Style/AdminCompanyJoblist.css'
+import './Style/CompanyHRSelected.css'
 
+import './Style/AdminDashboard.css'
 
+import './Style/Overview.css'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

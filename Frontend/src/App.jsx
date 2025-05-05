@@ -63,18 +63,10 @@ import CompanyDashboard from './Company/CompanyDashboard';
 import CompanyJobPost from './Company/CompanyJobPost';
 import CompanyInterviewProcess from './Company/CompanyInterviewProcess';
 import CompanyHiredCandidates from './Company/CompanyHiredCandidates';
+import CompanyHRSelected from './Company/CompanyHRSelected';
 
 
-
-
-
-
-
-
-
-
-
-
+import ScrollToTop from './ScrollToTop';
 
 
 const App = () => {
@@ -123,6 +115,7 @@ const AppContent = () => {
     "/companyjobpost",
     "/companyinterviewprocess",
     "/companyhiredcandidates",
+    "/companyhrselected",
   ];
 
 
@@ -135,7 +128,7 @@ const AppContent = () => {
         {adminHeader.includes(location.pathname.toLowerCase()) && (<AdminHeader/>)}
         {hrHeader.includes(location.pathname.toLowerCase()) && (<HRHeader/>)}
         {companyHeaderPaths.includes(location.pathname.toLowerCase()) && <CompanyHeader/>}
-
+        <ScrollToTop/>
         <Routes>
           <Route path="/ITServices" element={<ITServices/>} />
           <Route path="/Overview" element={<WhatwedoOverview/>} />
@@ -175,6 +168,8 @@ const AppContent = () => {
           <Route path="/CompanyJobPost" element={<CompanyJobPost/>} />
           <Route path="/CompanyInterviewProcess" element={<CompanyInterviewProcess/>} />
           <Route path="/CompanyHiredCandidates" element={<CompanyHiredCandidates/>} />
+          <Route path="/CompanyHRSelected" element={<CompanyHRSelected/>} />
+
 
             {/* HR */}
           <Route path="/HRLogin" element={<HRLogin/>} />

@@ -1,40 +1,88 @@
-import { Link } from "react-router-dom";
+const services = [
+  {
+    title: "Job Posting for Companies",
+    icon: "📢",
+    description:
+      "Easily post jobs and reach thousands of verified candidates from various industries.",
+  },
+  {
+    title: "Smart Job Matching",
+    icon: "🤖",
+    description:
+      "Our system intelligently matches students with relevant opportunities based on skills and preferences.",
+  },
+  {
+    title: "Student Profiles & Resumes",
+    icon: "📝",
+    description:
+      "Students can build detailed profiles to showcase their skills, education, and projects.",
+  },
+  {
+    title: "Campus Hiring Support",
+    icon: "🎓",
+    description:
+      "Connect with colleges for internships and fresher recruitment drives.",
+  },
+];
 
-const WhatwedoServices = () => {
+const Services = () => {
   return (
-    <>
-      <div id="mainpage">
-        <h1>SERVICES</h1>
-        <div className="list">
-          <h2>services 1</h2>
-          <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
+    <div id="services">
+      <div className="services-page">
+        {/* Hero Section */}
+        <section className="hero">
+          <h1>Our Services</h1>
           <p>
-            {" "}
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error
-            obcaecati enim numquam maiores accusamus, fugit quaerat ratione
-            optio, temporibus beatae quibusdam iure voluptatibus dolor facilis
-            ullam, eum non consequatur hic eaque debitis doloremque neque iste.
-            Exercitationem iusto ullam recusandae sapiente velit necessitatibus
-            dolore error, quod facere eos deserunt repudiandae soluta excepturi,
-            quibusdam maxime laborum voluptas quas, minus hic? Eos nihil
-            consequatur at natus voluptas illum mollitia minus dolor aliquid
-            perspiciatis et, delectus quas voluptatibus molestias, dolore
-            temporibus sed, magni similique ipsum aperiam totam! Fuga possimus
-            aut illum maxime pariatur ut, cupiditate voluptas suscipit quidem
-            quibusdam deleniti quaerat quia. Harum itaque tempore saepe
-            molestias, est debitis pariatur a accusamus aspernatur quidem
-            asperiores minus provident! Iure cum minus unde, accusamus culpa
-            ducimus eveniet asperiores alias magni voluptas quo aperiam
-            inventore totam reiciendis ex veritatis? Delectus quibusdam,
-            veritatis ratione ipsum nemo neque fugit voluptatem velit ad
-            nesciunt quo commodi fuga! Modi, repudiandae quae.
+            At Doltec, we bridge the gap between top talent and growing
+            companies with smart recruitment tools.
           </p>
-          <br />
-          <Link to="/services1">Get Enquiry</Link>
-        </div>
+        </section>
+
+        {/* Services Grid */}
+        <section className="services-grid">
+          {services.map((service, index) => (
+            <div className="service-card" key={index}>
+              <div className="icon">{service.icon}</div>
+              <h3>{service.title}</h3>
+              <p>{service.description}</p>
+            </div>
+          ))}
+        </section>
+
+        {/* How It Works */}
+        <section className="how-it-works">
+          <h2>How It Works</h2>
+          <div className="steps">
+            <div>
+              <h4>For Companies</h4>
+              <ol>
+                <li> <i class="fa fa-arrow-right" aria-hidden="true"></i> Create a company profile.</li>
+                <li> <i class="fa fa-arrow-right" aria-hidden="true"></i> Post jobs and set requirements.</li>
+                <li> <i class="fa fa-arrow-right" aria-hidden="true"></i> Receive applications or browse candidates.</li>
+                <li> <i class="fa fa-arrow-right" aria-hidden="true"></i> Hire directly through the platform.</li>
+              </ol>
+            </div>
+            <div>
+              <h4>For Students</h4>
+              <ol>
+                <li> <i class="fa fa-arrow-right" aria-hidden="true"></i> Create your student profile.</li>
+                <li> <i class="fa fa-arrow-right" aria-hidden="true"></i> Explore jobs or get matched automatically.</li>
+                <li> <i class="fa fa-arrow-right" aria-hidden="true"></i> Apply with one click.</li>
+                <li> <i class="fa fa-arrow-right" aria-hidden="true"></i> Track status and get hired.</li>
+              </ol>
+            </div>
+          </div>
+        </section>
+
+        {/* CTA Section */}
+        <section className="cta">
+          <h2>Start your journey with Doltec today</h2>
+          <button>Post a Job</button>
+          <button>Create Student Profile</button>
+        </section>
       </div>
-    </>
+    </div>
   );
 };
 
-export default WhatwedoServices;
+export default Services;

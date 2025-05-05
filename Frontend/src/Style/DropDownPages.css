@@ -1,4 +1,4 @@
-#mainpage{
+/* #mainpage{
     padding: 10px;
     margin-bottom: 50px;
 
@@ -14,7 +14,6 @@
     margin-bottom: 10px;
 }
 #mainpage .list{
-/* height: fit-content; */
     margin: 20px 10px;
     padding: 10px;
     border-radius: 20px;
@@ -39,8 +38,8 @@
 #mainpage .list a{
     text-align: center;
     background-color: orange;
-border-radius: 10px;
+    border-radius: 10px;
     padding: 5px 30px;
     
 }
-
+ */

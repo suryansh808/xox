@@ -95,7 +95,7 @@ const AssignedJob = () => {
         <div className="dialog-overlay">
           <div className="dialog-box">
             <div className="dialog-header">
-              <h3 className="dialog-title">Jobs Assigned to {selectedHr}</h3>
+              <h2 className="dialog-title">Jobs Assigned to {selectedHr}</h2>
               <button
                 onClick={() => {
                   setIsDialogOpen(false);
@@ -111,7 +111,6 @@ const AssignedJob = () => {
                 <thead className="dialog-table-header">
                   <tr className="dialog-header-row">
                   <th className="dialog-header-cell">Company Name</th>
-                    <th className="dialog-header-cell">Logo</th>
                     <th className="dialog-header-cell">Job Title</th>
                     <th className="dialog-header-cell">Location</th>
                     <th className="dialog-header-cell">Positions</th>
@@ -125,13 +124,6 @@ const AssignedJob = () => {
                     <tr key={index} className="dialog-job-row">
                         <td className="dialog-job-cell">
                         {job.companyName || 'N/A'}
-                      </td>
-                      <td className="dialog-job-cell">
-                        <img
-                          className="company-logo"
-                          src={job.companyLogoUrl || '/default-logo.png'}
-                          alt="logo"
-                        />
                       </td>
                       <td className="dialog-job-cell">{job.jobTitle || 'N/A'}</td>
                       <td className="dialog-job-cell">{job.location || 'N/A'}</td>

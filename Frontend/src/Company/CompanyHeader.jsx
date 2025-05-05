@@ -44,6 +44,11 @@ const CompanyHeader = () => {
             </Link>
           </li>
           <li>
+            <Link onClick={toggleSidebar} to="/CompanyHRSelected">
+              <i className="fa fa-comments"></i> HR Seleted Application
+            </Link>
+          </li>
+          <li>
             <Link onClick={toggleSidebar} to="/CompanyHiredCandidates">
               <i className="fa fa-users"></i> Hired Candidates
             </Link>

@@ -1,49 +1,64 @@
-const WhoweareMission = () => {
+import React from 'react';
+
+
+const values = [
+  {
+    title: 'Empowerment',
+    description: 'We empower students to find meaningful careers by providing the right tools and opportunities.',
+    icon: '🚀',
+  },
+  {
+    title: 'Innovation',
+    description: 'We use technology like AI to make hiring smarter and faster for everyone involved.',
+    icon: '💡',
+  },
+  {
+    title: 'Accessibility',
+    description: 'We believe everyone deserves a fair chance to grow — regardless of background or location.',
+    icon: '🌍',
+  },
+];
+
+const Mission = () => {
   return (
-    <div id="mainpage">
-      <h1>WHO WE ARE</h1>
-      <div>
-        <h2>Our Mission</h2>
+    <div id="mission">
+      <div className="mission-page">
+      {/* Hero */}
+      <section className="hero">
+        <h1>Our Mission</h1>
+        <p>At Doltec, our mission is to bridge the gap between education and employment through smart, accessible, and inclusive technology.</p>
+      </section>
+
+      {/* Values */}
+      <section className="values">
+        <h2>What We Stand For</h2>
+        <div className="value-cards">
+          {values.map((value, index) => (
+            <div className="value-card" key={index}>
+              <div className="icon">{value.icon}</div>
+              <h3>{value.title}</h3>
+              <p>{value.description}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Vision */}
+      <section className="vision">
+        <h2>Our Vision</h2>
         <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio
-          aspernatur praesentium ipsa, tempore amet, laborum rerum vitae odio
-          magnam ea facere? Culpa nihil minus dignissimos corrupti laudantium
-          sed architecto enim porro! Quaerat nisi quisquam laboriosam veritatis
-          magni ea, consequatur reprehenderit sequi id sit atque, quia non enim
-          facere. Id expedita dignissimos consectetur placeat. Delectus quam
-          maiores asperiores. Laborum, impedit, maiores cum laboriosam minus
-          exercitationem dolorum hic rem eaque minima doloremque voluptate
-          fugit, ad mollitia aspernatur ex reprehenderit nobis amet dolor at
-          veniam! Magni nemo maiores at pariatur officia magnam nobis odio?
-          Totam minima itaque alias. Quasi dignissimos accusamus ad quibusdam
-          maxime expedita illo consequatur distinctio recusandae doloribus.
-          Perspiciatis sequi asperiores quia rem nulla id eaque corporis odio
-          aperiam hic facere repudiandae, alias, quaerat neque minus aut
-          delectus, consectetur quis culpa libero voluptas optio? Enim itaque
-          assumenda deserunt iste accusamus, totam, tempora doloribus fuga ut
-          repellat consequuntur aperiam voluptate omnis aliquid! Porro cumque,
-          ut cupiditate facere vitae accusantium aperiam, reprehenderit saepe
-          possimus maxime quidem maiores reiciendis repellendus? Quas maiores
-          reprehenderit accusamus maxime, libero ad perspiciatis officiis
-          explicabo, eius dolorem atque. Debitis distinctio, similique eius
-          incidunt, numquam recusandae aspernatur sed deserunt cum iusto
-          corrupti soluta cumque doloremque quos eum impedit. Culpa id dicta cum
-          ducimus expedita? Saepe quasi deleniti harum error temporibus
-          dignissimos possimus enim voluptates, iste fuga. Debitis ab enim quae.
-          Unde, minus ratione, delectus amet quis dignissimos corrupti
-          asperiores maiores deleniti accusantium animi assumenda culpa
-          obcaecati enim tempora repudiandae dolor nostrum vero quibusdam sed
-          perferendis similique. Nesciunt sunt fugiat quae, voluptas commodi
-          impedit quasi magni quam qui, placeat ut est recusandae adipisci,
-          nihil debitis iure. Dolores, ut? Maiores necessitatibus minus voluptas
-          iure voluptatum quisquam est cumque repellat doloribus recusandae?
-          Animi obcaecati sequi modi temporibus deserunt alias at. Corrupti
-          maiores voluptatem nostrum quis! Nemo repellendus laborum sit,
-          temporibus dignissimos quam quod!
+          We envision a future where every student can find a job that fits their passion, and every company can access a diverse pool of talent with ease.
         </p>
-      </div>
+      </section>
+
+      {/* CTA */}
+      <section className="cta">
+        <h2>Be Part of the Future of Hiring</h2>
+        <button>Join Doltec</button>
+      </section>
+    </div>
     </div>
   );
 };
 
-export default WhoweareMission;
+export default Mission;

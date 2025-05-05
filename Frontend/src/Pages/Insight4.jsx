@@ -1,39 +1,39 @@
-import React, { useEffect, useState } from 'react';
-// import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import axios from 'axios';
+import API from '../API';
 
 const Insight4 = () => {
-  const [thought, setThought] = useState('');
+  const [thought, setThought] = useState("");
   const [thoughts, setThoughts] = useState([]);
-  const [replyText, setReplyText] = useState({}); 
-  const [selectedThought, setSelectedThought] = useState(null); 
+  const [replyText, setReplyText] = useState({});
+  const [selectedThought, setSelectedThought] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:5000/api/thoughts', { text: thought });
-      console.log('Thought saved:', response.data);
-      setThought('');
-      alert("your thought has been share...")
+      const response = await axios.post(`${API}/thoughts`, {
+        text: thought,
+      });
+      setThought("");
+      fetchThoughts();
+      alert("your thought has been share...");
     } catch (error) {
-      console.error('Error saving thought:', error);
+      console.error("Error saving thought:", error);
     }
   };
 
- 
   const fetchThoughts = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/thoughts');
-      setThoughts(response.data);
+      const response = await axios.get(`${API}/getthoughts`);
+      setThoughts(response.data.filter((item) => item.visible === "show"));
     } catch (error) {
-      console.error('Error fetching thoughts:', error);
+      console.error("Error fetching thoughts:", error);
     }
   };
   useEffect(() => {
     fetchThoughts();
   }, []);
-
-
 
   const handleReplyChange = (thoughtId, text) => {
     setReplyText((prev) => ({
@@ -43,81 +43,115 @@ const Insight4 = () => {
   };
 
   const handleReplySubmit = async (thoughtId) => {
-    if (!replyText[thoughtId]) return; // Prevent empty replies
-
+    if (!replyText[thoughtId]) return;
+    const newReply = { text: replyText[thoughtId], createdAt: new Date().toISOString(), };
     try {
-      const response = await axios.post(`http://localhost:5000/api/thoughts/${thoughtId}/replies`, {
-        text: replyText[thoughtId],
-      });
-      fetchThoughts();
-      setReplyText((prev) => ({ ...prev, [thoughtId]: '' }));
+      await axios.post(`${API}/thoughtsreplies/${thoughtId}`, newReply);
+      if (selectedThought && selectedThought._id === thoughtId) {
+        setSelectedThought((prev) => ({
+          ...prev,
+          replies: [...prev.replies, newReply],
+        }));
+      }
+      setThoughts((prevThoughts) =>
+        prevThoughts.map((t) =>
+          t._id === thoughtId
+            ? { ...t, replies: [...t.replies, newReply] }
+            : t
+        )
+      );
+      setReplyText((prev) => ({ ...prev, [thoughtId]: "" }));
     } catch (error) {
-      console.error('Error adding reply:', error);
+      console.error("Error adding reply:", error);
     }
   };
+  
+  useEffect(() => {
+
+    if (thoughts && thoughts.length > 0) {
+      setSelectedThought(thoughts[0]);
+    }
+  }, [thoughts]);
 
   const handleThoughtSelect = (thought) => {
-    setSelectedThought(thought); // Update selected thought
+    setSelectedThought(thought);
   };
 
   return (
-   <div id="mainpage" className="flex flex-col items-center">
-  <div className="form-group mb-4">
-    <input
-      className="text-black rounded-xl px-2 py-2 mr-2"
-      placeholder='write your thoughts....'
-      type="text"
-      value={thought}
-      onChange={(e) => setThought(e.target.value)}
-    />
-    <button onClick={handleSubmit} className="px-3 py-2 bg-white text-black rounded-xl" type="submit">Share</button>
-  </div>
+    <div id="sharethoughts">
+      <div className="share__container">
 
-  <div className="flex w-full">
-    {/* Left Side: Thoughts List */}
-    <div className="w-1/4 px-2 py-2 border-r">
-      <div className='w-full h-[80vh]'>
-        {thoughts.map((thought) => (
-          <div className='border rounded-md shadow-md px-2 mb-2 py-2 cursor-pointer' key={thought._id} onClick={() => handleThoughtSelect(thought)}>
-            <p>{thought.text}</p>
+        <div className="form-group">
+          <form onSubmit={handleSubmit}>
+            <input
+              placeholder="write your thoughts...."
+              type="text"
+              value={thought}
+              required
+              onChange={(e) => setThought(e.target.value)}
+            />
+            <button type="submit">Share</button>
+          </form>
+        </div>
+
+        <div className="flex__container">
+          {/* Left Side: Thoughts List */}
+          <div className="left">
+            <div className="left__inside">
+              {thoughts.map((thought) => (
+                <div
+                  className="left__boxs"
+                  key={thought._id}
+                  onClick={() => handleThoughtSelect(thought)}
+                >
+                  <p>{thought.text}</p>
+                </div>
+              ))}
+            </div>
           </div>
-        ))}
+
+          {/* Right Side: Selected Thought and Replies */}
+          <div className="right">
+            <div className="right__inside">
+              {selectedThought && (
+                <div className="right__sideBox">
+                  <h2>{selectedThought.text}</h2>
+                  <div className="reply__container">
+                    <h2>replies:</h2>
+                    <div className="replies">
+                      {selectedThought.replies.filter(reply => reply.visible === "show").map((reply, index) => (
+                          <div className="replyprofile" key={index}>
+                                  <i class="fa fa-user" aria-hidden="true"></i>
+                                <span>{new Date(reply.createdAt).toLocaleString("en-IN",{timeZone: "Asia/Kolkata",dateStyle: "medium",timeStyle: "short",})}   </span>                           
+                                  <pre>{reply.text}</pre>
+                          </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="replytextbox">
+                    <textarea
+                      placeholder="reply..."
+                      type="text"
+                      value={replyText[selectedThought._id] || ""}
+                      onChange={(e) =>
+                        handleReplyChange(selectedThought._id, e.target.value)
+                      }
+                    />
+                    <button
+                      onClick={() => handleReplySubmit(selectedThought._id)}
+                    >
+                      Share
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+
+        </div>
+
       </div>
     </div>
-
-    {/* Right Side: Selected Thought and Replies */}
-    <div className="w-2/3 px-2 py-2">
-     <div className='w-full h-[80vh] relative'>
-     {selectedThought && (
-        <>
-         <div className='mb-1'>
-          <h2>{selectedThought.text}</h2>
-         </div>
-          <div className='border-t'>
-            <p>replies:</p>
-          <div className='px-2'>
-          {selectedThought.replies.map((reply, index) => (
-              <p className='' key={index}>{reply.text}</p>
-            ))}
-          </div>
-          </div>
-         <div className=' absolute bottom-0 w-full flex items-center'>
-         <textarea
-            placeholder='reply...'
-            className='text-black w-full resize-none rounded-md px-2'
-            type="text"
-            value={replyText[selectedThought._id] || ''}
-            onChange={(e) => handleReplyChange(selectedThought._id, e.target.value)}
-          />
-          <button className='px-3 py-3 rounded-md bg-blue-500 text-black' onClick={() => handleReplySubmit(selectedThought._id)}>Share</button>
-         </div>
-         
-        </>
-      )}
-     </div>
-    </div>
-  </div>
-</div>
   );
 };
 

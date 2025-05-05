@@ -80,16 +80,6 @@ router.get("/company-jobs", async (req, res) => {
   }
 });
 
-// router.get("/alljobs", async (req, res) => {
-//   try {
-//     const jobs = await CompanyPostedJob.find();
-//     res.status(200).json(jobs);
-//   } catch (error) {
-//     console.error("Error fetching all jobs:", error);
-//     res.status(500).json({ message: "Server error", error: error.message });
-//   }
-// });
-
 router.post("/company-jobs", async (req, res) => {
   try {
     const jobData = req.body;

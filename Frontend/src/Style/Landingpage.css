@@ -4,7 +4,7 @@
     padding: 60px 20px;
     max-width: 1500px;
     margin: auto;
-    border-bottom: 1px solid #bebebe;
+    border-bottom: 1px solid #141414;
   }
   
   h2 {
@@ -113,13 +113,11 @@
   /* Call to Action */
   .cta-section {
     margin-top: 10px;
-    background-image: url('https://img.freepik.com/free-photo/enjoy-life-daily-planner-concept_53876-121196.jpg?t=st=1745412795~exp=1745416395~hmac=e42db5a82a839ff6caa96943bae85029816809afd834a2086ec1bb2fffcb9162&w=996');
+    height: 100%;
+    background-image: url('https://images.unsplash.com/photo-1504507926084-34cf0b939964?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
     background-size: cover;
-    background-repeat: no-repeat;
-    object-position: center;
+    background-position: center;
     color: #000000;
-    border-top-right-radius: 10px;
-    border-top-left-radius: 10px;
     font-weight: 600;
     text-align: center;
     padding: 60px 20px;
@@ -140,6 +138,60 @@
   .cta-section button:hover {
     background-color: #161414;
   }
+
+  .recrutment__footer{
+    background-color: #080808;
+    padding: 30px 10px;
+     margin-top: 10px;
+     border-top: 1px solid #141414;
+
+    .recruitment__footer__container{
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 15px 0;
+
+      .usefull__links{
+        display: grid;
+        grid-template-columns: repeat(2 , 1fr);
+        gap: 10px;
+      }
+      
+      .connentus{
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        .fa-phone{
+          color: blue;
+        }
+        .fa-whatsapp{
+          color: green;
+        }
+        .fa-envelope{
+          color: rgb(134, 37, 37);
+        }
+        .fa-map-marker{
+          color: rgb(146, 146, 30);
+        }
+
+        i{
+          margin-right: 6px;
+        }
+      }
+
+    
+
+    }
+    .copyrights{
+      margin-top: 8px;
+      border-top: 1px solid #141414;
+
+      p{
+        font-size: 15px;
+      }
+   }
+  }
   
   /* Responsive Adjustments */
   @media (max-width: 768px) {
@@ -147,6 +199,14 @@
     .flex-section.reverse {
       flex-direction: column;
       text-align: center;
+    }
+    .recruitment__footer__container{
+      flex-direction: column;
+      text-align: center;
+    }
+    .connentus{
+      flex-direction: column;
+      text-align: left;
     }
   
     .content-wrapper {

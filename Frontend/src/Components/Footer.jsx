@@ -37,6 +37,7 @@ const Footer = () => {
     "/CompanyJobPost",
     "/CompanyInterviewProcess",
     "/CompanyHiredCandidates",
+    "/CompanyHRSelected",
 
   ];
   const showHeaderFooter = !noHeaderFooterRoutes.includes(location.pathname);

@@ -24,6 +24,7 @@ const [formData, setFormData] = useState({
           });
           fetchHrs();
     } catch (error) {
+      alert("HR Already Created With Given Details..")
        console.log(`Error: ${error.message}`);
     }
   };
@@ -33,6 +34,7 @@ const [formData, setFormData] = useState({
       const response = await axios.get( `${API}/gethr`);
       setHrs(response.data);
     } catch (error) {
+      alert("HR Already Created With Given Details..")
       console.log(error);
     }
   };

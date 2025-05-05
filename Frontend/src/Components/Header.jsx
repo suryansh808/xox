@@ -69,6 +69,7 @@ const Header = () => {
     "/CompanyJobPost",
     "/CompanyInterviewProcess",
     "/CompanyHiredCandidates",
+    "/CompanyHRSelected",
   ];
   const showHeaderFooter = !noHeaderFooterRoutes.includes(location.pathname);
 
@@ -242,13 +243,9 @@ const Header = () => {
                 </div>
                 {activeOption === "Option1" && (
                   <div className="option_content">
-                    <h1>Overview</h1>
-                    <h2>
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Maxime doloremque ipsa aperiam iure necessitatibus magni
-                      temporibus dolorum, qui dolores? Nisi neque numquam totam
-                      cum repellendus, dolores labore optio amet recusandae!
-                    </h2>
+                    <h1>Doltec — Bridging Talent with Opportunity</h1>
+                    <p> At Doltec, we're transforming the way businesses find talent and how students launch their careers. As a dynamic service-based platform, we empower companies to post jobs and connect with the next generation of professionals. From startups to industry leaders, we help build brighter futures through opportunity, innovation, and access — all in one place.</p>
+                    <p>Explore our platform and discover how Doltec can help you hire smarter and get hired faster.</p>
                   </div>
                 )}
                 {activeOption === "Option2" && (
@@ -407,22 +404,22 @@ const Header = () => {
                   <ul>
                     <li onMouseOver={() => selectOption("Option1")}>
                       <Link to="/Insight1">
-                        Insight First <span>&#11162;</span>
+                        Overviews<span>&#11162;</span>
                       </Link>
                     </li>
                     <li onMouseOver={() => selectOption("Option2")}>
                       <Link to="/Insight2">
-                        Insight Secind<span>&#11162;</span>
+                        Company Experiences<span>&#11162;</span>
                       </Link>
                     </li>
                     <li onMouseOver={() => selectOption("Option3")}>
                       <Link to="/Insight3">
-                        Insight 3<span>&#11162;</span>
+                        Students Review<span>&#11162;</span>
                       </Link>
                     </li>
                     <li onMouseOver={() => selectOption("Option4")}>
                       <Link to="/Insight4">
-                        Insight 4<span>&#11162;</span>
+                        Share Your Thoughts<span>&#11162;</span>
                       </Link>
                     </li>
                   </ul>

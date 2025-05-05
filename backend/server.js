@@ -5,6 +5,8 @@ const UserRoute = require('./routes/UserRoute');
 const AdminRoute = require('./routes/AdminRoute');
 const HrRoute = require('./routes/Hrroute');
 const CompanyRoute = require('./routes/CompanyRoute');
+const ApplicationRoute = require('./routes/ApplicationRoute');
+const Thought = require('./routes/Thoughts');
 const cors = require("cors");
 dotenv.config();
 
@@ -23,6 +25,8 @@ app.use('/', UserRoute);
 app.use('/', AdminRoute);
 app.use('/', HrRoute);
 app.use('/', CompanyRoute);
+app.use('/', ApplicationRoute);
+app.use('/', Thought)
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

@@ -5,38 +5,59 @@ import API from "../API";
 const Joblist = () => {
   const [joblist, setJoblist] = useState([]);
   const [filteredJobs, setFilteredJobs] = useState([]);
-  const [selectedjob, setSelectedJob] = useState();
-  const [filter, setFilter] = useState(false);
+  const [selectedJob, setSelectedJob] = useState(null);
   const [searchParams, setSearchParams] = useState({
     jobTitle: "",
     location: "",
   });
-    
+  const [resumes, setResumes] = useState([]);
+  const [selectedResumeId, setSelectedResumeId] = useState("");
+  const [appliedJobs, setAppliedJobs] = useState([]);
+  const userId = localStorage.getItem("user");
+
   const fetchJobs = async () => {
     try {
       const response = await axios.get(`${API}/company-all-jobs`);
       setJoblist(response.data);
-      console.log(response.data);
     } catch (error) {
       console.error("Fetch jobs error:", error.message);
     }
   };
-
+  const fetchUserResumes = async () => {
+    try {
+      const response = await axios.get(`${API}/resume/${userId}`);
+      setResumes(response.data);
+      if (response.data.length > 0) {
+        setSelectedResumeId(response.data[0]._id);
+      }
+    } catch (error) {
+      console.error("Fetch resumes error:", error.message);
+    }
+  };
+  const fetchAppliedJobs = async () => {
+    try {
+      const response = await axios.get(`${API}/user-applications/${userId}`);
+      const appliedJobIds = response.data.map((application) => application.jobId);
+      setAppliedJobs(appliedJobIds);
+    } catch (error) {
+      console.error("Fetch applied jobs error:", error.message);
+    }
+  };
   useEffect(() => {
     fetchJobs();
-  }, []);
-
-  const handleSelectedJobDetails = (job) => {
-    setSelectedJob(job);
-  };
-
+    if (userId) {
+      fetchUserResumes();
+      fetchAppliedJobs();
+    }
+  }, [userId]);
   useEffect(() => {
     if (joblist && joblist.length > 0) {
       setSelectedJob(joblist[0]);
     }
   }, [joblist]);
-  
- 
+  const handleSelectedJobDetails = (job) => {
+    setSelectedJob(job);
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -45,19 +66,53 @@ const Joblist = () => {
       [name]: value,
     }));
   };
-
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
       handleSearch();
     }
   };
-
   const handleSearch = () => {
-    const filtered = joblist.filter((job) =>
+    const filtered = joblist.filter(
+      (job) =>
         job.jobTitle.toLowerCase().includes(searchParams.jobTitle.toLowerCase()) &&
         job.location.toLowerCase().includes(searchParams.location.toLowerCase())
     );
     setFilteredJobs(filtered);
+  };
+  const handleJobApplication = async (e) => {
+    e.preventDefault();
+    if (!userId) {
+      alert("User ID is missing. Please ensure you are logged in.");
+      return;
+    }
+    if (!selectedResumeId) {
+      alert("Please select a resume before applying.");
+      return;
+    }
+    if (!selectedJob) {
+      alert("No job selected.");
+      return;
+    }
+    const jobId = selectedJob._id;
+    const status = "pending";
+    try {
+      const response = await axios.post(`${API}/apply-job`, {
+        userId,
+        resumeId: selectedResumeId,
+        jobId,
+        status,
+      });
+      setAppliedJobs((prev) => {
+        if (!prev.includes(jobId)) {
+          return [...prev, jobId];
+        }
+        return prev;
+      });
+      alert("Application submitted successfully!");
+    } catch (error) {
+      console.error("Error applying for job:", error.message);
+      alert("Error applying for job. Please try again.");
+    }
   };
 
   return (
@@ -83,7 +138,6 @@ const Joblist = () => {
             title="Search by location"
           />
           <button onClick={handleSearch}>Search</button>
-
         </div>
       </div>
       <div className="joblist__container">
@@ -109,45 +163,56 @@ const Joblist = () => {
           ))}
         </div>
         <div className="joblist__content">
-          {selectedjob && (
+          {selectedJob && (
             <div className="job__details">
               <div className="job__apply">
-                <h1 className="job__title">{selectedjob.jobTitle}</h1>
-                <button className="apply__button">Apply Now</button>
+                <h1 className="job__title">{selectedJob.jobTitle}</h1>
+                <button
+                  onClick={handleJobApplication}
+                  className={`apply__button ${
+                    appliedJobs.includes(selectedJob._id) ? "applied" : ""
+                  }`}
+                  disabled={appliedJobs.includes(selectedJob._id)}
+                >
+                  {appliedJobs.includes(selectedJob._id) ? "Applied" : "Apply Now"}
+                </button>
               </div>
               <div className="job__overview">
                 <p>
-                  <strong>Location:</strong> {selectedjob.location}
+                  <strong>Company :</strong> {selectedJob.companyName}
                 </p>
                 <p>
-                  <strong>Type:</strong> {selectedjob.jobType}
+                  <strong>Location :</strong> {selectedJob.location}
                 </p>
                 <p>
-                  <strong>Timing:</strong> {selectedjob.jobTiming}
+                  <strong>Type :</strong> {selectedJob.jobType}
                 </p>
                 <p>
-                  <strong>Positions:</strong> {selectedjob.noofposition}
+                  <strong>Timing :</strong> {selectedJob.jobTiming}
                 </p>
                 <p>
-                  <strong>Salary:</strong> ₹{selectedjob.salary.minSalary} - ₹
-                  {selectedjob.salary.maxSalary} per {selectedjob.salary.per}
+                  <strong>Positions :</strong> {selectedJob.noofposition}
                 </p>
                 <p>
-                  <strong>Working Days:</strong> {selectedjob.workingDays}
+                  <strong>Salary :</strong> ₹{selectedJob.salary.minSalary} - ₹
+                  {selectedJob.salary.maxSalary} per {selectedJob.salary.per}
                 </p>
                 <p>
-                  <strong>Application Deadline:</strong>{" "}
-                  {selectedjob.applicationDeadline}
+                  <strong>Working Days :</strong> {selectedJob.workingDays}
                 </p>
                 <p>
-                  <strong>Experience:</strong> {selectedjob.experience} year(s)
+                  <strong>Application Deadline :</strong>{" "}
+                  {selectedJob.applicationDeadline}
+                </p>
+                <p>
+                  <strong>Experience :</strong> {selectedJob.experience} year(s)
                 </p>
               </div>
               <div className="job__description">
                 <strong>Job Description</strong>
-                <p>{selectedjob.jobDescription.split("\n")[0]}</p>
+                <p>{selectedJob.jobDescription.split("\n")[0]}</p>
                 <ul>
-                  {selectedjob.jobDescription
+                  {selectedJob.jobDescription
                     .split("\n")
                     .slice(1)
                     .map(
@@ -159,7 +224,7 @@ const Joblist = () => {
               <div className="job__requirements">
                 <strong>Desired Skills</strong>
                 <ul>
-                  {selectedjob.desiredSkills.split(",").map((skill, idx) => (
+                  {selectedJob.desiredSkills.split(",").map((skill, idx) => (
                     <li key={idx}>{skill.trim()}</li>
                   ))}
                 </ul>
