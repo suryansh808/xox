@@ -152,7 +152,7 @@ const AppContent = () => {
           <Route path="/" element={<Recruitment/>} />
 
           {/* Student */}
-          <Route path="/StudentLogin" element={<StudentLogIn/>} />
+          <Route path="/StudentLogIn" element={<StudentLogIn/>} />
           <Route path="/StudentSignUp" element={<StudentSignUp/>} />
           <Route path="/Home" element={<Home/>} />
           <Route path="/Joblist" element={<Joblist/>} />
@@ -184,9 +184,9 @@ const AppContent = () => {
 
 
           {/* Admin */}
-          <Route path="/AdminLogin" element={<Adminlogin/>} />
+          <Route path="/Adminlogin" element={<Adminlogin/>} />
           <Route path="/Createhr" element={<Createhr/>} />
-          <Route path="/dashboard" element={<Dashboard/>} />
+          <Route path="/Dashboard" element={<Dashboard/>} />
           <Route path="/ManageThoughts" element={<ManageThoughts/>} />
           <Route path="/UpdateLandingPage" element={<UpdateLandingPage/>}/>
           <Route path="/CompanyJobs" element={<CompanyJobs/>}/>
