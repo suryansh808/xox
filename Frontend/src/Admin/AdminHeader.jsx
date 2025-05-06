@@ -10,8 +10,6 @@ const AdminHeader = () => {
  
   const navigate = useNavigate();
   const handleLogout = ()=>{
-    // localStorage.removeItem("user");
-    // localStorage.removeItem("email");
     alert("Logout Successfully");
     navigate("/");
   }
