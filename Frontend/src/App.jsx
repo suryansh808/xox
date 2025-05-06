@@ -47,7 +47,8 @@ import InterviewProcess from './Hr/InterviewProcess';
 
 
 import AdminHeader from './Admin/AdminHeader';
-import Adminlogin from './Admin/AdminLogin';
+// import Adminlogin from './Admin/AdminLogin';
+import Adminlogin from './Admin/Adminlogin';
 import Createhr from './Admin/Createhr';
 import AssignedJob from './Admin/AssignedJob';
 import CompanyJobs from './Admin/CompanyJobs';
