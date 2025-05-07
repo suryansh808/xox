@@ -2,12 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import ToggleComponent from "../Components/ToggleComponent";
 import Landingpage from "./Landingpage";
-
 const Recruitment = () => {
   return (
     <div id="demo">
     <div className="demo__content">
       <nav className="newbar">
+
         <ul className="d-flex navbar-link">
           <li>
             <Link to="/StudentLogIn">
@@ -43,8 +43,22 @@ const Recruitment = () => {
             <i className="fa fa-instagram"></i>
           </span>
           <span>
-            <i className="fa fa-linkedin-square"></i>
+            <i className="fa fa-facebook"></i>
           </span>
+          <span>
+            <i className="fa fa-twitter"></i>
+          </span>
+          <span>
+            <i className="fa fa-linkedin"></i>
+          </span>
+          <span>
+            <i className="fa fa-youtube"></i>
+          </span>
+          <span>
+            <i className="fa fa-github"></i>
+          </span>
+      
+        
         </div>
       </div>
       <div className="featured">RECRUITMENT</div>

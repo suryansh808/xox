@@ -44,23 +44,17 @@ const Insight4 = () => {
 
   const handleReplySubmit = async (thoughtId) => {
     if (!replyText[thoughtId]) return;
-    const newReply = { text: replyText[thoughtId], createdAt: new Date().toISOString(), };
+    const newReply = { text: replyText[thoughtId], createdAt: new Date().toISOString(), visible: "show", };
     try {
       await axios.post(`${API}/thoughtsreplies/${thoughtId}`, newReply);
-      alert("submited")
+      alert("submited");
       if (selectedThought && selectedThought._id === thoughtId) {
         setSelectedThought((prev) => ({
           ...prev,
-          replies: [...prev.replies, newReply],
+          replies: [...(prev.replies || []), newReply],
         }));
       }
-      setThoughts((prevThoughts) =>
-        prevThoughts.map((t) =>
-          t._id === thoughtId
-            ? { ...t, replies: [...t.replies, newReply] }
-            : t
-        )
-      );
+  
       setReplyText((prev) => ({ ...prev, [thoughtId]: "" }));
     } catch (error) {
       console.error("Error adding reply:", error);
@@ -68,11 +62,10 @@ const Insight4 = () => {
   };
   
   useEffect(() => {
-
-    if (thoughts && thoughts.length > 0) {
+    if (!selectedThought && thoughts.length > 0) {
       setSelectedThought(thoughts[0]);
     }
-  }, [thoughts]);
+  }, [thoughts, selectedThought]);
 
   const handleThoughtSelect = (thought) => {
     setSelectedThought(thought);
@@ -120,7 +113,7 @@ const Insight4 = () => {
                   <div className="reply__container">
                     <h2>replies:</h2>
                     <div className="replies">
-                      {selectedThought.replies.filter(reply => reply.visible === "show").map((reply, index) => (
+                      {selectedThought?.replies?.filter(reply => reply.visible === "show").map((reply, index) => (
                           <div className="replyprofile" key={index}>
                                   <i class="fa fa-user" aria-hidden="true"></i>
                                 <span>{new Date(reply.createdAt).toLocaleString("en-IN",{timeZone: "Asia/Kolkata",dateStyle: "medium",timeStyle: "short",})}   </span>                           

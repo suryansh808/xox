@@ -12,6 +12,7 @@
     margin-bottom: 20px;
     color: #cac4c4;
     text-align: center;
+    text-transform: uppercase;
   }
   
   p {
@@ -140,57 +141,54 @@
   }
 
   .recrutment__footer{
-    background-color: #080808;
-    padding: 30px 10px;
+     background-color: #ffffff;
+     border-radius: 12px 12px 0 0 ;
+     color: #000000;
+     padding: 30px 10px;
      margin-top: 10px;
      border-top: 1px solid #141414;
 
     .recruitment__footer__container{
       display: flex;
-      justify-content: space-around;
+      justify-content: center;
+      flex-direction: column;
       align-items: center;
-      padding: 15px 0;
-
-      .usefull__links{
-        display: grid;
-        grid-template-columns: repeat(2 , 1fr);
-        gap: 10px;
-      }
+        .footer__heading{
+          svg{
+            width: 500px;
+            height: 300px;
+          }
+        }
       
-      .connentus{
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
+      .usefull__links{
+         display: flex;
+         justify-content: center;
+         padding: 5px 0;
+         ul{
+          list-style: none;
+          display: grid;
+          gap: 20px;
+          grid-template-columns: repeat(8 , 1fr);
 
-        .fa-phone{
-          color: blue;
-        }
-        .fa-whatsapp{
-          color: green;
-        }
-        .fa-envelope{
-          color: rgb(134, 37, 37);
-        }
-        .fa-map-marker{
-          color: rgb(146, 146, 30);
-        }
-
-        i{
-          margin-right: 6px;
-        }
-      }
-
-    
+          li {
+            transition: transform 0.3s ease;
+          }
+          
+          li:hover {
+            transform: rotate(5deg);
+          }
+         }
+      } 
 
     }
     .copyrights{
-      margin-top: 8px;
       border-top: 1px solid #141414;
-
       p{
         font-size: 15px;
       }
    }
+
+ 
   }
   
   /* Responsive Adjustments */
@@ -200,15 +198,33 @@
       flex-direction: column;
       text-align: center;
     }
+
+    .recrutment__footer{
+      padding: 10px 10px;
+    }
     .recruitment__footer__container{
-      flex-direction: column;
-      text-align: center;
+        .footer__heading{
+          /* h1{
+            font-size: 8rem !important;
+            letter-spacing: 0px !important;
+            line-height: 10rem !important;
+          } */
+          svg{
+            width: 350px !important;
+            height: 250px !important;
+          }
+        }
+
+        .usefull__links{
+          text-align: center !important;
+           ul{
+            grid-template-columns: repeat(4, 1fr) !important;
+            gap: 10px !important;
+           }
+        }
     }
-    .connentus{
-      flex-direction: column;
-      text-align: left;
-    }
-  
+   
+
     .content-wrapper {
       text-align: center;
     }

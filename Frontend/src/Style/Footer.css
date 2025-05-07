@@ -2,7 +2,7 @@
     border-top: 1px solid gray;
     background-color: #000000;
     color: #fff;
-    padding: 2rem 1rem;
+    padding: 0 1rem;
     font-size: 14px;
   }
   
@@ -11,8 +11,9 @@
     margin: 0 auto;
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     justify-content: space-between;
-    gap: 1.5rem;
+    padding: 5px 0;
   }
 
   .footer__socialmedia{
@@ -20,22 +21,24 @@
     flex-direction: row;
     align-items: center;
     gap: 10px;
+   
+    
+    i{
+      &:hover{
+        transform: scale(1.3);
+        transition: all 0.3s ;
+      }
+    }
   }
-  
-  .footer__brand h3 {
-    margin: 0;
-    font-size: 1.25rem;
+  .footer__brand{
+    svg{
+      width: 150px;
+    }
   }
-  
-  .footer__brand p {
-    margin: 0.5rem 0 0;
-    color: #ccc;
-  }
-  
+
   .footer__links {
     display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+    gap: 1rem;
   }
   
   .footer__links a {
@@ -48,8 +51,20 @@
     color: #fff;
   }
   
-  .footer__contact p {
-    margin: 0.3rem 0;
-    color: #ccc;
+  .footer__contact{
+    /* margin: 0.3rem 0;
+    color: #ccc; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top: 1px solid rgba(128, 128, 128, 0.322);
+     padding:5px 0;
+     /* background-color: red; */
   }
   
+  @media (max-width: 768px){
+      .footer__container{
+          justify-content: center !important;
+          gap: 20px !important;
+      }
+  }
