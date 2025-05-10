@@ -7,7 +7,6 @@ const CompanyJobs = () => {
   const [jobs, setJobs] = useState([]);
   const [selectedCompany, setSelectedCompany] = useState(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [error, setError] = useState(null);
   const [hr, setHr] = useState([]);
 
   useEffect(() => {
@@ -16,7 +15,7 @@ const CompanyJobs = () => {
         const response = await axios.get(`${API}/company-all-jobs`);
         setJobs(response.data);
       } catch (error) {
-        setError(error.message);
+        console.log(error.message);
       }
     };
     const fetchHr = async () => {
@@ -24,7 +23,7 @@ const CompanyJobs = () => {
         const response = await axios.get(`${API}/gethr`);
         setHr(response.data);
       } catch (error) {
-        setError(error.message);
+        console.log(error.message);
       }
     };
     fetchJobs();
@@ -88,8 +87,8 @@ const CompanyJobs = () => {
   };
   return (
     <div id="admin-company-joblist">
-      {error && <div className="error-message">Error: {error}</div>}
-      <h2 className="job-list-title">Job List</h2>
+       <div className="company__job__container">
+       <h2 className="job-list-title">Job List</h2>
       <table className="job-table">
         <thead className="table-header">
           <tr className="header-row">
@@ -130,16 +129,9 @@ const CompanyJobs = () => {
           <div className="dialog-box">
             <div className="dialog-header">
               <h3 className="dialog-title">Jobs at {selectedCompany}</h3>
-              <button 
-                onClick={() => {
-                  console.log('Closing dialog'); 
-                  setIsDialogOpen(false);
-                  setSelectedCompany(null);
-                }}
-                className="dialog-close"
-              >
+              <span onClick={() => {setIsDialogOpen(false);setSelectedCompany(null);}} className="dialog-close">
                 x
-              </button>
+              </span>
             </div>
             <div className="dialog-content">
               <table className="dialog-table">
@@ -187,6 +179,7 @@ const CompanyJobs = () => {
           </div>
         </div>
       )}
+       </div>
     </div>
   );
 };

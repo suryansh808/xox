@@ -4,28 +4,6 @@ const Resume = require("../models/Resume");
 const router = express.Router();
 const cloudinary = require("../middleware/cloudinary");
 
-//create user
-router.post("/usersignup", async (req, res) => {
-  try {
-    const existingUser = await User.findOne({ email: req.body.email });
-    if (existingUser) {
-      return res.status(400).json({ message: "User already registered" });
-    }
-    const newUser = new User(req.body);
-    await newUser.save();
-    res
-      .status(200)
-      .json({
-        message: "User created successfully",
-        user: user._id,
-        email: user.email,
-      });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server Error" });
-  }
-});
-
 //login user
 router.post("/userlogin", async (req, res) => {
   try {
@@ -40,6 +18,28 @@ router.post("/userlogin", async (req, res) => {
       .status(200)
       .json({
         message: "User logged in successfully",
+        user: user._id,
+        email: user.email,
+      });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server Error" });
+  }
+});
+
+//create user
+router.post("/usersignup", async (req, res) => {
+  try {
+    const existingUser = await User.findOne({ email: req.body.email });
+    if (existingUser) {
+      return res.status(400).json({ message: "User already registered" });
+    }
+    const newUser = new User(req.body);
+    await newUser.save();
+    res
+      .status(200)
+      .json({
+        message: "User created successfully",
         user: user._id,
         email: user.email,
       });

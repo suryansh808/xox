@@ -22,7 +22,8 @@ const ContactUsResponse = () => {
    <div id="contactresponse">
      <div className="contactus-container">
       <h2 className="contactus-title">Contact Us Messages</h2>
-      <table className="contactus-table">
+       <div className="user__container">
+       <table className="contactus-table">
         <thead>
           <tr>
             <th>S.No</th>
@@ -50,6 +51,7 @@ const ContactUsResponse = () => {
           )}
         </tbody>
       </table>
+       </div>
     </div>
    </div>
   );

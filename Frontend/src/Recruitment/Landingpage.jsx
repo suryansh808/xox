@@ -61,12 +61,12 @@ const Landingpage = () => {
       </section>
 
       {/* Testimonials Section */}
-      <section className="testimonials">
+      {/* <section className="testimonials">
         <h2>What Our Users Say</h2>
         <blockquote>“JobPortal helped us find top-tier interns quickly. The platform is intuitive and efficient.” — HR Manager, TechCorp</blockquote>
         <blockquote>“I landed my dream job right after graduation thanks to JobPortal. The alerts are a lifesaver!” — Ananya, Student</blockquote>
         <blockquote>“The tracking system is a game-changer. We never miss a follow-up now.” — Talent Lead, Innovate Inc.</blockquote>
-      </section>
+      </section> */}
 
       {/* Call to Action Section */}
       <section className="cta-section">

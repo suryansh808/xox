@@ -17,6 +17,7 @@
         padding: 5px 10px;
         border: 1px solid gray;
         border-radius: 5px;
+        outline: none;
     }
     button{
       background: #eee;
@@ -25,6 +26,11 @@
        border-radius: 5px;
        cursor: pointer;
        font-weight: 600;
+       transition: all 0.3s;
+      &:active{
+        background: #ccc;
+        transform: scale(0.9);
+      }
     }
 }
 
@@ -62,14 +68,14 @@
 
       .company__logo{
         background-color: #0f0f0f;
-        border-radius: 50px;
+        border-radius: 10px;
         overflow: hidden;
 
         img{
-          width:100px;
-          height: auto;
+          width:90px;
+          height:65px;
           overflow: hidden;
-          border-radius: 50px;
+          border-radius: 10px;
           object-fit: cover;
         }
       }
@@ -135,6 +141,12 @@
     }
     .job__requirements{
       padding: 10px;
+
+      ul{
+        list-style: none;
+        display: flex;
+        gap: 10px;
+      }
     }
   }
 

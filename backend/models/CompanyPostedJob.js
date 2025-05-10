@@ -20,7 +20,8 @@ const jobSchema = new mongoose.Schema({
   companyId: { type: String, required: true },
   hrId: { type: String, default: null }, 
   hrName: { type: String, default: null },
-  assignedToHr: { type: Boolean, default: false } 
+  assignedToHr: { type: Boolean, default: false },
+  jobPostedOn: { type: Date, default: Date.now },
 
 });
 

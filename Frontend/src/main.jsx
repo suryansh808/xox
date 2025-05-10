@@ -33,7 +33,7 @@ import './Style/AssignedJobs.css'
 import './Style/CompanyProfile.css'
 import './Style/AdminCompanyJoblist.css'
 import './Style/CompanyHRSelected.css'
-
+import './Style/UserDashboard.css'
 import './Style/AdminDashboard.css'
 
 import './Style/Overview.css'

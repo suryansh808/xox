@@ -96,15 +96,12 @@ const ContactUs = () => {
 
       <div className="contact-info">
         <h2>Our Address</h2>
-        <p>
-          <strong>Krutanic Solutions</strong>
+        <p>Phone: <a href="tel:+91976885083">+91 976885083</a></p>
+        <p>Email: <a href="mailto:doltec@gmail.com">doltec@gmail.com</a></p>
+        <p><strong>Krutanic Solutions</strong>
           2nd floor, 33, Chikkathogur Main Rd,
           Pragathi Nagar, Electronic City,
           Bengaluru, Karnataka 560100
-        </p>
-        <p>
-          Phone: <a href="tel:+91976885083">+91 976885083</a></p>
-          <p>  Email: <a href="mailto:doltec@gmail.com">doltec@gmail.com</a>
         </p>
       </div>
     </div>

@@ -152,7 +152,6 @@ const Joblist = () => {
                 <img
                   src={job.companyLogoUrl || "/default-logo.png"}
                   alt="logo"
-                  className="company__logo__img"
                 />
               </div>
               <div className="company__name">
@@ -208,6 +207,14 @@ const Joblist = () => {
                   <strong>Experience :</strong> {selectedJob.experience} year(s)
                 </p>
               </div>
+              <div className="job__requirements">
+                <strong>Desired Skills</strong>
+                <ul>
+                  {selectedJob.desiredSkills.split(",").map((skill, idx) => (
+                    <li key={idx}>*{skill.trim()}</li>
+                  ))}
+                </ul>
+              </div>
               <div className="job__description">
                 <strong>Job Description</strong>
                 <p>{selectedJob.jobDescription.split("\n")[0]}</p>
@@ -219,14 +226,6 @@ const Joblist = () => {
                       (line, idx) =>
                         line.trim() !== "" && <li key={idx}>{line}</li>
                     )}
-                </ul>
-              </div>
-              <div className="job__requirements">
-                <strong>Desired Skills</strong>
-                <ul>
-                  {selectedJob.desiredSkills.split(",").map((skill, idx) => (
-                    <li key={idx}>{skill.trim()}</li>
-                  ))}
                 </ul>
               </div>
             </div>

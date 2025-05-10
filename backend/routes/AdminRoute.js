@@ -164,6 +164,7 @@ router.get("/company-all-jobs", async (req, res) => {
           hrId: 1,
           assignedToHr: 1,
           hrName: 1,
+          jobPostedOn: 1,
         },
       },
     ]);

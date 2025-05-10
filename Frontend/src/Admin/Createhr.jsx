@@ -52,37 +52,42 @@ const [formData, setFormData] = useState({
         <input
               type="text"
               value={formData.name}
-              placeholder='Enter Name'
+              placeholder='Name'
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               className="hr-input"
+              required
             />
           <input
               type="email"
-              placeholder='Enter Email ID'
+              placeholder='Email ID'
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               className="hr-input"
+              required
             />
          <input
               type="number"
               value={formData.number}
-              placeholder='Enter Number'
+              placeholder='Number'
               onChange={(e) => setFormData({ ...formData, number: e.target.value })}
               className="hr-input"
+              required
             />
           <input
               type="password"
-              placeholder='Enter Password'
+              placeholder='Password'
               value={formData.password}
               onChange={(e) => setFormData({ ...formData, password: e.target.value })}
               className="hr-input"
+              required
             />
           <button type="submit" className="hr-button">Submit</button>
         </form>
       </div>
 
       <h2 className="hr-table-title">HR List</h2>
-      <table className="hr-table">
+       <div className='hr-table-container'>
+       <table className="hr-table">
         <thead>
           <tr>
             <th>Sl No</th>
@@ -110,6 +115,7 @@ const [formData, setFormData] = useState({
           )}
         </tbody>
       </table>
+       </div>
     </div>
    </div>
   );

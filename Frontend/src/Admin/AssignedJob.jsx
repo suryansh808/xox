@@ -4,7 +4,6 @@ import API from '../API'
 
 const AssignedJob = () => {
   const [jobs, setJobs] = useState([]);
-  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedHr, setSelectedHr] = useState(null);
@@ -29,7 +28,7 @@ const AssignedJob = () => {
         setGroupedJobs(grouped);
         setLoading(false);
       } catch (err) {
-        setError('Failed to fetch data. Please try again later.');
+        console.log('Failed to fetch data. Please try again later.');
         setLoading(false);
       }
     };
@@ -52,8 +51,8 @@ const AssignedJob = () => {
 
   return (
     <div id="assigned-job">
-      {error && <div className="error-message">Error: {error}</div>}
-      <h2 className="job-title">Assigned Jobs</h2>
+       <div className="assigned__container">
+       <h2 className="job-title">Assigned Jobs</h2>
       <table className="job-table">
         <thead className="table-header">
           <tr className="header-row">
@@ -145,6 +144,7 @@ const AssignedJob = () => {
           </div>
         </div>
       )}
+       </div>
     </div>
   );
 };

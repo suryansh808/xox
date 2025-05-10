@@ -106,6 +106,7 @@ const Settings = () => {
 
   return (
     <div id="userSetting">
+      <div className="setting__container">
       <div className="profile">
         <div>
           <div className="profile-photo-wrapper">
@@ -181,6 +182,7 @@ const Settings = () => {
           </div>
           <button type="submit">Update Password</button>
         </form>
+      </div>
       </div>
     </div>
   );

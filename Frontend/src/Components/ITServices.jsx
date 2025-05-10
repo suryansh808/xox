@@ -10,7 +10,7 @@ const ITServices = () => {
     <div>
       <div>
         <TextParallaxContent
-          imgUrl="https://images.unsplash.com/photo-1695634184273-334faca3538d?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          imgUrl="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
           subheading="Doltec."
           heading="Building awareness of wisdom."
         >
@@ -22,7 +22,7 @@ const ITServices = () => {
         >
         </TextParallaxContent>
         <TextParallaxContent
-          imgUrl="https://images.unsplash.com/photo-1618774945391-a8d74e6fa635?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          imgUrl="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
           subheading="Modern"
           heading="Dress for the best."
         >

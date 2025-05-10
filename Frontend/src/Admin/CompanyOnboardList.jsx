@@ -22,7 +22,8 @@ const CompanyOnboardList = () => {
    <div id="contactresponse">
      <div className="contactus-container">
       <h2 className="contactus-title">Company Onboard List</h2>
-      <table className="contactus-table">
+       <div className="user__container">
+       <table className="contactus-table">
         <thead>
           <tr>
             <th>S.No</th>
@@ -47,11 +48,12 @@ const CompanyOnboardList = () => {
             ))
           ) : (
             <tr>
-              <td colSpan="5" className="no-response">No users found</td>
+              <td colSpan="6" className="no-response">No users found</td>
             </tr>
           )}
         </tbody>
       </table>
+       </div>
     </div>
    </div>
   );

@@ -3,13 +3,12 @@ import React, { useState } from "react";
 import { Link ,useNavigate} from "react-router-dom";
 import API from "../API";
 
-
-
 const StudentLogIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
- const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
       e.preventDefault();
     try {
@@ -18,17 +17,16 @@ const StudentLogIn = () => {
       setPassword("");
       alert("login successfuly");
       if (response.status === 200) {
-        setTimeout(() => {
           localStorage.setItem("user", response.data.user);
           localStorage.setItem("email", response.data.email);
           navigate("/Home");
-        }, 1500);
       }
     } catch (error) {
       alert("invalid email or password");
       console.error(error);
     }
   };
+  
   const handleTogglePasswordVisibility = () => {
     setShowPassword((prevShow) => !prevShow);
   };

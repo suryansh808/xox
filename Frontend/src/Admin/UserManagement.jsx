@@ -22,6 +22,7 @@ const UserManagement = () => {
    <div id="contactresponse">
      <div className="contactus-container">
       <h2 className="contactus-title">Users List</h2>
+      <div className="user__container">
       <table className="contactus-table">
         <thead>
           <tr>
@@ -43,11 +44,12 @@ const UserManagement = () => {
             ))
           ) : (
             <tr>
-              <td colSpan="5" className="no-response">No users found</td>
+              <td colSpan="4" className="no-response">No users found</td>
             </tr>
           )}
         </tbody>
       </table>
+      </div>
     </div>
    </div>
   );

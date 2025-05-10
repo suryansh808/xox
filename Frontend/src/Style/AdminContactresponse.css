@@ -5,7 +5,7 @@
   
   .contactus-title {
     text-align: center;
-    font-size: 1.8rem;
+    font-size: 18px;
     font-weight: bold;
     margin-bottom: 1.5rem;
     color: #eee7e7;
@@ -31,9 +31,14 @@
   }
   
   .no-response {
-    text-align: center;
+    text-align: center !important;
     padding: 1rem;
     color: #555;
+  }
+
+  .user__container{
+    overflow-x: scroll;
+    scrollbar-width: none;
   }
   
 }
