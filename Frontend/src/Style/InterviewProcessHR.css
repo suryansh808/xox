@@ -1,35 +1,26 @@
-#companyHRSelected {
+#interviewProcess {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #FFFFFF;
     padding: 60px 10px;
-
   
   .job-table {
     min-width: 100%;
     border-collapse: collapse;
     display: block;
-
-    border: 1px solid #FFFFFF !important; 
-
-  }
-  .jobs-row{
-    border: 1px solid #FFFFFF;
-  }
-  .table-cell{
-    text-align: center;
-    padding: 5px 0;
-    border: 1px solid #FFFFFF;
+    border: 1px solid #FFFFFF; 
   }
   
   @media (min-width: 768px) {
     .job-table {
       display: table;
-
     }
   }
   
   .table-header {
     display: block;
-
-  
   }
   
   @media (min-width: 768px) {
@@ -54,12 +45,11 @@
       position: relative;
       top: auto;
       left: auto;
-      
     }
   }
   
   .header-cell {
-    /* background-color: #0000; */
+    background-color: #0000;
     padding: 0.5rem;
     color: #FFFFFF;
     font-weight: 700;
@@ -70,28 +60,26 @@
   
   @media (min-width: 768px) {
     .header-cell {
-      border: 1px solid #FFFFFF !important; 
+      border: 1px solid #FFFFFF; 
       display: table-cell;
-      text-align: center;
     }
   }
   
   .table-body {
     display: block;
+
   }
   
   @media (min-width: 768px) {
     .table-body {
       display: table-row-group;
-      border: 1px solid #FFFFFF; 
     }
   }
 
   @media (min-width: 768px) {
     .no-jobs-row,
     .job-row {
-      /* border: none; */
-         border: 1px solid #FFFFFF; 
+      border: none;
       display: table-row;
     }
   }
@@ -109,7 +97,7 @@
     text-align: left;
     display: block;
     color: #FFFFFF ;
-    border: 1px solid #FFFFFF !important; 
+    border: 1px solid #FFFFFF; 
   }
   
   @media (min-width: 768px) {
@@ -122,9 +110,11 @@
   
   .action-button {
     padding: 10px 16px;
-    margin-right: 5px;
-    border: 1px solid gray;
+    background: linear-gradient(to right, #000000, #00000059);
+    box-shadow: 0 10px 25px rgba(63, 63, 63, 0.5);
+    transition: background 0.3s ease;
     color: #FFFFFF;
+    border: none;
     border-radius: 5px;
     font-weight: 600;
     cursor: pointer;
@@ -135,19 +125,23 @@
   }
   
   .heading {
-    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     width: 100%;
     padding: 10px;
+    margin-bottom: 1rem;
   }
   
   .job-list-title {
-    font-size: 20px;
+    font-size: 1.5rem;
+    font-weight: 600;
     color: #FFFFFF;
   }
   
   .add-button {
     padding: 10px 16px;
-    /* background: linear-gradient(to right, #000000, #00000059); */
+    background: linear-gradient(to right, #000000, #00000059);
     box-shadow: 0 10px 25px rgba(63, 63, 63, 0.5);
     transition: background 0.3s ease;
     color: #FFFFFF;
@@ -156,62 +150,4 @@
     font-weight: 600;
     cursor: pointer;
   }
-
-   .modal {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.6);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 999;
-      }
-      
-      .modal-content {
-        background: #eee;
-        /* box-shadow: 0 10px 25px rgba(56, 56, 56, 0.3); */
-        transition: background 0.3s ease;
-        color: rgb(0, 0, 0);
-        padding: 2rem;
-        width: 90%;
-        max-width: 600px;
-        border-radius: 8px;
-        position: relative;
-        overflow: scroll;
-        max-height: 80vh;
-        scrollbar-width: none;
-
-        .head{
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-           span{
-             cursor: pointer;
-             color: red;
-           }
-           h2 , span{
-            font-size: 1.5rem;
-           }
-          
-        }
-
-        h3{
-          margin-bottom: 10px;
-        }
-        hr{
-          margin: 20px 0;
-          border: 1px solid #47474769;
-        }
-      }
-      
-      .close-btn {
-        position: absolute;
-        right: 20px;
-        top: 10px;
-        font-size: 24px;
-        cursor: pointer;
-      }
 }

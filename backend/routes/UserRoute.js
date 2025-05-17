@@ -3,6 +3,7 @@ const User = require("../models/User");
 const Resume = require("../models/Resume");
 const router = express.Router();
 const cloudinary = require("../middleware/cloudinary");
+const Application = require("../models/Application");
 
 //login user
 router.post("/userlogin", async (req, res) => {
@@ -49,10 +50,27 @@ router.post("/usersignup", async (req, res) => {
   }
 });
 
+//dashboard
+router.get("/userdashboardcount/:userId", async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    if (!userId) {return res.status(400).json({ error: "userId is required" });}
+    const assignedApplications = await Application.find({ userId }).populate({ path: "resumeId", select: "updatedAt",  });
+    const resumesUpdatedAt = assignedApplications.map(app => ({ resumeUpdatedAt: app.resumeId?.updatedAt || null}));
+    const shortListed = assignedApplications.filter(app => app.shortListed).length;
+    const pending = assignedApplications.filter(app => app.status === "pending").length;
+    const rejectedwhileinterview = assignedApplications.filter(app => app.interviews.some(interview => interview.interviewStatus === "Rejected")).length;
+    res.json({ pending, shortListed,  rejectedwhileinterview , resumesUpdatedAt});
+  } catch (error) {
+    console.error("Error in HR Dashboard Route:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 //get all users
 router.get("/allusers", async (req, res) => {
   try {
-    const users = await User.find().select("-password -__v -profile -jobLimit");
+    const users = await User.find().select("-password -__v -profile -jobLimit").sort({ _id: -1 });
     res.status(200).json(users);
   } catch (error) {
     console.error(error);
@@ -79,7 +97,7 @@ router.get("/user/:id", async (req, res) => {
 //create resume
 router.post("/resumes", async (req, res) => {
   try {
-    const { userId, personalInfo, educations, experience, skills } = req.body;
+    const { userId, personalInfo, educations, experience, skills , summary , project } = req.body;
     if (!userId) {
       return res.status(400).json({ error: "User ID is required" });
     }
@@ -89,6 +107,8 @@ router.post("/resumes", async (req, res) => {
       educations,
       experience,
       skills,
+      summary,
+      project
     });
     await resume.save();
     res.status(201).json({ message: "Resume saved successfully!", resume });

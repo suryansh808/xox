@@ -1,8 +1,10 @@
-#company-profile {
-  display: flex;
-  justify-content: center;
+#company-profile {  
   padding: 80px 20px;
   
+  .profile{
+     display: flex;
+     justify-content: center;
+  }
   
   .company-logo-section {
     display: flex;
@@ -120,6 +122,43 @@
   
   .company-details strong {
     color: #ffffff;
+  }
+
+  .counter__container{
+    border-top: 1px solid rgba(128, 128, 128, 0.164);
+     
+    .jobposted__count{
+       display: flex;
+       flex-wrap: wrap;
+       justify-content: space-between;
+       align-items: center;
+       gap: 10px;
+       width: 100%;
+       padding: 0.5rem;
+       
+       .No__boxes{
+          width: 500px;
+          height: 250px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          border: 1px solid rgba(128, 128, 128, 0.281);
+          border-radius: 10px;
+          box-shadow: 2px 2px 5px rgba(255, 255, 255, 0.4);
+
+          > div{
+             font-size: 2rem;
+              i{
+                font-size: 1.5rem;
+              }
+          }
+          h2{
+            font-size: 2rem;
+
+          }
+       }
+    }
   }
   
   }

@@ -2,7 +2,8 @@ const express = require("express");
 const Company = require("../models/CompanyUser");
 const router = express.Router();
 const CompanyPostedJob  = require("../models/CompanyPostedJob");
-const cloudinary = require("../middleware/cloudinary")
+const cloudinary = require("../middleware/cloudinary");
+const Application = require("../models/Application");
 
 router.post('/company-signup', async (req, res) => {
   try {
@@ -56,9 +57,27 @@ router.post('/company-login', async (req, res) => {
   }
 });
 
+//dashboard
+router.get("/companydashboardcount/:companyId", async (req, res) => {
+  try {
+    const companyId = req.params.companyId;
+    if (!companyId) {return res.status(400).json({ error: "companyId is required" });}
+    const assignedApplications = await Application.find().populate({path: "jobId", select: "companyId _id",});
+    const matchedData = assignedApplications.filter(app => app.jobId && app.jobId.companyId === companyId);
+    const shortListed = matchedData.filter(app => app.shortListed).length;
+    const rejectedwhileinterview = matchedData.filter(app => app.interviews.some(interview => interview.interviewStatus === "Rejected")).length;
+    const uniqueJobIds = new Set(matchedData.map(app => app.jobId._id.toString()));
+    const totalJobs = uniqueJobIds.size;
+    res.json({totalJobs , shortListed , rejectedwhileinterview});
+  } catch (error) {
+    console.error("Error in HR Dashboard Route:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 router.get("/allcompany", async (req, res) => {
   try {
-    const jobs = await Company.find().select("-password -__v -companyLogoUrl -jobPostLimit -companyId").lean();
+    const jobs = await Company.find().select("-password -__v -companyLogoUrl -jobPostLimit -companyId").lean().sort({ _id: -1 });
     res.status(200).json(jobs);
   } catch (error) {
     console.error("Error fetching all companys:", error);
@@ -72,7 +91,7 @@ router.get("/company-jobs", async (req, res) => {
     if (!companyId) {
       return res.status(400).json({ message: "Company ID is required" });
     }
-    const jobs = await CompanyPostedJob.find({ companyId });
+    const jobs = await CompanyPostedJob.find({ companyId }).sort({ jobPostedOn: -1 });
     res.status(200).json(jobs);
   } catch (error) {
     console.error("Error fetching jobs:", error);

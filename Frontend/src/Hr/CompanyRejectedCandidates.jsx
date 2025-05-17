@@ -2,30 +2,25 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import API from "../API";
 
-const CompanyHRSelected = () => {
-  const [selectedApplications, setSelectedApplications] = useState([]);
+const CompanyRejectedCandidates = () => {
+  const [rejectedApplications, setRejectedApplications] = useState([]);
   const [selectedResume, setSelectedResume] = useState(null);
-  const companyId = localStorage.getItem("companyId");
+  const HrId = localStorage.getItem("HrId");
 
-  const fetchSelectedApplications = async () => {
+  const fetchRejectedApplications = async () => {
     try {
-      if (!companyId) {
+      if (!HrId) {
+        console.error("No HrId found, cannot fetch applications");
         return;
       }
       const response = await axios.get(
-        `${API}/selected-applications/${companyId}`
+        `${API}/rejected-applications/${HrId}`
       );
-      setSelectedApplications(
-        response.data?.filter(
-          (item) => item && item.companyStatus === "pending"
-        )
-      );
-      console.log("Fetched selected applications:", response.data);
+      setRejectedApplications(response.data);
     } catch (error) {
-      alert("Failed to fetch applications. Please try again.");
+      alert("Failed to fetch rejected applications. Please try again.");
     }
   };
-
   const handleViewResume = (resume) => {
     if (resume) {
       setSelectedResume(resume);
@@ -33,53 +28,21 @@ const CompanyHRSelected = () => {
       console.error("No resume provided to handleViewResume");
     }
   };
-
   const closeModal = () => {
     setSelectedResume(null);
   };
-
-  const handleApplicationStatus = async (app, status) => {
-    const confirm = window.confirm(
-      `Are you sure you want to ${status} this condidate`
-    );
-    if (confirm) {
-      try {
-        const response = await axios.put(
-          `${API}/application/${app._id}/companyStatus`,
-          {
-            status,
-          }
-        );
-        if (response.status === 200) {
-          const message =
-            status === "Selected"
-              ? "Moved to Next Round, Check Interview Process Tab"
-              : "Application Rejected";
-          alert(message);
-          setSelectedApplications((prevApplications) =>
-            prevApplications.filter(
-              (application) => application._id !== app._id
-            )
-          );
-        }
-      } catch (error) {
-        alert(`Failed to update application to ${status}. Please try again.`);
-      }
-    }
-  };
-
   useEffect(() => {
-    if (companyId) {
-      fetchSelectedApplications();
+    if (HrId) {
+      fetchRejectedApplications();
     } else {
-      console.error("No companyId found, cannot fetch applications");
+      console.error("No HrId found, cannot fetch applications");
     }
-  }, [companyId]);
+  }, [HrId]);
 
   return (
-    <div id="companyHRSelected">
+    <div id="companyRejectedCandidates">
       <div className="heading">
-        <h2 className="job-list-title">HR Selected Candidate Applications</h2>
+        <h2 className="job-list-title">Rejected Candidate Applications</h2>
       </div>
       <table className="job-table">
         <thead className="table-header">
@@ -88,20 +51,20 @@ const CompanyHRSelected = () => {
             <th className="header-cell">Candidate Resume</th>
             <th className="header-cell">Applied for Designation</th>
             <th className="header-cell">Applied on</th>
-            <th className="header-cell">HR Status</th>
-            <th className="header-cell">Action</th>
+            <th className="header-cell">Company Name</th>
+            <th className="header-cell">Company Status</th>
           </tr>
         </thead>
         <tbody className="table-body">
-          {selectedApplications.length === 0 ? (
+          {rejectedApplications.length === 0 ? (
             <tr className="no-jobs-row">
-              <td className="no-jobs-cell" colSpan="7">
-                No selected candidates found
+              <td className="no-jobs-cell" colSpan="6">
+                No rejected candidates found
               </td>
             </tr>
           ) : (
-            selectedApplications.map((app, index) => (
-              <tr className="jobs-row" key={index}>
+            rejectedApplications.map((app, index) => (
+              <tr key={index}>
                 <td className="table-cell">
                   {app.resumeId?.personalInfo?.name ||
                     app.userId?.name ||
@@ -109,9 +72,9 @@ const CompanyHRSelected = () => {
                 </td>
                 <td className="table-cell">
                   <i
-                    className="fa fa-file-pdf-o"
+                    className="fa fa-eye"
                     onClick={() => handleViewResume(app.resumeId)}
-                    style={{ cursor: "pointer", color: "red" }}
+                    style={{ cursor: "pointer", color: "#007bff" }}
                   ></i>
                 </td>
                 <td className="table-cell">{app.jobId?.jobTitle || "N/A"}</td>
@@ -120,22 +83,10 @@ const CompanyHRSelected = () => {
                     ? new Date(app.createdAt).toLocaleDateString()
                     : "N/A"}
                 </td>
-                <td className="table-cell">{app.status || "N/A"}</td>
                 <td className="table-cell">
-                  <button
-                    className="action-button"
-                    onClick={() => handleApplicationStatus(app, "Selected")}
-                  >
-                    Move to Next Round
-                  </button>
-                  <button
-                    title="Reject"
-                    className="action-button"
-                    onClick={() => handleApplicationStatus(app, "Rejected")}
-                  >
-                    <i class="fa fa-close"></i>
-                  </button>
+                  {app.jobId?.companyId?.companyName || "N/A"}
                 </td>
+                <td className="table-cell">{app.companyStatus || "N/A"}</td>
               </tr>
             ))
           )}
@@ -144,19 +95,17 @@ const CompanyHRSelected = () => {
       {selectedResume && (
         <div className="modal">
           <div className="modal-content">
-            <div className="head">
-              <h2>Resume Details</h2>
-              <span onClick={closeModal}>x</span>
-            </div>
+            <span className="close-button" onClick={closeModal}>
+              x
+            </span>
+            <h2>Resume Details</h2>
             <div>
-              <hr />
               <h3>Personal Info</h3>
               <p>Name: {selectedResume.personalInfo?.name || "N/A"}</p>
               <p>Email: {selectedResume.personalInfo?.email || "N/A"}</p>
               <p>Phone: {selectedResume.personalInfo?.phone || "N/A"}</p>
             </div>
             <div>
-              <hr />
               <h3>Education</h3>
               {selectedResume.educations?.length > 0 ? (
                 selectedResume.educations.map((edu, idx) => (
@@ -169,14 +118,12 @@ const CompanyHRSelected = () => {
               )}
             </div>
             <div>
-              <hr />
               <h3>Experience</h3>
               <p>Company Name: {selectedResume.experience?.company || "N/A"}</p>
               <p>Role: {selectedResume.experience?.role || "N/A"}</p>
               <p>Duration: {selectedResume.experience?.duration || "N/A"}</p>
             </div>
             <div>
-              <hr />
               <h3>Skills</h3>
               <p>
                 {Array.isArray(selectedResume.skills)
@@ -193,4 +140,4 @@ const CompanyHRSelected = () => {
   );
 };
 
-export default CompanyHRSelected;
+export default CompanyRejectedCandidates;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import API from "../API";
 
@@ -18,7 +18,8 @@ const Joblist = () => {
   const fetchJobs = async () => {
     try {
       const response = await axios.get(`${API}/company-all-jobs`);
-      setJoblist(response.data);
+      // console.log(response.data.filter(item => item && item.hrId != null && item.hrName != null));
+      setJoblist(response.data.filter(item => item && item.hrId != "" && item.hrName != ""));
     } catch (error) {
       console.error("Fetch jobs error:", error.message);
     }
@@ -43,6 +44,7 @@ const Joblist = () => {
       console.error("Fetch applied jobs error:", error.message);
     }
   };
+
   useEffect(() => {
     fetchJobs();
     if (userId) {
@@ -50,11 +52,13 @@ const Joblist = () => {
       fetchAppliedJobs();
     }
   }, [userId]);
+
   useEffect(() => {
     if (joblist && joblist.length > 0) {
       setSelectedJob(joblist[0]);
     }
   }, [joblist]);
+  
   const handleSelectedJobDetails = (job) => {
     setSelectedJob(job);
   };
@@ -71,6 +75,7 @@ const Joblist = () => {
       handleSearch();
     }
   };
+
   const handleSearch = () => {
     const filtered = joblist.filter(
       (job) =>

@@ -46,7 +46,7 @@ const [formData, setFormData] = useState({
   return (
    <div id="createhr">
      <div className="hr-container">
-      <h2 className="hr-title">Create New HR Account</h2>
+      {/* <h2 className="hr-title">Create New HR Account</h2> */}
       <div className="hr-form-wrapper">
         <form onSubmit={handleSubmit} className="hr-form">
         <input
@@ -85,7 +85,7 @@ const [formData, setFormData] = useState({
         </form>
       </div>
 
-      <h2 className="hr-table-title">HR List</h2>
+      <h2 className="hr-table-title">HR's List</h2>
        <div className='hr-table-container'>
        <table className="hr-table">
         <thead>

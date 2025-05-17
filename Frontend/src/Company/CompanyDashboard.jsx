@@ -10,13 +10,9 @@ const CompanyDashboard = () => {
   const companyId = localStorage.getItem("companyId");
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
+    const [count, setCount] = useState();
 
-  useEffect(() => {
-    if (!companyId) {
-      navigate("/login");
-      return;
-    }
-    const fetchCompanyProfile = async () => {
+  const fetchCompanyProfile = async () => {
       try {
         const response = await axios.get(`${API}/company/${companyId}`);
         setCompany(response.data);
@@ -26,7 +22,24 @@ const CompanyDashboard = () => {
         );
       }
     };
+
+      
+    const fetchCounts = async () => {
+      try {
+        const response = await axios.get(`${API}/companydashboardcount/${companyId}`);
+        setCount(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+  useEffect(() => {
+    if (!companyId) {
+      navigate("/login");
+      return;
+    }
     fetchCompanyProfile();
+    fetchCounts();
   }, [companyId, navigate]);
 
   const handleFileChange = (e) => {
@@ -86,9 +99,11 @@ const CompanyDashboard = () => {
 
   if (!company) return <div>Loading...</div>;
 
+
   return (
     <div id="company-profile">
-      <div className="company-logo-section">
+      <div className="profile">
+          <div className="company-logo-section">
         <form onSubmit={handleUpload} className="logo-upload-form">
           <div className="logo-upload-container group">
             <img
@@ -116,8 +131,8 @@ const CompanyDashboard = () => {
             {isUploading ? "Uploading..." : "Update"}
           </button>
         </form>
-      </div>
-      <div className="company-details">
+         </div>
+         <div className="company-details">
         <h2>{company.companyName}</h2>
         <p>
           <strong>Type:</strong> {company.companyType}
@@ -135,6 +150,35 @@ const CompanyDashboard = () => {
         <p>
           <strong>Job Post Limit:</strong> {company.jobPostLimit}
         </p>
+         </div>
+      </div>
+      <div className="counter__container">
+        <div className="jobposted__count">
+           <div className="No__boxes">
+             <div>
+               <i style={{color:"orange"}} className="fa fa-briefcase" aria-hidden="true"></i> Total Jobs
+             </div>
+             <h2>{count?.totalJobs}</h2>
+           </div>
+           {/* <div className="No__boxes">
+              <div>
+               <i style={{color:"blue"}} className="fa fa-check" aria-hidden="true"></i> Selected
+             </div>
+              <h2>1</h2>
+           </div> */}
+           <div className="No__boxes">
+             <div>
+               <i style={{color:"green"}} className="fa fa-handshake-o" aria-hidden="true"></i> shortListed
+             </div>
+             <h2>{count?.shortListed}</h2>
+           </div>
+           <div className="No__boxes">
+             <div>
+               <i style={{color:"red"}} className="fa fa-times" aria-hidden="true"></i> Rejected
+             </div>
+             <h2>{count?.rejectedwhileinterview}</h2>
+           </div>
+        </div>
       </div>
     </div>
   );

@@ -43,6 +43,7 @@ import HiredCandidates from './Hr/HiredCandidates';
 import RejectedCandidates from './Hr/RejectedCandidates';
 import SelectedCandidates from './Hr/SelectedCandidates';
 import InterviewProcess from './Hr/InterviewProcess';
+import CompanyRejectedCandidates from './Hr/CompanyRejectedCandidates';
 
 
 
@@ -110,6 +111,7 @@ const AppContent = () => {
     "/selectedcandidates",
     "/rejectedcandidates",
     "/hiredcandidates",
+      "/companyrejectedcandidates",
     
   ];
   const companyHeaderPaths = [
@@ -182,7 +184,7 @@ const AppContent = () => {
           <Route path="/RejectedCandidates" element={<RejectedCandidates/>} />
           <Route path="/SelectedCandidates" element={<SelectedCandidates/>} />
           <Route path="/InterviewProcess" element={<InterviewProcess/>} />
-
+           <Route path="/CompanyRejectedCandidates" element={<CompanyRejectedCandidates/>} />
 
           {/* Admin */}
           <Route path="/Adminlogin" element={<Adminlogin/>} />

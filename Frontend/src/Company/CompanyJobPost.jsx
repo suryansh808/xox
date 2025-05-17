@@ -237,9 +237,12 @@ const CompanyJobPost = () => {
       {open && (
         <div className="modal-overlay">
           <div className="modal-content">
-            <h2 className="modal-title">
+             <div className="heading">
+               <h2 className="modal-title">
               {editingId ? "Edit Job" : "Post a New Job"}
-            </h2>
+              </h2>
+              <span onClick={resetForm}>X</span>
+             </div>
             <form onSubmit={handleSubmit}>
               {formFields.map(({ name, label, type, salary }) => {
                 const isFullWidth = [
@@ -281,16 +284,7 @@ const CompanyJobPost = () => {
                   </div>
                 );
               })}
-
               <div className="form-actions">
-                <button
-                  type="button"
-                  onClick={resetForm}
-                  className="btn cancel"
-                  disabled={loading}
-                >
-                  Cancel
-                </button>
                 <button
                   type="submit"
                   className="btn primary"

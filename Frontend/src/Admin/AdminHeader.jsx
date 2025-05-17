@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const AdminHeader = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
+  const sidebarRef = useRef(null);
   const toggleSidebar = () => {
     setIsSidebarOpen((prev) => !prev);
   };
@@ -13,6 +13,22 @@ const AdminHeader = () => {
     alert("Logout Successfully");
     navigate("/");
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        isSidebarOpen &&
+        sidebarRef.current &&
+        !sidebarRef.current.contains(event.target)
+      ) {
+        setIsSidebarOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isSidebarOpen]);
 
   return (
     <div id="AdminHeader">
@@ -140,7 +156,10 @@ const AdminHeader = () => {
         </div>
       </header>
 
-      <div className={`sidebar ${isSidebarOpen ? "open" : ""}`}>
+      <div
+        ref={sidebarRef}
+        className={`sidebar ${isSidebarOpen ? "open" : ""}`}
+      >
         <button className="close-btn" onClick={toggleSidebar}>
           ×
         </button>
@@ -191,7 +210,7 @@ const AdminHeader = () => {
             </Link>
           </li>
           <li>
-           <button className="logout" onClick={handleLogout}>
+            <button className="logout" onClick={handleLogout}>
               <i className="fa fa-sign-out"></i> Logout
             </button>
           </li>

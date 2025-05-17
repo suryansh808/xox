@@ -35,8 +35,13 @@ import './Style/AdminCompanyJoblist.css'
 import './Style/CompanyHRSelected.css'
 import './Style/UserDashboard.css'
 import './Style/AdminDashboard.css'
-
+import './Style/Appliedjoblist.css'
 import './Style/Overview.css'
+import './Style/RejectedApplication.css'
+import './Style/CompanyInterviewProcess.css'
+import './Style/companyRejectedcandidates.css'
+import './Style/InterviewProcessHR.css'
+import './Style/CompanyHiredCandidates.css';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

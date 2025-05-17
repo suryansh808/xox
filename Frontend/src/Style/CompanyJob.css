@@ -162,13 +162,30 @@
     display: flex;
     flex-direction: column;
     gap: 1rem;
+
+    pre{
+      white-space: pre-wrap;
+      
+    }
+  }
+
+  .heading{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* background-color: red; */
+    span{
+      font-size: 1.5rem;
+       color: red;
+       cursor: pointer;
+    }
   }
 }
 
 /* Title */
 .modal-title {
   text-align: center;
-  margin-bottom: 2rem;
+  /* margin-bottom: 2rem; */
   font-size: 1.6rem;
   color: #1e3a8a;
 }
@@ -236,10 +253,12 @@ form {
   justify-content: flex-end;
   gap: 1rem;
   margin-top: 1rem;
+  
 }
 
 /* Buttons */
 .btn {
+  width: 100%;
   padding: 10px 20px;
   border-radius: 5px;
   font-weight: 600;
@@ -253,10 +272,6 @@ form {
   color: white;
 }
 
-.btn.cancel {
-  background-color: #e5e7eb;
-  color: #111827;
-}
 
 .heading{
   display: flex;
@@ -277,10 +292,10 @@ form {
 .add-button {
   padding: 10px 16px;
   background: linear-gradient(to right, #000000, #00000059);
-  box-shadow: 0 10px 25px rgba(63, 63, 63, 0.5);
-  transition: background 0.3s ease;
+  /* box-shadow: 0 10px 25px rgba(63, 63, 63, 0.5); */
+  /* transition: background 0.3s ease; */
+  border: 1px solid gray;
   color: white;
-  border: none;
   border-radius: 5px;
   font-weight: 600;
   cursor: pointer;

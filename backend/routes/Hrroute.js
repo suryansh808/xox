@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const Createhr = require("../models/Createhr");
+const Application = require("../models/Application");
+const CompanyJobs =  require("../models/CompanyPostedJob");
 
 //login hr
 router.post("/hrlogin", async (req, res) => {
@@ -23,5 +25,24 @@ router.post("/hrlogin", async (req, res) => {
     res.status(500).json({ message: "Server Error" });
   }
 });
+
+// HR Dashboard Route
+router.get("/hrdashboardcount/:hrId", async (req, res) => {
+  try {
+    const hrId = req.params.hrId;
+    if (!hrId) {return res.status(400).json({ error: "hrId is required" });}
+    const assignedApplications = await Application.find({ hrId });
+    const assignedjobs =  await CompanyJobs.countDocuments({hrId});
+    const jobIds = assignedApplications.map(app => app.jobId);
+    const applicationreceived = new Set(jobIds.map(id => id.toString())).size;
+    const shortListed = assignedApplications.filter(app => app.shortListed).length;
+    const rejectedwhileinterview = assignedApplications.filter(app => app.interviews.some(interview => interview.interviewStatus === "Rejected")).length;
+    res.json({ applicationreceived, assignedjobs, shortListed,  rejectedwhileinterview});
+  } catch (error) {
+    console.error("Error in HR Dashboard Route:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 
 module.exports = router;

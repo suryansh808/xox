@@ -10,8 +10,7 @@
   }
   
   #header .navbar {
-    padding: 10px 30px;
-    /* background-color: red; */
+    padding: 8px 10px;
     display: flex;
     align-items: center;
     z-index: 500;
@@ -27,15 +26,9 @@
      color: white;
 
   }
-  .navbar img{
-    width: 120px;
-  }
-  
-  @keyframes mymove {
-    50% {
-      font-style: italic;
-    }
-  }
+   .navbar img{
+     height: 70px;
+   }
   
   .navbar ul {
     margin-right: 10px;
@@ -160,7 +153,11 @@
   
 
   @media (max-width: 650px) {
-  
+     .navbar{
+      /* background-color: red; */
+      padding: 8px 10px !important;
+     }
+
     .navbar ul,
     .dropdown {
       display: none;
@@ -169,6 +166,7 @@
     .hamburger {
       display: block;
       margin-right: 10px;
+      /* background-color: red; */
     }
   
     .mobile-menu {

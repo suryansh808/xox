@@ -124,6 +124,10 @@ const JobApplications = () => {
               <p><strong>Phone:</strong> {selectedResume.personalInfo.phone}</p>
               <p><strong>Address:</strong> {selectedResume.personalInfo.address}</p>
             </div>
+             <div className="resume-section">
+              <h4>Professional Summary</h4>
+              <pre>{selectedResume.summary}</pre>
+            </div>
             <div className="resume-section">
               <h4>Skills</h4>
               <p>{selectedResume.skills}</p>
@@ -146,6 +150,10 @@ const JobApplications = () => {
                 <p><strong>Duration:</strong> {selectedResume.experience.duration}</p>
               </div>
             </div>
+            <div className="resume-section">
+              <h4>Project</h4>
+              <pre>{selectedResume.project}</pre>
+            </div>
              </div>
            </div>
         )}
@@ -158,7 +166,7 @@ const JobApplications = () => {
               X
             </button>
              </div>
-            <pre className="pre">{selectedJobDescription}</pre>
+            <pre>{selectedJobDescription}</pre>
           </div>
         )}
       </div>

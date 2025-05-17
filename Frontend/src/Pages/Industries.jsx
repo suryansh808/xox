@@ -1,6 +1,9 @@
-import React from "react";
+import industriess from "../assets/industries.png";
+import highlightgif from "../assets/highlight.gif";
+import {Link} from "react-router-dom";
 
-const industries = [
+const Industries = () => {
+  const industries = [
   {
     name: "Information Technology",
     icon: "💻",
@@ -32,47 +35,60 @@ const industries = [
     description: "Digital marketing, sales, and brand roles.",
   },
 ];
-
-const Industries = () => {
   return (
     <div id="industries">
       <div className="industries-page">
         {/* Hero Section */}
         <section className="hero">
-          <h1>Explore Opportunities Across Industries</h1>
-          <p>
-            At Doltec, we connect students and professionals with jobs across a
-            wide range of industries.
-          </p>
+          <img src={industriess} alt="" />
         </section>
 
         {/* Industry Cards */}
-        <section className="industry-grid">
-          {industries.map((industry, index) => (
+        <section className="industry">
+            <h2>Our Specialized Domains</h2>
+           <div className="industry-grid">
+             {industries.map((industry, index) => (
             <div className="industry-card" key={index}>
               <div className="icon">{industry.icon}</div>
               <h3>{industry.name}</h3>
               <p>{industry.description}</p>
             </div>
           ))}
+           </div>
         </section>
 
-        {/* Why Doltec */}
+        {/*Industry-Specific Solutions */}
         <section className="why-doltec">
-          <h2>Why Choose Doltec?</h2>
-          <ul>
-            <li>✔ Tailored job listings by industry.</li>
-            <li>✔ Trusted by leading companies and startups.</li>
-            <li>✔ Easy application process for students and freshers.</li>
-          </ul>
+           <h2>Industry-Specific Solutions</h2>
+           <div className="specific__flex">
+            <div className="highlight__img">
+              <img src={highlightgif} alt="" />
+            </div>
+            <div className="highlight__contect">
+              <div className="content__point">
+                <h3><i class="fa fa-chevron-right" aria-hidden="true"></i> Tech-Driven Filters for IT Roles</h3>
+                <p>AI-powered role matchers tailored to software and cloud job descriptions.</p>
+              </div>
+              <div className="content__point">
+                <h3><i class="fa fa-chevron-right" aria-hidden="true"></i> Credential Verification for Healthcare</h3>
+                <p>License and compliance checks to ensure only certified professionals apply.</p>
+              </div>
+              <div className="content__point">
+                <h3><i class="fa fa-chevron-right" aria-hidden="true"></i> Bulk Hiring Tools for Retail</h3>
+                <p>Seamless high-volume hiring pipeline with smart screening.</p>
+              </div>
+            </div>
+           </div>
         </section>
 
         {/* CTA Section */}
-        <section className="cta">
-          <h2>Ready to take the next step?</h2>
-          <button>Post a Job</button>
-          <button className="secondary">Explore Jobs</button>
-        </section>
+        <section className="cta-section">
+        <h2>Ready to Hire Smarter?</h2>
+         <div className="call__btn">
+           <button className="cta-btn"><Link to="/CompanyLogin">Start Hiring</Link></button>
+           <button className="cta-btn"><Link to="/StudentLogIn">Explore Jobs</Link></button>
+         </div>
+      </section>
       </div>
     </div>
   );

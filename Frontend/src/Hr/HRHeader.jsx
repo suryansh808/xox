@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const HRHeader = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
+  const sidebarRef = useRef(null);
   const toggleSidebar = () => {
     setIsSidebarOpen((prev) => !prev);
   };
@@ -13,6 +13,21 @@ const HRHeader = () => {
     alert("Logout Successfully");
     navigate("/");
   };
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        isSidebarOpen &&
+        sidebarRef.current &&
+        !sidebarRef.current.contains(event.target)
+      ) {
+        setIsSidebarOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isSidebarOpen]);
 
   return (
     <div id="HRHeader">
@@ -23,7 +38,10 @@ const HRHeader = () => {
         </div>
       </header>
 
-      <div className={`sidebar ${isSidebarOpen ? "open" : ""}`}>
+      <div
+        ref={sidebarRef}
+        className={`sidebar ${isSidebarOpen ? "open" : ""}`}
+      >
         <button className="close-btn" onClick={toggleSidebar}>
           ×
         </button>
@@ -43,21 +61,27 @@ const HRHeader = () => {
               <i className="fa fa-users"></i> Job Applications
             </Link>
           </li>
-          <li>
-            <Link onClick={toggleSidebar} to="/InterviewProcess">
-              <i className="fa fa-comments"></i> Interview Process
-            </Link>
-          </li>
-          <li>
+           <li>
             <Link onClick={toggleSidebar} to="/SelectedCandidates">
               <i className="fa fa-user-check"></i> Selected Candidates
             </Link>
           </li>
           <li>
+            <Link onClick={toggleSidebar} to="/InterviewProcess">
+              <i className="fa fa-comments"></i> Interview Process
+            </Link>
+          </li>
+         
+          <li>
             <Link onClick={toggleSidebar} to="/RejectedCandidates">
               <i className="fa fa-user-times"></i> Rejected Candidates
             </Link>
           </li>
+          {/* <li>
+            <Link onClick={toggleSidebar} to="/CompanyRejectedCandidates">
+              <i className="fa fa-user-check"></i> Company Rejected 
+            </Link>
+          </li> */}
           <li>
             <Link onClick={toggleSidebar} to="/HiredCandidates">
               <i className="fa fa-user-tie"></i> Hired Candidates

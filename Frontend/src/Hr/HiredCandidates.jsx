@@ -1,11 +1,82 @@
-import React from 'react'
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import API from "../API";
 
 const HiredCandidates = () => {
-  return (
-    <div>
-      
-    </div>
-  )
-}
+  const [selectedApplications, setSelectedApplications] = useState([]);
+  const HrId = localStorage.getItem("HrId");
 
-export default HiredCandidates
+  const fetchHiredApplications = async () => {
+    try {
+      if (!HrId) {
+        console.error("No HrId found, cannot fetch applications");
+        return;
+      }
+      const response = await axios.get(`${API}/hired-applications/${HrId}`);
+      setSelectedApplications(response.data);
+    } catch (error) {
+      console.error("Error fetching hired applications:", error);
+      alert("Failed to fetch hired applications. Please try again.");
+    }
+  };
+
+  useEffect(() => {
+    if (HrId) {
+      fetchHiredApplications();
+    } else {
+      console.error("No HrId found, cannot fetch applications");
+    }
+  }, [HrId]);
+
+  return (
+    <div id="companyHired">
+      <div className="heading">
+        <h2 className="job-list-title">Hired Candidates</h2>
+      </div>
+      <table className="job-table">
+        <thead className="table-header">
+          <tr className="header-row">
+            <th className="header-cell">Candidate Name</th>
+            <th className="header-cell">Applied for Designation</th>
+            <th className="header-cell">Applied on</th>
+            <th className="header-cell">Hiring Status</th>
+            <th className="header-cell">Offer Letter</th>
+          </tr>
+        </thead>
+        <tbody className="table-body">
+          {selectedApplications.length === 0 ? (
+            <tr className="no-jobs-row">
+              <td className="no-j/des-cell" colSpan="5">
+                No hired candidates found
+              </td>
+            </tr>
+          ) : (
+            selectedApplications.map((app, index) => (
+              <tr key={app._id || index}>
+                <td className="table-cell">
+                  {app.resumeId?.personalInfo?.name || app.userId?.name || "N/A"}
+                </td>
+                <td className="table-cell">{app.jobId?.jobTitle || "N/A"}</td>
+                <td className="table-cell">
+                  {app.createdAt ? new Date(app.createdAt).toLocaleDateString() : "N/A"}
+                </td>
+                <td className="table-cell">{app.shortListed ? "Shortlisted" : "No"}</td>
+                <td className="table-cell">
+                  {app.offerLetter && app.offerLetter !== "Not Assigned" ? (
+                    <a href={app.offerLetter} target="_blank" rel="noopener noreferrer">
+                      View Offer Letter
+                    </a>
+                  ) : (
+                    "Not Assigned"
+                  )}
+                </td>
+              </tr>
+            ))
+          )}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
+export default HiredCandidates;

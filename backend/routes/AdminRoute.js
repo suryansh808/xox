@@ -48,7 +48,6 @@ router.get("/admindashboard", async (req, res) => {
       CompanyPostedJob.countDocuments({ assignedToHr: true }),
       CompanyPostedJob.countDocuments({ assignedToHr: false }),
     ]);
-
     res.status(200).json({
       totalUsers,
       totalCompanies,
@@ -93,7 +92,7 @@ router.post("/createhr", async (req, res) => {
 //get hr account
 router.get("/gethr", async (req, res) => {
   try {
-    const hr = await Createhr.find();
+    const hr = await Createhr.find().sort({ _id: -1 });
     if (!hr) {
       return res.status(404).json({ message: "HR not found" });
     }
@@ -119,7 +118,7 @@ router.post("/contactus", async (req, res) => {
 //get contact us
 router.get("/getcontactus", async (req, res) => {
   try {
-    const contact = await ContactUs.find();
+    const contact = await ContactUs.find().sort({ _id: -1 });
     res.status(200).json(contact);
   } catch (error) {
     console.error(error);
@@ -167,7 +166,7 @@ router.get("/company-all-jobs", async (req, res) => {
           jobPostedOn: 1,
         },
       },
-    ]);
+    ]).sort({ jobPostedOn: -1 });
     res.status(200).json(jobs);
   } catch (error) {
     console.error("Error fetching all jobs:", error);

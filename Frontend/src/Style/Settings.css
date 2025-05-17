@@ -18,7 +18,7 @@
 
 /* Profile Section */
 .profile {
-  background-color: #111111;
+  background-color: #ffffff;
   padding: 30px 20px;
   border-radius: 10px;
   min-width: 100%;
@@ -27,9 +27,9 @@
   flex-direction: column;
   align-items: center;
   gap: 1.5rem;
-  color: white;
-  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.05);
-  transition: all 0.3s ease-in-out;
+  color: rgb(0, 0, 0);
+  /* box-shadow: 0 8px 24px rgba(255, 255, 255, 0.05); */
+  /* transition: all 0.3s ease-in-out; */
 }
 
 @media (min-width: 768px) {
@@ -88,24 +88,22 @@
 }
 
 .upload-btn {
-  background: linear-gradient(to right, #3b3b3b, #1c1c1c);
+  /* background: linear-gradient(to right, #3b3b3b, #1c1c1c);
   box-shadow: 0 10px 25px rgba(56, 56, 56, 0.3);
-  transition: background 0.3s ease;
-  color: white;
+  transition: background 0.3s ease; */
+  color: rgb(0, 0, 0);
   font-weight: 600;
   padding: 10px 25px;
   border-radius: 8px;
-  border: none;
+  /* border: none; */
   cursor: pointer;
+  border: 1px solid gray;
 }
 
-.upload-btn:hover {
-  background: linear-gradient(to right, #4e4e4e, #2a2a2a);
-}
 
 /* Password Section */
 .password {
-  background-color: #111111;
+  background-color: #ffffff;
   padding: 35px 20px;
   min-width: 100%;
   max-width: 500px;
@@ -113,10 +111,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.5rem;
-  color: white;
-  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.05);
-  transition: all 0.3s ease-in-out;
+  gap: 2rem;
+  color: rgb(0, 0, 0);
+  /* box-shadow: 0 8px 24px rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease-in-out; */
 }
 
 @media (min-width: 768px) {
@@ -140,7 +138,7 @@
 }
 
 .password-form input {
-  border: 1px solid #444;
+  /* border: 1px solid #444; */
   border-radius: 6px;
   width: 100%;
   max-width: 300px;
@@ -150,7 +148,7 @@
   background-color: #1c1c1c;
   color: white;
   outline: none;
-  transition: border 0.2s ease;
+  /* transition: border 0.2s ease; */
 }
 
 .password-form input:focus {
@@ -168,6 +166,7 @@
     position: absolute;
     right: 10px;
     cursor: pointer;
+    color: white;
   }
 }
 
@@ -176,17 +175,16 @@
   width: 100%;
   max-width: 300px;
   border-radius: 6px;
-  background: linear-gradient(to right, #3b3b3b, #1c1c1c);
+  /* border: 1px solid gray; */
+  /* background: linear-gradient(to right, #3b3b3b, #1c1c1c);
   box-shadow: 0 10px 25px rgba(56, 56, 56, 0.3);
-  transition: background 0.3s ease;
+  transition: background 0.3s ease; */
   color: white;
+    background-color: #1c1c1c;
   font-weight: 600;
-  border: none;
+  /* border: none; */
   cursor: pointer;
 }
 
-.password-form button:hover {
-  background: linear-gradient(to right, #4e4e4e, #2a2a2a);
-}
 
 }

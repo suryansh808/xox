@@ -1,31 +1,50 @@
-import React, { useState } from "react";
-import { Link , useNavigate } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 const StudentHeader = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
+  const sidebarRef = useRef(null);
   const toggleSidebar = () => {
     setIsSidebarOpen((prev) => !prev);
   };
- 
+
   const navigate = useNavigate();
-  const handleLogout = ()=>{
+  const handleLogout = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("email");
     alert("Logout Successfully");
     navigate("/");
-  }
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        isSidebarOpen &&
+        sidebarRef.current &&
+        !sidebarRef.current.contains(event.target)
+      ) {
+        setIsSidebarOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isSidebarOpen]);
 
   return (
     <div id="studentHeader">
       <header className="student-header">
-        <div className="logo">🎓 Student Portal</div>
+        <div className="logo">🎓 Dashboard</div>
         <div className="menu-icon" onClick={toggleSidebar}>
           ☰
         </div>
       </header>
 
-      <div className={`sidebar ${isSidebarOpen ? "open" : ""}`}>
+      <div
+        ref={sidebarRef}
+        className={`sidebar ${isSidebarOpen ? "open" : ""}`}
+      >
         <button className="close-btn" onClick={toggleSidebar}>
           ×
         </button>
@@ -56,7 +75,9 @@ const StudentHeader = () => {
             </Link>
           </li>
           <li>
-           <button onClick={handleLogout}><i className="fa fa-sign-out"></i> Logout</button>
+            <button onClick={handleLogout}>
+              <i className="fa fa-sign-out"></i> Logout
+            </button>
           </li>
         </ul>
       </div>

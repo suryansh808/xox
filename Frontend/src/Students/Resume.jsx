@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState} from "react";
 import axios from "axios";
 import API from "../API";
+
+
 
 const Resume = () => {
   const id = localStorage.getItem("user");
@@ -15,6 +17,8 @@ const Resume = () => {
     { institute: "", degree: "", year: "" },
   ]);
   const [skills, setSkills] = useState("");
+  const [summary , setSummary] = useState("");
+  const [project ,  setProject] = useState("")
   const [experience, setExperience] = useState({
     company: "",
     role: "",
@@ -42,6 +46,8 @@ const Resume = () => {
       personalInfo,
       educations,
       skills,
+      summary,
+      project,
       experience,
     };
     try {
@@ -60,6 +66,8 @@ const Resume = () => {
       });
       setEducations([{ institute: "", degree: "", year: "" }]);
       setSkills("");
+      setSummary("");
+      setProject("");
       setExperience({
         company: "",
         role: "",
@@ -100,20 +108,23 @@ const Resume = () => {
     setEducations(resume[0].educations);
     setExperience(resume[0].experience);
     setSkills(resume[0].skills);
+    setSummary(resume[0].summary);
+    setProject(resume[0].project);
     setEditingId(resume[0]._id);
   };
 
+
+
   return (
     <div id="resume">
-      {/* <div className="container__resume"> */}
       {viewData && (
         <div className="modal">
           <div className="modal-content">
             <span className="close-btn" onClick={() => setViewData(null)}>
               &times;
             </span>
-            <h2>Resume View</h2>
-            <h3>Personal Info:</h3>
+            <h2>Resume</h2>
+             <h3>Personal Info:</h3>
             <p>
               <strong>Name:</strong> {viewData?.personalInfo?.name}
             </p>
@@ -126,7 +137,10 @@ const Resume = () => {
             <p>
               <strong>Address:</strong> {viewData?.personalInfo?.address}
             </p>
-            <hr />
+              <hr />
+              <h3>Professional Summary:</h3>
+              <pre>{viewData?.summary}</pre>
+              <hr />
             <h3>Education:</h3>
             {viewData?.educations?.map((edu, index) => (
               <div key={index}>
@@ -142,15 +156,18 @@ const Resume = () => {
               </div>
             ))}
             <hr />
+            <h3>Experience:</h3>
+            <p>Company: {viewData?.experience?.company}</p>
+            <p>Role: {viewData?.experience?.role}</p>
+            <p>Duration: {viewData?.experience?.duration}</p>
+            <hr />
             <h3>Skills:</h3>
             <p>
               <strong>Skills:</strong> {viewData?.skills}
             </p>
             <hr />
-            <h3>Experience:</h3>
-            <p>Company: {viewData?.experience?.company}</p>
-            <p>Role: {viewData?.experience?.role}</p>
-            <p>Duration: {viewData?.experience?.duration}</p>
+             <h3>Project Details:</h3>
+              <pre>{viewData?.project}</pre>
           </div>
         </div>
       )}
@@ -160,10 +177,10 @@ const Resume = () => {
           <h1>Resume</h1>
           {resume && (
             <div className="btn">
-              <button className="btn__view" onClick={() => handleView(resume)}>
+              <button  title="View Resume"  className="btn__view" onClick={() => handleView(resume)}>
                 <i className="fa fa-eye"></i>
               </button>
-              <button className="btn__edit" onClick={() => handleEdit(resume)}>
+              <button  title="Edit Resume" className="btn__edit" onClick={() => handleEdit(resume)}>
                 <i className="fa fa-pencil-square-o"></i>
               </button>
             </div>
@@ -206,6 +223,44 @@ const Resume = () => {
               value={personalInfo.address}
               onChange={(e) =>
                 setPersonalInfo({ ...personalInfo, address: e.target.value })
+              }
+              required
+            />
+          </section>
+
+          {/* Professional Summary */}
+          <section>
+            <h2>Professional Summary</h2>
+            <textarea required type="text" value={summary} onChange={(e)=> setSummary(e.target.value)} placeholder=" A brief 2–3 sentence overview of your experience, key skills, and what you bring to the role."></textarea>
+          </section>
+
+          {/* Experience */}
+          <section>
+            <h2>Experience</h2>
+            <input
+              type="text"
+              placeholder="Company Name"
+              value={experience.company}
+              onChange={(e) =>
+                setExperience({ ...experience, company: e.target.value })
+              }
+              required
+            />
+            <input
+              type="text"
+              placeholder="Role / Position"
+              value={experience.role}
+              onChange={(e) =>
+                setExperience({ ...experience, role: e.target.value })
+              }
+              required
+            />
+            <input
+              type="text"
+              placeholder="Duration"
+              value={experience.duration}
+              onChange={(e) =>
+                setExperience({ ...experience, duration: e.target.value })
               }
               required
             />
@@ -271,46 +326,18 @@ const Resume = () => {
             />
           </section>
 
-          {/* Experience */}
+           {/* Project Details */}
           <section>
-            <h2>Experience</h2>
-            <input
-              type="text"
-              placeholder="Company Name"
-              value={experience.company}
-              onChange={(e) =>
-                setExperience({ ...experience, company: e.target.value })
-              }
-              required
-            />
-            <input
-              type="text"
-              placeholder="Role / Position"
-              value={experience.role}
-              onChange={(e) =>
-                setExperience({ ...experience, role: e.target.value })
-              }
-              required
-            />
-            <input
-              type="text"
-              placeholder="Duration"
-              value={experience.duration}
-              onChange={(e) =>
-                setExperience({ ...experience, duration: e.target.value })
-              }
-              required
-            />
+            <h2>Project Details</h2>
+            <textarea type="type" value={project} required onChange={(e) => setProject(e.target.value)} placeholder="Project title,  Brief description,  Technologies used" ></textarea>
           </section>
 
           {/* Submit */}
           <button type="submit" className="submit-btn">
             {isEditing ? "Update Resume" : "Create Resume"}
-            <i className="fa fa-paper-plane"></i>
           </button>
         </form>
       </div>
-      {/* </div> */}
     </div>
   );
 };

@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+const fileUpload = require('express-fileupload');
 const UserRoute = require('./routes/UserRoute');
 const AdminRoute = require('./routes/AdminRoute');
 const HrRoute = require('./routes/Hrroute');
@@ -11,6 +12,7 @@ const cors = require("cors");
 dotenv.config();
 
 const app = express();
+app.use(fileUpload());
 app.use(express.json());
 app.use(cors());
 

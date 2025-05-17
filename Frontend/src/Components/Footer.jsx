@@ -37,6 +37,7 @@ const Footer = () => {
     "/CompanyJobPost",
     "/CompanyInterviewProcess",
     "/CompanyHiredCandidates",
+    "/CompanyRejectedCandidates",
     "/CompanyHRSelected",
 
   ];
