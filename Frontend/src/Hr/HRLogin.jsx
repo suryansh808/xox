@@ -1,13 +1,20 @@
 import axios from "axios";
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import API from "../API";
-
+import Cookies from "js-cookie";
 const HRLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
- const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
+    useEffect(() => {
+      if (Cookies.get("hrToken")) {
+        navigate("/HRHome");
+      }
+    }, [navigate]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -15,8 +22,14 @@ const HRLogin = () => {
         email,
         password,
       });
-      if (response.data.HrId) {
+      if (response.data) {
         localStorage.setItem("HrId", response.data.HrId);
+        Cookies.set("hrToken", response.data.token, {
+          expires: 1,
+          secure: true,
+          sameSite: "none",
+          path: "/",
+        });
       } else {
         console.error("HrId is undefined in response");
       }
@@ -52,22 +65,27 @@ const HRLogin = () => {
               className="hr-login-input"
               required
             />
-           <div className="hr-login-password-wrapper">
-           <input
-              placeholder="Password..."
-              type={showPassword ? 'text' : 'password'}
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="hr-login-input"
-              required
-            />
-            <span
-                  onClick={handleTogglePasswordVisibility}
-                  className="toggle-icon">
-                  {!showPassword ? <i class="fa fa-eye-slash"></i> : <i class="fa fa-eye"></i>}
-                </span>
-           </div>
+            <div className="hr-login-password-wrapper">
+              <input
+                placeholder="Password..."
+                type={showPassword ? "text" : "password"}
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="hr-login-input"
+                required
+              />
+              <span
+                onClick={handleTogglePasswordVisibility}
+                className="toggle-icon"
+              >
+                {!showPassword ? (
+                  <i class="fa fa-eye-slash"></i>
+                ) : (
+                  <i class="fa fa-eye"></i>
+                )}
+              </span>
+            </div>
             <button type="submit" className="hr-login-button">
               Login
             </button>

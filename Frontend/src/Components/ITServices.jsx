@@ -1,6 +1,6 @@
-import React, { useRef } from "react";
+import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-
+import unwavering from "../assets/unwavering.jpg";
 
 const ITServices = () => {
   const sectionRef = useRef([]);
@@ -11,20 +11,20 @@ const ITServices = () => {
       <div>
         <TextParallaxContent
           imgUrl="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          subheading="Doltec."
-          heading="Building awareness of wisdom."
+          subheading="Doltec | Intelligent Hiring"
+          heading="Igniting the Future of Work with Purpose and Precision."  
         >
         </TextParallaxContent>
         <TextParallaxContent
-          imgUrl="https://images.unsplash.com/photo-1556894181-cb8e4ccca5d0?q=80&w=1778&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          subheading="Quality"
-          heading="Never compromise."
+          imgUrl={unwavering}
+           subheading="Unwavering Standards"
+           heading="Where Talent Meets Uncompromised Excellence."
         >
         </TextParallaxContent>
         <TextParallaxContent
           imgUrl="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          subheading="Modern"
-          heading="Dress for the best."
+          subheading="Future-Ready Design"
+         heading="Engineered Experiences for Modern Recruitment."
         >
         </TextParallaxContent>
       </div>

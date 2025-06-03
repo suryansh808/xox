@@ -1,5 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Cookies from 'js-cookie';
 
 const StudentHeader = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -12,6 +13,7 @@ const StudentHeader = () => {
   const handleLogout = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("email");
+    Cookies.remove('authToken', { path: '/' });
     alert("Logout Successfully");
     navigate("/");
   };

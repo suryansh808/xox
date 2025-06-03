@@ -13,14 +13,24 @@ const CompanyHiredCandidates = () => {
         console.error("No companyId found, cannot fetch applications");
         return;
       }
-      const response = await axios.get(`${API}/shortlisted-applications/${companyId}`);
+      const response = await axios.get(
+        `${API}/shortlisted-applications/${companyId}`
+      );
       const applicationsWithOfferLetter = await Promise.all(
         response.data.map(async (app) => {
           try {
-            const offerLetterResponse = await axios.get(`${API}/offer-letter/${app._id}`);
-            return { ...app, offerLetter: offerLetterResponse.data.offerLetter };
+            const offerLetterResponse = await axios.get(
+              `${API}/offer-letter/${app._id}`
+            );
+            return {
+              ...app,
+              offerLetter: offerLetterResponse.data.offerLetter,
+            };
           } catch (error) {
-            console.error(`Error fetching offer letter for application ${app._id}:`, error);
+            console.error(
+              `Error fetching offer letter for application ${app._id}:`,
+              error
+            );
             return { ...app, offerLetter: "Not Assigned" };
           }
         })
@@ -35,6 +45,11 @@ const CompanyHiredCandidates = () => {
   const handleFileSelect = (event, applicationId) => {
     const file = event.target.files[0];
     if (file) {
+      const fileSizeKB = file.size / 1024;
+      if (fileSizeKB > 1024) {
+        alert("File size must be under 1MB!");
+        return;
+      }
       setSelectedFiles((prev) => ({
         ...prev,
         [applicationId]: file,
@@ -62,12 +77,24 @@ const CompanyHiredCandidates = () => {
       fetchSelectedApplications();
     } catch (error) {
       console.error("Upload error:", error.response?.data);
-      alert(`Failed to upload file: ${error.response?.data?.message || "Unknown error"}`);
+      alert(
+        `Failed to upload file: ${
+          error.response?.data?.message || "Unknown error"
+        }`
+      );
     }
   };
 
   const updateToHR = async (application) => {
-    if (!application.offerLetter || application.offerLetter === "Not Assigned") {
+    const confirmation = window.confirm(
+      "Are you sure you want to update this application to HR?"
+    );
+    if (!confirmation) { return; }
+
+    if (
+      !application.offerLetter ||
+      application.offerLetter === "Not Assigned"
+    ) {
       alert("Please upload offer letter first");
       return;
     }
@@ -110,7 +137,7 @@ const CompanyHiredCandidates = () => {
         <tbody className="table-body">
           {selectedApplications.length === 0 ? (
             <tr className="no-jobs-row">
-              <td className="no-j/des-cell" colSpan="6">
+              <td className="text-center" colSpan="6">
                 No selected candidates found
               </td>
             </tr>
@@ -118,17 +145,31 @@ const CompanyHiredCandidates = () => {
             selectedApplications.map((app, index) => (
               <tr className="jobs-row" key={app._id || index}>
                 <td className="table-cell">
-                  {app.resumeId?.personalInfo?.name || app.userId?.name || "N/A"}
+                  {app.resumeId?.personalInfo?.name ||
+                    app.userId?.name ||
+                    "N/A"}
                 </td>
                 <td className="table-cell">{app.jobId?.jobTitle || "N/A"}</td>
                 <td className="table-cell">
-                  {app.createdAt ? new Date(app.createdAt).toLocaleDateString() : "N/A"}
+                  {app.createdAt
+                    ? new Date(app.createdAt).toLocaleDateString()
+                    : "N/A"}
                 </td>
-                <td className="table-cell">{app.shortListed ? "Shortlisted" : "No"}</td>
+                <td className="table-cell">
+                  {app.shortListed ? "Shortlisted" : "No"}
+                </td>
                 <td className="table-cell">
                   {app.offerLetter && app.offerLetter !== "Not Assigned" ? (
-                    <a href={app.offerLetter} target="_blank" rel="noopener noreferrer">
-                      View <i className="fa fa-file-pdf-o" style={{color:'red' , marginLeft:"4px"}} />
+                    <a
+                      href={app.offerLetter}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      View{" "}
+                      <i
+                        className="fa fa-file-pdf-o"
+                        style={{ color: "red", marginLeft: "4px" }}
+                      />
                     </a>
                   ) : (
                     <div>
@@ -141,7 +182,15 @@ const CompanyHiredCandidates = () => {
                       {selectedFiles[app._id] && (
                         <button
                           onClick={() => handleFileUpload(app)}
-                          style={{ marginTop: "5px" }}
+                          style={{
+                            marginLeft: "10px",
+                            padding: "5px 10px",
+                            backgroundColor: "#4CAF50",
+                            color: "white",
+                            border: "none",
+                            borderRadius: "4px",
+                            cursor: "pointer",
+                          }}
                         >
                           Upload
                         </button>

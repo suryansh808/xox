@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import API from "../API";
+import "react-calendar/dist/Calendar.css";
+import Cookies from "js-cookie";
 
 const Settings = () => {
   const [password, setPassword] = useState("");
@@ -9,30 +11,20 @@ const Settings = () => {
   const [file, setFile] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+   const token = Cookies.get("authToken");
 
   const handleChangePassword = async (e) => {
+    // console.log("Changing password...", password, confirmPassword);
     e.preventDefault();
-
-    if (password !== confirmPassword) {
-      alert("Passwords do not match!");
-      return;
-    }
-
+    if (password !== confirmPassword) { alert("Passwords do not match!"); return; }
     try {
-      const userId = localStorage.getItem("user");
-
-      const response = await axios.put(`${API}/change-password/${userId}`, {
-        password,
-      });
-
+       const config = { headers: { Authorization: token, },};
+      const response = await axios.put(`${API}/change-password`, {password} , config);
       alert("Password changed successfully!");
       setPassword("");
       setConfirmPassword("");
     } catch (error) {
-      console.error(
-        "Error changing password:",
-        error.response?.data?.error || error.message
-      );
+      console.error( "Error changing password:",error.response?.data?.error || error.message);
       alert("Failed to change password. Please try again.");
     }
   };
@@ -47,8 +39,7 @@ const Settings = () => {
 
   const fetchUserData = async () => {
     try {
-      const userId = localStorage.getItem("user");
-      const response = await axios.get(`${API}/user/${userId}`);
+      const response = await axios.get(`${API}/user`,{ headers: { Authorization: token, }});
       setUser(response.data);
     } catch (error) {
       console.error(
@@ -75,7 +66,6 @@ const Settings = () => {
   };
 
   const handleUpload = async (e) => {
-    const userId = localStorage.getItem("user");
     e.preventDefault();
     if (!file) {
       alert("Please select a file.");
@@ -84,10 +74,8 @@ const Settings = () => {
     const reader = new FileReader();
     reader.onloadend = async () => {
       try {
-        const response = await axios.post(`${API}/uploadprofile/${userId}`, {
-          image: reader.result,
-        });
-
+         const config = { headers: { Authorization: token, },};
+        const response = await axios.post(`${API}/uploadprofile`,{image: reader.result}, config);
         if (response.status === 200) {
           alert("Profile photo updated successfully!");
           setFile(null);

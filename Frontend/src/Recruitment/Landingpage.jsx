@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import joinnow from "../assets/joinnow.png";
 import howitworks from "../assets/howitworks.png";
 import aboutus from "../assets/aboutus.png";
 
@@ -86,8 +85,7 @@ const Landingpage = () => {
             <i class="fa fa-steam" aria-hidden="true"></i>
             <strong>Application Tracking & Insights:</strong>
            <p> Monitor application status with full transparency and gain actionable insights at every stage.</p>
-          </li>
-         
+          </li>     
         </ul>
       </section>
 
@@ -133,19 +131,6 @@ const Landingpage = () => {
         <div className="image-wrapper">
           <img src={howitworks} alt="Steps for using JobPortal" />
         </div>
-      </section>
-
-      {/* Testimonials Section */}
-      {/* <section className="testimonials">
-        <h2>What Our Users Say</h2>
-        <blockquote>“JobPortal helped us find top-tier interns quickly. The platform is intuitive and efficient.” — HR Manager, TechCorp</blockquote>
-        <blockquote>“I landed my dream job right after graduation thanks to JobPortal. The alerts are a lifesaver!” — Ananya, Student</blockquote>
-        <blockquote>“The tracking system is a game-changer. We never miss a follow-up now.” — Talent Lead, Innovate Inc.</blockquote>
-      </section> */}
-
-      {/* Call to Action Section */}
-      <section className="cta-section">
-        <img src={joinnow} alt="joinnow" />
       </section>
 
       {/* Footer */}

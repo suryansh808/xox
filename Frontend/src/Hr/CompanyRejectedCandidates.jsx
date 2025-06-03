@@ -58,7 +58,7 @@ const CompanyRejectedCandidates = () => {
         <tbody className="table-body">
           {rejectedApplications.length === 0 ? (
             <tr className="no-jobs-row">
-              <td className="no-jobs-cell" colSpan="6">
+              <td style={{textAlign:"center"}} className="no-jobs-cell" colSpan="6">
                 No rejected candidates found
               </td>
             </tr>

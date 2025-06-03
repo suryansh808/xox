@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import ToggleComponent from "../Components/ToggleComponent";
 import Landingpage from "./Landingpage";
@@ -63,18 +62,7 @@ const Recruitment = () => {
       </div>
       <div className="featured">RECRUITMENT</div>
       <div className="recruitment-intro">
-        {/* <p className="">
-          At Doltec, we bridge the gap between talent and opportunity. Our
-          recruitment process is designed to be transparent, efficient, and
-          aligned with industry demands. Whether you're a student looking to
-          launch your career, a company seeking skilled individuals, or a team
-          member driving innovation — we've got you covered.
-        </p>
-        <p className="">
-          Explore opportunities, connect with the right talent, and be a part
-          of a future-focused journey.
-        </p> */}
-        <button> Get Started <i class="fa fa-chevron-circle-right"></i></button>
+        <Link to="/ContactUs"><button> Get Started <i class="fa fa-chevron-circle-right"></i></button></Link>
       </div>
     </div>
     <Landingpage/>

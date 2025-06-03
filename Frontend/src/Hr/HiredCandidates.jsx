@@ -20,6 +20,30 @@ const HiredCandidates = () => {
     }
   };
 
+  const SendOfferLetter = async (applicationId) => {
+     const confirmation = window.confirm(
+      "Are you sure you want to send the offer letter to this candidate?"
+      );
+    if (!confirmation) { return; }
+    if (!applicationId) {
+      console.error("Invalid application ID");
+      alert("Cannot send offer letter: Invalid application");
+      return;
+    }
+    try {
+      const response = await axios.put(
+        `${API}/application/${applicationId}/send-offer-letter`
+      );
+      if (response.status === 200) {
+        alert("Offer letter sent successfully");
+        await fetchHiredApplications();
+      }
+    } catch (error) {
+      console.error("Error sending offer letter:", error.response?.data || error.message);
+      alert(`Error sending offer letter: ${error.response?.data?.message || "Unknown error"}`);
+    }
+  };
+
   useEffect(() => {
     if (HrId) {
       fetchHiredApplications();
@@ -41,18 +65,19 @@ const HiredCandidates = () => {
             <th className="header-cell">Applied on</th>
             <th className="header-cell">Hiring Status</th>
             <th className="header-cell">Offer Letter</th>
+            <th className="header-cell">Action</th>
           </tr>
         </thead>
         <tbody className="table-body">
           {selectedApplications.length === 0 ? (
             <tr className="no-jobs-row">
-              <td className="no-j/des-cell" colSpan="5">
+              <td className="no-jobs-cell" colSpan="6">
                 No hired candidates found
               </td>
             </tr>
           ) : (
             selectedApplications.map((app, index) => (
-              <tr key={app._id || index}>
+              <tr className="table-tr" key={app._id || index}>
                 <td className="table-cell">
                   {app.resumeId?.personalInfo?.name || app.userId?.name || "N/A"}
                 </td>
@@ -64,11 +89,21 @@ const HiredCandidates = () => {
                 <td className="table-cell">
                   {app.offerLetter && app.offerLetter !== "Not Assigned" ? (
                     <a href={app.offerLetter} target="_blank" rel="noopener noreferrer">
-                      View Offer Letter
+                     <i class="fa fa-file-pdf-o text-blue-700" title="view offer letter" aria-hidden="true"></i>
                     </a>
                   ) : (
                     "Not Assigned"
                   )}
+                </td>
+                <td className="table-cell">
+                  <button
+                    title="send to candidate"
+                    className="send-offer-button"
+                    onClick={() => SendOfferLetter(app._id)}
+                    disabled={app.offerLetterSent}
+                  >
+                    {app.offerLetterSent ? "already sended" : "Send"}
+                  </button>
                 </td>
               </tr>
             ))

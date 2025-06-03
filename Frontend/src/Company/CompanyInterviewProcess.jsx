@@ -14,6 +14,7 @@ const CompanyInterviewProcess = () => {
 
   const fetchInterviewApplications = async () => {
     if (!companyId) return;
+    setIsLoading(true);
     try {
       const response = await axios.get(`${API}/interview-applications/${companyId}`);
       const filteredApps = response.data.filter(app => !app.shortListed);
@@ -25,16 +26,21 @@ const CompanyInterviewProcess = () => {
       });
     } catch (error) {
       alert("Error fetching interview applications");
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleAction = async (appId, action, data = {}) => {
+     const confirm = window.confirm(`Are you sure you want to ${action} this application?`);
+    if (!confirm) return;
     setIsLoading(true);
     try {
       if (action === "reject") {
-        await axios.put(`${API}/application/${appId}/companyStatus`, { status: "Rejected" });
+        await axios.put(`${API}/interview-application/${appId}/companyStatus`, { status: "Rejected" });
         setInterviewApplications(prev => prev.filter(app => app._id !== appId));
         alert("Application rejected and moved to HR");
+      
       } else if (action === "shortlist") {
         const previousApps = interviewApplications;
         setInterviewApplications(prev =>
@@ -106,6 +112,7 @@ const CompanyInterviewProcess = () => {
 
   return (
     <div id="CompanyInterviewProcess">
+      {isLoading && <div>Loading...</div>}
       <div className="heading">
         <h2 className="job-list-title">Interview Process Candidates</h2>
       </div>
@@ -133,7 +140,7 @@ const CompanyInterviewProcess = () => {
               <tr key={index} className="job-row">
                 <td className="job-cell">{app.resumeId?.personalInfo?.name || app.userId?.name || "N/A"}</td>
                 <td className="job-cell">
-                  <i title="View Resume" style={{color:"red"}} className="fa fa-file-pdf-o cursor-pointer" onClick={() => setSelectedResume(app.resumeId)}></i>
+                  <i className="fas fa-eye" onClick={() => setSelectedResume(app.resumeId)}></i>
                 </td>
                 <td className="job-cell">{app.jobId?.jobTitle || "N/A"}</td>
                 <td className="job-cell">{app.createdAt ? new Date(app.createdAt).toLocaleDateString() : "N/A"}</td>
@@ -158,14 +165,13 @@ const CompanyInterviewProcess = () => {
                 </td>
                 <td className="job-cell">
                   <button
-                    title="Reject"
                     className="action-button"
                     onClick={() => handleAction(app._id, "reject")}
-                    disabled={isLoading}> 
-                  <i class="fa fa-close"></i>
-                    </button>
+                    disabled={isLoading}
+                  >
+                    Reject
+                  </button>
                   <button
-                    title={app.shortListed ? "Shortlisted" : "Shortlist"}
                     className="action-button"
                     onClick={() => handleAction(app._id, "shortlist")}
                     disabled={app.shortListed || isLoading}
@@ -198,15 +204,18 @@ const CompanyInterviewProcess = () => {
                     </>
                   ) : (
                     <>
-                      <input
+                      <form  onSubmit={() => handleAction(app._id, "schedule", formData[app._id])}>
+                        <input
                         type="date"
                         name="date"
+                        required
                         value={formData[app._id]?.date || ""}
                         onChange={e => handleInput(e, app._id)}
                         disabled={isLoading}
                       />
                       <select
                         name="mode"
+                        required
                         value={formData[app._id]?.mode || ""}
                         onChange={e => handleInput(e, app._id)}
                         disabled={isLoading}
@@ -218,6 +227,7 @@ const CompanyInterviewProcess = () => {
                       </select>
                       <input
                         type="text"
+                        required
                         name="link"
                         placeholder="Meeting Link / Venue"
                         value={formData[app._id]?.link || ""}
@@ -226,6 +236,7 @@ const CompanyInterviewProcess = () => {
                       />
                       <input
                         type="text"
+                        required
                         name="interviewer"
                         placeholder="Interviewer Name"
                         value={formData[app._id]?.interviewer || ""}
@@ -234,11 +245,12 @@ const CompanyInterviewProcess = () => {
                       />
                       <button
                         className="action-button schedule-button"
-                        onClick={() => handleAction(app._id, "schedule", formData[app._id])}
+                       
                         disabled={isLoading}
                       >
                         Schedule
                       </button>
+                      </form>
                     </>
                   )}
                 </td>

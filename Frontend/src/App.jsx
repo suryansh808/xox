@@ -28,6 +28,7 @@ import Joblist from './Students/Joblist';
 import AppliedStatus from './Students/AppliedStatus';
 import Resume from './Students/Resume';
 import Settings from './Students/Settings';
+import Chooseaplan from './Students/Chooseaplan';
 
 import CompanyLogin from './Company/CompanyLogin';
 import CompanySignup from './Company/CompanySignup';
@@ -43,7 +44,7 @@ import HiredCandidates from './Hr/HiredCandidates';
 import RejectedCandidates from './Hr/RejectedCandidates';
 import SelectedCandidates from './Hr/SelectedCandidates';
 import InterviewProcess from './Hr/InterviewProcess';
-import CompanyRejectedCandidates from './Hr/CompanyRejectedCandidates';
+
 
 
 
@@ -68,8 +69,13 @@ import CompanyInterviewProcess from './Company/CompanyInterviewProcess';
 import CompanyHiredCandidates from './Company/CompanyHiredCandidates';
 import CompanyHRSelected from './Company/CompanyHRSelected';
 
-
 import ScrollToTop from './ScrollToTop';
+
+import {PrivateRoute} from './PrivateRoute';
+import { HrPrivateRoute } from './PrivateRoute';
+import { CompanyPrivateRoute } from './PrivateRoute';
+import { AdminPrivateRoute } from './PrivateRoute';
+
 
 
 const App = () => {
@@ -90,6 +96,7 @@ const AppContent = () => {
     "/resume",
     "/appliedstatus",
     "/joblist",
+    "/chooseaplan"
   ];
   const adminHeader = [
     "/dashboard",
@@ -111,7 +118,7 @@ const AppContent = () => {
     "/selectedcandidates",
     "/rejectedcandidates",
     "/hiredcandidates",
-      "/companyrejectedcandidates",
+     
     
   ];
   const companyHeaderPaths = [
@@ -157,46 +164,48 @@ const AppContent = () => {
           {/* Student */}
           <Route path="/StudentLogIn" element={<StudentLogIn/>} />
           <Route path="/StudentSignUp" element={<StudentSignUp/>} />
-          <Route path="/Home" element={<Home/>} />
-          <Route path="/Joblist" element={<Joblist/>} />
-          <Route path="/AppliedStatus" element={<AppliedStatus/>} />
-          <Route path="/Resume" element={<Resume/>} />
-          <Route path="/Settings" element={<Settings/>} />
+          <Route path="/Home" element={<PrivateRoute><Home /></PrivateRoute>} />
+          <Route path="/Joblist" element={<PrivateRoute><Joblist/></PrivateRoute>} />
+          <Route path="/AppliedStatus" element={<PrivateRoute><AppliedStatus/></PrivateRoute>} />
+          <Route path="/Resume" element={<PrivateRoute><Resume/></PrivateRoute>} />
+          <Route path="/Settings" element={<PrivateRoute><Settings/></PrivateRoute>} />
+          <Route path="/Chooseaplan" element={<PrivateRoute><Chooseaplan/></PrivateRoute>} />
 
 
 
           {/* company */}
           <Route path="/CompanyLogin" element={<CompanyLogin/>} />
           <Route path="/CompanySignup" element={<CompanySignup/>} />
-          <Route path="/CompanyDashboard" element={<CompanyDashboard/>} />
-          <Route path="/CompanyJobPost" element={<CompanyJobPost/>} />
-          <Route path="/CompanyInterviewProcess" element={<CompanyInterviewProcess/>} />
-          <Route path="/CompanyHiredCandidates" element={<CompanyHiredCandidates/>} />
-          <Route path="/CompanyHRSelected" element={<CompanyHRSelected/>} />
+          <Route path="/CompanyDashboard" element={<CompanyPrivateRoute><CompanyDashboard/></CompanyPrivateRoute>} />
+          {/* <Route path="/Selectaplan" element={<CompanyPrivateRoute><Selectaplan/></CompanyPrivateRoute>} /> */}
+          <Route path="/CompanyJobPost" element={<CompanyPrivateRoute><CompanyJobPost/></CompanyPrivateRoute>} />
+          <Route path="/CompanyInterviewProcess" element={<CompanyPrivateRoute><CompanyInterviewProcess/></CompanyPrivateRoute>} />
+          <Route path="/CompanyHiredCandidates" element={<CompanyPrivateRoute><CompanyHiredCandidates/></CompanyPrivateRoute>} />
+          <Route path="/CompanyHRSelected" element={<CompanyPrivateRoute><CompanyHRSelected/></CompanyPrivateRoute>} />
 
 
             {/* HR */}
           <Route path="/HRLogin" element={<HRLogin/>} />
-          <Route path="/HRHome" element={<HRHome/>} />
-          <Route path="/CompanyJoblist" element={<CompanyJoblist/>} />
-          <Route path="/JobApplications" element={<JobApplications/>} />
-          <Route path="/HiredCandidates" element={<HiredCandidates/>} />
-          <Route path="/RejectedCandidates" element={<RejectedCandidates/>} />
-          <Route path="/SelectedCandidates" element={<SelectedCandidates/>} />
-          <Route path="/InterviewProcess" element={<InterviewProcess/>} />
-           <Route path="/CompanyRejectedCandidates" element={<CompanyRejectedCandidates/>} />
+          <Route path="/HRHome" element={<HrPrivateRoute><HRHome/></HrPrivateRoute>} />
+          <Route path="/CompanyJoblist" element={<HrPrivateRoute><CompanyJoblist/></HrPrivateRoute>} />
+          <Route path="/JobApplications" element={<HrPrivateRoute><JobApplications/></HrPrivateRoute>} />
+          <Route path="/HiredCandidates" element={<HrPrivateRoute><HiredCandidates/></HrPrivateRoute>} />
+          <Route path="/RejectedCandidates" element={<HrPrivateRoute><RejectedCandidates/></HrPrivateRoute>} />
+          <Route path="/SelectedCandidates" element={<HrPrivateRoute><SelectedCandidates/></HrPrivateRoute>} />
+          <Route path="/InterviewProcess" element={<HrPrivateRoute><InterviewProcess/></HrPrivateRoute>} />
+         
 
           {/* Admin */}
           <Route path="/Adminlogin" element={<Adminlogin/>} />
-          <Route path="/Createhr" element={<Createhr/>} />
-          <Route path="/Dashboard" element={<Dashboard/>} />
-          <Route path="/ManageThoughts" element={<ManageThoughts/>} />
-          <Route path="/UpdateLandingPage" element={<UpdateLandingPage/>}/>
-          <Route path="/CompanyJobs" element={<CompanyJobs/>}/>
-          <Route path="/AssignedJobs" element={<AssignedJob/>}/>
-          <Route path="/UserManagement" element={<UserManagement/>}/>
-          <Route path="/CompanyOnboardList" element={<CompanyOnboardList/>}/>
-          <Route path="/ContactUsResponse" element={<ContactUsResponse/>}/>
+          <Route path="/Createhr" element={<AdminPrivateRoute><Createhr/></AdminPrivateRoute>} />
+          <Route path="/Dashboard" element={<AdminPrivateRoute><Dashboard/></AdminPrivateRoute>} />
+          <Route path="/ManageThoughts" element={<AdminPrivateRoute><ManageThoughts/></AdminPrivateRoute>} />
+          <Route path="/UpdateLandingPage" element={<AdminPrivateRoute><UpdateLandingPage/></AdminPrivateRoute>}/>
+          <Route path="/CompanyJobs" element={<AdminPrivateRoute><CompanyJobs/></AdminPrivateRoute>}/>
+          <Route path="/AssignedJobs" element={<AdminPrivateRoute><AssignedJob/></AdminPrivateRoute>}/>
+          <Route path="/UserManagement" element={<AdminPrivateRoute><UserManagement/></AdminPrivateRoute>}/>
+          <Route path="/CompanyOnboardList" element={<AdminPrivateRoute><CompanyOnboardList/></AdminPrivateRoute>}/>
+          <Route path="/ContactUsResponse" element={<AdminPrivateRoute><ContactUsResponse/></AdminPrivateRoute>}/>
 
 
 

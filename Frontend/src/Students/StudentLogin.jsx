@@ -1,13 +1,19 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link ,useNavigate} from "react-router-dom";
 import API from "../API";
-
+import Cookies from 'js-cookie';
 const StudentLogIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (Cookies.get("authToken")) {
+      navigate("/Home");
+    }
+  }, [navigate]);
 
   const handleSubmit = async (e) => {
       e.preventDefault();
@@ -16,9 +22,16 @@ const StudentLogIn = () => {
       setEmail("");
       setPassword("");
       alert("login successfuly");
+        
       if (response.status === 200) {
           localStorage.setItem("user", response.data.user);
           localStorage.setItem("email", response.data.email);
+          Cookies.set('authToken', response.data.token, {
+        expires: 1,
+        secure: true, 
+        sameSite: "none",
+        path: '/',
+      });
           navigate("/Home");
       }
     } catch (error) {

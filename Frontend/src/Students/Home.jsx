@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import API from "../API";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
+import Cookies from "js-cookie";
 
 const Home = () => {
   const [joblist, setJoblist] = useState([]);
@@ -23,9 +24,9 @@ const Home = () => {
   };
 
   const fetchCounts = async () => {
-    const userId = localStorage.getItem("user");
+    const token = Cookies.get("authToken");
     try {
-      const response = await axios.get(`${API}/userdashboardcount/${userId}`);
+      const response = await axios.get(`${API}/userdashboardcount`,{headers: { Authorization: token}});
       setCount(response.data);
     } catch (error) {
       console.log(error);
@@ -92,7 +93,7 @@ const Home = () => {
                 <i class="fa fa-times" style={{ color: "red" }}></i>
                 <h2>Rejected</h2>
               </div>
-              <div className="count">{count?.rejectedwhileinterview}</div>
+              <div className="count">{count?.rejected}</div>
             </div>
             <div className="counter__card resume">
               <div className="content">
@@ -100,9 +101,9 @@ const Home = () => {
                 <h2>Last Resume Updated</h2>
               </div>
               <div className="count">
-                {count?.resumesUpdatedAt?.[0]?.resumeUpdatedAt
+                {count?.resumesUpdatedAt
                   ? new Date(
-                      count.resumesUpdatedAt[0].resumeUpdatedAt
+                      count.resumesUpdatedAt
                     ).toLocaleDateString()
                   : "No resume updated"}
               </div>

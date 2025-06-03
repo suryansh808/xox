@@ -2,11 +2,9 @@
     padding: 80px 10px;
     
   .counter__container {
- 
-
     .jobposted__count {
       display: flex;
-      justify-content: space-around;
+      justify-content: center;
       align-items: center;
       flex-wrap: wrap;
       gap: 10px;
@@ -14,26 +12,36 @@
       /* padding: 0.5rem; */
 
       .No__boxes {
-        width: 500px;
+        width: 350px;
         height: 200px;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        background-color: black;
         border: 1px solid rgba(128, 128, 128, 0.281);
         border-radius: 10px;
-        box-shadow: 2px 2px 5px rgba(255, 255, 255, 0.4);
+        box-shadow: 0px 0px 5px rgba(255, 255, 255, 0.4);
+        
+        .box{
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 10px;
 
-        > div {
-          font-size: 2rem;
-          i {
-            font-size: 1.5rem;
+          span{
+            font-size: 20px;
+          }
+          h2{
+            font-size: 22px;
           }
         }
-        h2 {
-          font-size: 2rem;
+        strong{
+          font-size: 18px;
         }
+        
       }
     }
   }
 }
+ 

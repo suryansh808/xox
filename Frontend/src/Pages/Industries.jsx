@@ -1,4 +1,4 @@
-import industriess from "../assets/industries.png";
+
 import highlightgif from "../assets/highlight.gif";
 import {Link} from "react-router-dom";
 
@@ -40,7 +40,11 @@ const Industries = () => {
       <div className="industries-page">
         {/* Hero Section */}
         <section className="hero">
-          <img src={industriess} alt="" />
+          <div id="hero__content">
+            <h2>Industries We Serve</h2>
+            <p>Tailored recruitment experiences for every sector.</p>
+            <p>Highlight Doltec's adaptability and how you power hiring in multiple verticals—startup to enterprise.</p>
+          </div>
         </section>
 
         {/* Industry Cards */}
@@ -66,15 +70,15 @@ const Industries = () => {
             </div>
             <div className="highlight__contect">
               <div className="content__point">
-                <h3><i class="fa fa-chevron-right" aria-hidden="true"></i> Tech-Driven Filters for IT Roles</h3>
+                <h3><i class="fa fa-dot-circle-o"></i> Tech-Driven Filters for IT Roles</h3>
                 <p>AI-powered role matchers tailored to software and cloud job descriptions.</p>
               </div>
               <div className="content__point">
-                <h3><i class="fa fa-chevron-right" aria-hidden="true"></i> Credential Verification for Healthcare</h3>
+                <h3><i class="fa fa-dot-circle-o"></i> Credential Verification for Healthcare</h3>
                 <p>License and compliance checks to ensure only certified professionals apply.</p>
               </div>
               <div className="content__point">
-                <h3><i class="fa fa-chevron-right" aria-hidden="true"></i> Bulk Hiring Tools for Retail</h3>
+                <h3><i class="fa fa-dot-circle-o"></i> Bulk Hiring Tools for Retail</h3>
                 <p>Seamless high-volume hiring pipeline with smart screening.</p>
               </div>
             </div>

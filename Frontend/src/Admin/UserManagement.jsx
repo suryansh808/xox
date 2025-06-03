@@ -5,19 +5,29 @@ import axios from 'axios';
 const UserManagement = () => {
   const [responses, setResponses] = useState([]);
 
-  const fetchContactUs = async () => {
+  const fetchAllUsers = async () => {
     try {
       const res = await axios.get(`${API}/allusers`);
       setResponses(res.data);
     } catch (err) {
       console.error('Error fetching users:', err.message);
+      alert('Failed to load users: ' + (err.response?.data?.message || err.message));
     }
   };
 
   useEffect(() => {
-    fetchContactUs();
+    fetchAllUsers();
   }, []);
 
+  const handleAddJobLimit = async (userId) => {
+    try {
+      const response = await axios.post(`${API}/increment-user-job-limit`, { userId });
+      alert(response.data.message);
+      await fetchAllUsers();
+    } catch (error) {
+      alert('Failed to update job limit: ' + (error.response?.data?.message || error.message));
+    }
+  };
   return (
    <div id="contactresponse">
      <div className="contactus-container">
@@ -30,6 +40,8 @@ const UserManagement = () => {
             <th>Name</th>
             <th>Email</th>
             <th>Phone</th>
+            <th>Assigned Limit</th>
+            <th>Limits</th>
           </tr>
         </thead>
         <tbody>
@@ -37,14 +49,23 @@ const UserManagement = () => {
             responses.map((item, index) => (
               <tr key={item._id}>
                 <td>{index + 1}</td>
-                <td>{item.name}</td>
-                <td>{item.email}</td>
-                <td>{item.phone}</td>
+                <td>{item.name || 'N/A'}</td>
+                <td>{item.email || 'N/A'}</td>
+                <td>{item.phone || 'N/A'}</td>
+                <td>{item.jobLimit || 0}</td>
+                <td>
+                  <button
+                    className="add-limit-button"
+                    onClick={() => handleAddJobLimit(item._id)}
+                  >
+                    Add Limit
+                  </button>
+                </td>
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan="4" className="no-response">No users found</td>
+              <td colSpan="6" className="no-response">No users found</td>
             </tr>
           )}
         </tbody>

@@ -55,7 +55,7 @@ const CompanySignup = () => {
     };
     try {
       const res = await axios.post(`${API}/company-signup`, dataToSubmit);
-      console.log('Response:', res.data);
+      // console.log('Response:', res.data);
       if (res.data.success) {
         localStorage.setItem('companyId', res.data.companyId);
         alert('Login successful');

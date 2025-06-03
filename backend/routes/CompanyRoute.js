@@ -2,8 +2,9 @@ const express = require("express");
 const Company = require("../models/CompanyUser");
 const router = express.Router();
 const CompanyPostedJob  = require("../models/CompanyPostedJob");
-const cloudinary = require("../middleware/cloudinary");
-const Application = require("../models/Application");
+const cloudinary = require("../middleware/cloudinary")
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 router.post('/company-signup', async (req, res) => {
   try {
@@ -46,10 +47,15 @@ router.post('/company-login', async (req, res) => {
     if (company.password !== password) {
       return res.status(401).json({ success: false, message: 'Invalid email or password' });
     }
+     const payload = {  user: { _id: company._id }, role: "hr" };
+    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1d" });
+        
     res.status(200).json({
       success: true,
-      companyName: company.companyName,
+      companyName: company.companyName, 
       companyId: company.companyId,
+      jobPostLimit : company.jobPostLimit,
+      token,
     });
   } catch (err) {
     console.error('Login error:', err);
@@ -57,27 +63,9 @@ router.post('/company-login', async (req, res) => {
   }
 });
 
-//dashboard
-router.get("/companydashboardcount/:companyId", async (req, res) => {
-  try {
-    const companyId = req.params.companyId;
-    if (!companyId) {return res.status(400).json({ error: "companyId is required" });}
-    const assignedApplications = await Application.find().populate({path: "jobId", select: "companyId _id",});
-    const matchedData = assignedApplications.filter(app => app.jobId && app.jobId.companyId === companyId);
-    const shortListed = matchedData.filter(app => app.shortListed).length;
-    const rejectedwhileinterview = matchedData.filter(app => app.interviews.some(interview => interview.interviewStatus === "Rejected")).length;
-    const uniqueJobIds = new Set(matchedData.map(app => app.jobId._id.toString()));
-    const totalJobs = uniqueJobIds.size;
-    res.json({totalJobs , shortListed , rejectedwhileinterview});
-  } catch (error) {
-    console.error("Error in HR Dashboard Route:", error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
-
 router.get("/allcompany", async (req, res) => {
   try {
-    const jobs = await Company.find().select("-password -__v -companyLogoUrl -jobPostLimit -companyId").lean().sort({ _id: -1 });
+    const jobs = await Company.find().select("-password -__v -companyLogoUrl").lean();
     res.status(200).json(jobs);
   } catch (error) {
     console.error("Error fetching all companys:", error);
@@ -91,7 +79,7 @@ router.get("/company-jobs", async (req, res) => {
     if (!companyId) {
       return res.status(400).json({ message: "Company ID is required" });
     }
-    const jobs = await CompanyPostedJob.find({ companyId }).sort({ jobPostedOn: -1 });
+    const jobs = await CompanyPostedJob.find({ companyId });
     res.status(200).json(jobs);
   } catch (error) {
     console.error("Error fetching jobs:", error);
@@ -141,7 +129,6 @@ router.put("/company-jobs/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const jobData = req.body;
-    console.log(' id=', id, 'jobData=', jobData);
     const updatedJob = await CompanyPostedJob.findByIdAndUpdate(id, jobData, {
       new: true,
       runValidators: true,
@@ -203,6 +190,55 @@ router.post("/upload-logo/:companyId", async (req, res) => {
   }
 });
 
+router.post('/increment-job-limit', async (req, res) => {
+  const { companyId } = req.body;
 
+  if (!companyId) {
+    return res.status(400).json({ message: 'Company ID is required' });
+  }
+
+  try {
+    const company = await Company.findOne({ companyId });
+    if (!company) {
+      return res.status(404).json({ message: 'Company not found' });
+    }
+
+    // Increment jobPostLimit by 1
+    company.jobPostLimit += 1;
+    await company.save();
+
+    res.status(200).json({ message: 'Job post limit updated successfully', jobPostLimit: company.jobPostLimit });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error while updating job limit' });
+  }
+});
+
+// Endpoint to fetch all companies (for jobPostLimit display)
+router.get('/companies', async (req, res) => {
+  try {
+    const companies = await Company.find({}, 'companyName companyId jobPostLimit');
+    res.status(200).json(companies);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error while fetching companies' });
+  }
+});
+
+// Endpoint to fetch company details by companyId
+router.get('/company/:companyId', async (req, res) => {
+  const { companyId } = req.params;
+
+  try {
+    const company = await Company.findOne({ companyId }, 'companyId jobPostLimit');
+    if (!company) {
+      return res.status(404).json({ message: 'Company not found' });
+    }
+    res.status(200).json(company);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error while fetching company details' });
+  }
+});
 
 module.exports = router;

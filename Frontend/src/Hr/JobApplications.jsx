@@ -11,11 +11,11 @@ const JobApplications = () => {
   const fetchApplications = async () => {
     try {
       const response = await axios.get(`${API}/hr-applications/${hrId}`);
-      const filteredApplications = response.data.filter(
+      const filteredApplications = response?.data?.filter(
         (app) => app.status.toLowerCase() === "pending" && app.hrId === hrId
       );
       setApplications(filteredApplications);
-      console.log("Filtered Applications:", filteredApplications);
+      // console.log("Filtered Applications:", filteredApplications);
     } catch (error) {
       console.error("Error fetching applications:", error);
     }
@@ -30,11 +30,16 @@ const JobApplications = () => {
   };
 
   const HandleApplication = async (application, status) => {
+    const conformation = window.confirm(
+      `Are you sure you want to mark this application as ${status}?`
+    );
+    if (!conformation) {
+      return;
+    }
     try {
       await axios.put(`${API}/application/${application._id}/status`, {
         status: status,
       });
-      console.log("Application status updated:", status);
       fetchApplications();
      
     } catch (error) {

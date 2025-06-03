@@ -8,13 +8,22 @@ const HrRoute = require('./routes/Hrroute');
 const CompanyRoute = require('./routes/CompanyRoute');
 const ApplicationRoute = require('./routes/ApplicationRoute');
 const Thought = require('./routes/Thoughts');
+const cookieParser = require('cookie-parser');
 const cors = require("cors");
 dotenv.config();
+
+
 
 const app = express();
 app.use(fileUpload());
 app.use(express.json());
-app.use(cors());
+
+
+const allowedOrigins = process.env.FRONTEND_URL
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true,
+}));
 
 mongoose.connect(process.env.DATABASE_URL, {
   useNewUrlParser: true,
@@ -28,7 +37,14 @@ app.use('/', AdminRoute);
 app.use('/', HrRoute);
 app.use('/', CompanyRoute);
 app.use('/', ApplicationRoute);
-app.use('/', Thought)
+app.use('/', Thought);
+
+app.get("/", (req, res) => {
+  res.send("Welcome to the Backend Server!");
+});
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+// Export the app for Vercel
+module.exports = app;

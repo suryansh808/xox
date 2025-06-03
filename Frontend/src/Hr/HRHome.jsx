@@ -5,8 +5,8 @@ import API from "../API";
 const HRHome = () => {
   const [count, setCount] = useState();
 
+  const hrId = localStorage.getItem("HrId");
   const fetchCounts = async () => {
-    const hrId = localStorage.getItem("HrId");
     try {
       const response = await axios.get(`${API}/hrdashboardcount/${hrId}`);
       setCount(response.data);
@@ -14,6 +14,8 @@ const HRHome = () => {
       console.log(error);
     }
   };
+
+
 
   useEffect(() => {
     fetchCounts();
@@ -72,10 +74,10 @@ const HRHome = () => {
         <div className="jobposted__count">
           {countNo.map((item, index) => (
             <div key={index} className="No__boxes">
-              <div>
-                {item.icons} {item.title}
+              <div className="box">
+                <span>{item.icons}</span> <h2>{item.title}</h2>
               </div>
-              <h2>{item.count}</h2>
+              <strong>{item.count}</strong>
             </div>
           ))}
         </div>

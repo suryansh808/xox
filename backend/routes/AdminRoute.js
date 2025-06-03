@@ -6,6 +6,8 @@ const Adminlogin = require("../models/Adminlogin");
 const Createhr = require("../models/Createhr");
 const ContactUs = require("../models/ContactUs");
 const CompanyPostedJob = require("../models/CompanyPostedJob");
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 //login admin
 router.post("/adminlogin", async (req, res) => {
@@ -17,12 +19,16 @@ router.post("/adminlogin", async (req, res) => {
     if (req.body.password !== adminlogin.password) {
       return res.status(400).json({ message: "Invalid email or password" });
     }
+        const payload = {  user: { _id: adminlogin._id }, role: "user" };
+        const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1d" });
+
     res
       .status(200)
       .json({
         message: "Admin logged in successfully",
         adminId: adminlogin._id,
         email: adminlogin.email,
+        token,
       });
   } catch (error) {
     console.error(error);

@@ -11,6 +11,11 @@ const ApplicationSchema = new mongoose.Schema({
     ref: "Resume",
     required: true,
   },
+  resume: {
+  type: Object,
+  required: true,
+},
+
   jobId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "CompanyPostedJob",
@@ -22,14 +27,18 @@ const ApplicationSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    default: "pending", 
+    default: "pending",
   },
   companyStatus: {
     type: String,
     default: "pending",
-  },  
+  },
+  interviewOverviewStatus: {
+    type: String,
+    default: "pending",
+  },
   shortListed: {
-   type: Boolean,
+    type: Boolean,
     default: false,
   },
   interviews: [
@@ -44,7 +53,7 @@ const ApplicationSchema = new mongoose.Schema({
       mode: {
         type: String,
         enum: ["Online", "Offline", "Phone", "Not Specified"],
-        default: "Not Specified", 
+        default: "Not Specified",
       },
       link: {
         type: String,
@@ -56,7 +65,15 @@ const ApplicationSchema = new mongoose.Schema({
       interviewStatus: {
         type: String,
         enum: ["Move to Next Round", "Rejected", "Cancelled", "Pending"],
-        default: "Pending", 
+        default: "Pending",
+      },
+      updateCandidate: {
+        type: Boolean,
+        default: false,
+      },
+      feedbackUpdatedByHR: {
+        type: Boolean,
+        default: false,
       },
     },
   ],
@@ -68,9 +85,17 @@ const ApplicationSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  interviewStatusUpdatedByHR: {
+    type: Boolean,
+    default: false,
+  },
+   offerLetterSent: {
+    type: Boolean,
+    default: false,
+  },
 },
 {
-  timestamps: true, 
+  timestamps: true,
 });
 
 const Application = mongoose.model("Application", ApplicationSchema);

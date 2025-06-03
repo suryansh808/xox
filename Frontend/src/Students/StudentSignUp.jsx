@@ -43,9 +43,7 @@ const StudentSignUp = () => {
        alert("Sign Up Successfully");
        if (response.status === 200) {
         setTimeout(() => {
-          localStorage.setItem("user", response.data.user);
-          localStorage.setItem("email", response.data.email);
-          navigate("/Home");
+          navigate("/StudentLogIn");
         }, 1500);
       }
     } catch (error) {
@@ -82,11 +80,12 @@ const StudentSignUp = () => {
                 required
                 id="name"
                 name="name"
+                placeholder="Full Name"
                 type="text"
                 value={formData.name}
                 onChange={handleChange}
               />
-              <label htmlFor="fullname" className="signup-label">Full Name</label>
+              {/* <label htmlFor="fullname" className="signup-label">Full Name</label> */}
             </div>
 
             <div className="signup-input-wrapper">
@@ -96,10 +95,11 @@ const StudentSignUp = () => {
                 id="email"
                 name="email"
                 type="email"
+                placeholder="Email address"
                 value={formData.email}
                 onChange={handleChange}
               />
-              <label htmlFor="email" className="signup-label">Email address</label>
+              {/* <label htmlFor="email" className="signup-label">Email address</label> */}
             </div>
 
             <div className="signup-input-wrapper">
@@ -108,11 +108,12 @@ const StudentSignUp = () => {
                 required
                 id="phone"
                 name="phone"
+                placeholder="Phone Number"
                 type="text"
                 value={formData.phone}
                 onChange={handleChange}
               />
-              <label htmlFor="phone" className="signup-label">Phone Number</label>
+              {/* <label htmlFor="phone" className="signup-label">Phone Number</label> */}
             </div>
 
             <div className="signup-input-wrapper">
@@ -121,6 +122,7 @@ const StudentSignUp = () => {
                 required
                 id="password"
                 name="password"
+                placeholder="Password"
                 type={showPassword ? 'text' : 'password'}
                 value={formData.password}
                 onChange={handleChange}
@@ -130,7 +132,7 @@ const StudentSignUp = () => {
                   className="toggle-icon">
                   {!showPassword ? <i class="fa fa-eye-slash"></i> : <i class="fa fa-eye"></i>}
                 </span>
-              <label htmlFor="password" className="signup-label">Password</label>
+              {/* <label htmlFor="password" className="signup-label">Password</label> */}
             </div>
 
             <div className="signup-input-wrapper">
@@ -139,6 +141,7 @@ const StudentSignUp = () => {
                 required
                 id="confirmPassword"
                 name="confirmPassword"
+                placeholder="Confirm Password"
                 type={showConfirmPassword ? 'text' : 'password'}
                 value={formData.confirmPassword}
                 onChange={handleChange}
@@ -149,7 +152,7 @@ const StudentSignUp = () => {
                 >
                   {!showConfirmPassword ? <i class="fa fa-eye-slash"></i> : <i class="fa fa-eye"></i>}
                 </span>
-              <label htmlFor="confirmPassword" className="signup-label">Confirm Password</label>
+              {/* <label htmlFor="confirmPassword" className="signup-label">Confirm Password</label> */}
             </div>
 
             <button type="submit" className="signup-button">

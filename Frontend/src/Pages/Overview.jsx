@@ -1,4 +1,4 @@
-import overview from "../assets/overview.png";
+
 import Platform__Overview from "../assets/Platform__Overview.png";
 import whychoose from "../assets/whychoosedoltec.png";
 import {Link} from "react-router-dom";
@@ -7,7 +7,11 @@ const Overview = () => {
     <div id="overview">
       {/* Hero Section */}
       <section className="hero-section">
-        <img src={overview} alt="" />
+        <div id="content__hero">
+          <h2>Welcome to Doltec</h2>
+          <p>Revolutionizing Recruitment With Doltec.</p>
+          <button><Link to="/CompanySignup">JOIN US</Link></button>
+        </div>
       </section>
 
       {/* How It Works Section */}

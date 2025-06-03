@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import API from '../API';
-
+import Cookies from "js-cookie";
 const CompanyLogin = () => {
   const [loginData, setLoginData] = useState({ email: '', password: '' });
   const [showPassword, setShowPassword] = useState(false);
@@ -13,17 +13,30 @@ const CompanyLogin = () => {
   const handleTogglePasswordVisibility = () => {
     setShowPassword((prevShow) => !prevShow);
   };
+    useEffect(() => {
+      if (Cookies.get("companyToken")) {
+        navigate("/CompanyDashboard");
+      }
+    }, [navigate]);
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const res = await axios.post(`${API}/company-login`, loginData);
-      if (res.data.success) {
+      if (res.data) {
         localStorage.setItem('companyId', res.data.companyId);
+         Cookies.set("companyToken", res.data.token, {
+                  expires: 1,
+                  secure: true,
+                  sameSite: "none",
+                  path: "/",
+                });
+      
+      } else {
+        alert('Invalid credentials');
+      }
+        setLoginData({ email: '', password: '' });
         alert('Login successful');
         navigate('/CompanyDashboard');
-      } else {
-        alert(res.data.message || 'Invalid credentials');
-      }
     } catch (err) {
       alert(err.response.data.message || 'Check your email and password');
       console.log('Server Error Message:', err.response.data.message || err.response.data.error);

@@ -42,6 +42,7 @@ const Header = () => {
     "/StudentLogIn",
     "/StudentSignUp",
     "/Home",
+    "/chooseaplan",
     "/Joblist",
     "/AppliedStatus",
     "/Resume",
@@ -55,6 +56,7 @@ const Header = () => {
     "/RejectedCandidates",
     "/HiredCandidates",
     "/Dashboard",
+    "/dashboard",
     "/ManageThoughts",
     "/UpdateLandingPage",
     "/CompanyJobs",
@@ -62,6 +64,7 @@ const Header = () => {
     "/UserManagement",
     "/ContactUsResponse",
     "/CompanyOnboardList",
+    "/selectaplan",
     "/CreateHR",
     "/HrPDashboard",
     "/Recruitment",
@@ -89,7 +92,7 @@ const Header = () => {
               </li>
               <li onClick={() => toggleDropdown("what_we_do")}>WHAT WE DO</li>
               <li onClick={() => toggleDropdown("who_we_are")}>WHO WE ARE</li>
-              <li onClick={() => toggleDropdown("insight")}>INSIGHT</li>
+              {/* <li onClick={() => toggleDropdown("insight")}>INSIGHT</li> */}
               <li onClick={() => toggleDropdown()}>
                 <Link className=" hover:text-white" to="/ContactUs">
                   {" "}
@@ -171,7 +174,7 @@ const Header = () => {
                     </ul>
                   )}
                 </li>
-                <li onClick={() => toggleMobileMenuOption("option4")}>
+                {/* <li onClick={() => toggleMobileMenuOption("option4")}>
                   INSIGHT
                   {activeMobileMenuOption === "option4" && (
                     <ul>
@@ -197,7 +200,7 @@ const Header = () => {
                       </li>
                     </ul>
                   )}
-                </li>
+                </li> */}
               </ul>
             </div>
           )}

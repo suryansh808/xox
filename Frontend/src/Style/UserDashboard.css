@@ -8,7 +8,7 @@
 
     .table__container {
       height: calc(100dvh - 80px);
-      min-width: 30%;
+      min-width: 25%;
       background-color: #ffffff;
       color: black;
       border-radius: 5px;

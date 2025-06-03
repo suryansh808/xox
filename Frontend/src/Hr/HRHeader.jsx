@@ -1,7 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
+import Cookies from "js-cookie";
+import axios from "axios";
+import API from "../API";
 const HRHeader = () => {
+  const hrId = localStorage.getItem("HrId");
+    const [hrs , setHrs]  = useState();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const sidebarRef = useRef(null);
   const toggleSidebar = () => {
@@ -10,9 +14,24 @@ const HRHeader = () => {
 
   const navigate = useNavigate();
   const handleLogout = () => {
+     localStorage.removeItem("HrId");
+     Cookies.remove('hrToken', { path: '/' });
     alert("Logout Successfully");
     navigate("/");
   };
+  const fetchHrs = async () => {
+    try {
+      const response = await axios.get( `${API}/gethr/${hrId}`);
+      console.log(response.data);
+      setHrs(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
+  useEffect(() => {
+    fetchHrs();
+  }, []);
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -32,7 +51,10 @@ const HRHeader = () => {
   return (
     <div id="HRHeader">
       <header className="HR-header">
-        <div className="logo">Dashboard</div>
+        <div className="logo"> {
+          hrs &&  hrs.map((hr) => (
+              <strong>{hr.name}'s Dashboard</strong>
+      )  )}</div>
         <div className="menu-icon" onClick={toggleSidebar}>
           ☰
         </div>

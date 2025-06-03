@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import API from "../API";
-
+import Cookies from "js-cookie";
 const Adminlogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -10,14 +10,21 @@ const Adminlogin = () => {
 
   const navigate = useNavigate();
 
+    useEffect(() => {
+      if (Cookies.get("adminToken")) {
+        navigate("/Dashboard");
+      }
+    }, [navigate]);
+
   const handleLogin = async () => {
     if (!email || !password) {
       setError("Email and password are required");
       return;
     }
     try {
-      await axios.post(`${API}/adminlogin`, { email, password });
+      const response =  await axios.post(`${API}/adminlogin`, { email, password });
       localStorage.setItem("admin", "true");
+      Cookies.set("adminToken", response.data.token, { expires: 1, secure: true, sameSite: "none", path: "/",});
       alert("Login successful");
       setError(""); 
       setEmail("");
@@ -36,8 +43,10 @@ const Adminlogin = () => {
           <img src="https://img.freepik.com/free-vector/man-having-online-job-interview_52683-43379.jpg?t=st=1745306533~exp=1745310133~hmac=156d655cebaf7659248fc27c845249ce8dc72cad8f8fee39fca481aea1868fb2&w=740" alt="Admin Visual" />
         </div>
         <div className="login-box">
-        <Link to="/" className="login-back-link"><i class="fa fa-arrow-left"></i></Link>
-          <h2 className="login-title">Admin LogIn</h2>
+           <div className="heading">
+            <h2 className="">Admin LogIn</h2>
+            <Link to="/" className=""><i class="fa fa-arrow-left"></i></Link>
+           </div>
           <div className="login-form">
             <input
               type="email"

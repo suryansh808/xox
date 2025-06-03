@@ -20,7 +20,7 @@ const CompanyHRSelected = () => {
           (item) => item && item.companyStatus === "pending"
         )
       );
-      console.log("Fetched selected applications:", response.data);
+      // console.log("Fetched selected applications:", response.data);
     } catch (error) {
       alert("Failed to fetch applications. Please try again.");
     }
@@ -157,6 +157,16 @@ const CompanyHRSelected = () => {
             </div>
             <div>
               <hr />
+              <h3>Professional Summary</h3>
+              <pre style={
+                {whiteSpace: "pre-wrap",
+                wordWrap: "break-word",}
+              }>
+                {selectedResume.summary || "No professional summary provided"}
+              </pre>
+            </div>
+            <div>
+              <hr />
               <h3>Education</h3>
               {selectedResume.educations?.length > 0 ? (
                 selectedResume.educations.map((edu, idx) => (
@@ -185,6 +195,20 @@ const CompanyHRSelected = () => {
                   ? selectedResume.skills
                   : "No skills provided"}
               </p>
+            </div>
+            <div>
+              <hr />
+              <h3>Projects</h3>
+              {selectedResume.project ? (
+                <pre style={
+                  {whiteSpace: "pre-wrap",
+                  wordWrap: "break-word",}
+                }>
+                  {selectedResume.project}
+                </pre>
+              ) : (
+                <p>No project details provided</p>
+              )}
             </div>
           </div>
         </div>

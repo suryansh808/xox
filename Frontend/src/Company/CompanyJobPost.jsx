@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import API from "../API";
+import SubscriptionDialog from './SubscriptionDialog';
 
 const formFields = [
   { name: "jobTitle", label: "Job Title", type: "text" },
@@ -14,14 +15,8 @@ const formFields = [
   { name: "desiredSkills", label: "Desired Skills", type: "text" },
   { name: "experience", label: "Experience (e.g., 1 Year)", type: "text" },
   { name: "noofposition", label: "No of Position", type: "number" },
-  {
-    name: "applicationDeadline",
-    label: "Application Deadline",
-    type: "date",
-    InputLabelProps: { shrink: true },
-  },
+  { name: "applicationDeadline", label: "Application Deadline", type: "date", InputLabelProps: { shrink: true } },
 ];
-
 const CompanyJobPost = () => {
   const initialJobDetails = {
     jobTitle: "",
@@ -36,11 +31,15 @@ const CompanyJobPost = () => {
     noofposition: "",
     applicationDeadline: "",
   };
+
   const [jobDetails, setJobDetails] = useState(initialJobDetails);
   const [jobs, setJobs] = useState([]);
   const [open, setOpen] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [selectedJobDetails, setSelectedJobDetails] = useState(false);
+  const [selectedJob, setSelectedJob] = useState(null);
+  const [jobPostLimit, setJobPostLimit] = useState(2); 
   const companyId = localStorage.getItem("companyId");
 
   useEffect(() => {
@@ -59,7 +58,17 @@ const CompanyJobPost = () => {
         alert(error.response?.data?.message || "Failed to load jobs.");
       }
     };
+    const fetchCompanyDetails = async () => {
+      try {
+        const response = await axios.get(`${API}/company/${companyId}`);
+        setJobPostLimit(response.data.jobPostLimit || 2);
+      } catch (error) {
+        console.error("Fetch company details error:", error.message);
+        alert(error.response?.data?.message || "Failed to load company details.");
+      }
+    };
     fetchJobs();
+    fetchCompanyDetails();
   }, [companyId]);
 
   const handleChange = (e) => {
@@ -83,8 +92,12 @@ const CompanyJobPost = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!companyId) {
-      console.log("No companyId for submit");
+      // console.log("No companyId for submit");
       return showError("Please log in to post a job.");
+    }
+    if (!editingId && jobs.length >= jobPostLimit) {
+      showError("Job post limit reached. Please subscribe to post more jobs.");
+      return;
     }
     const requiredFields = [
       "jobTitle",
@@ -106,7 +119,6 @@ const CompanyJobPost = () => {
     if (!jobDetails.salary.minSalary || !jobDetails.salary.maxSalary) {
       return showError("Please provide both minimum and maximum salary");
     }
-
     const jobData = {
       ...jobDetails,
       companyId,
@@ -141,7 +153,6 @@ const CompanyJobPost = () => {
       setLoading(false);
     }
   };
-
   const handleEditJob = (job) => {
     setJobDetails({
       ...job,
@@ -161,22 +172,36 @@ const CompanyJobPost = () => {
     setEditingId(null);
     setJobDetails(initialJobDetails);
   };
-  const [selectedJobDetails, setSelectedJobDetails] = useState(false);
-  const [selectedJob, setSelectedJob] = useState(null);
+
   const handleView = (job) => {
     setSelectedJobDetails(true);
     setSelectedJob(job);
   };
 
+  const handleSubscribe = () => {
+    window.location.href = "/subscribe";
+  };
+  const [dialogOpen, setDialogOpen] = useState(false);
+
   return (
     <div id="companyjobpost">
+     
       <div className="heading">
         <h2 className="job-list-title">Job List</h2>
-        <button className="add-button" onClick={() => setOpen(true)}>
-          Add/Post Job
-        </button>
+        {jobs.length < jobPostLimit ? (
+          <button className="add-button" onClick={() => setOpen(true)}>
+            Add/Post Job
+          </button>
+        ) : (
+          <button className="subscribe-button" onClick={handleSubscribe}>
+            Subscribe
+          </button>
+        )}
       </div>
-      
+       <div className="subscriptionbtn">
+         <button onClick={() => setDialogOpen(true)}>Subscribe</button>
+      <SubscriptionDialog isOpen={dialogOpen} onClose={() => setDialogOpen(false)} />
+      </div>
       <table className="job-table">
         <thead className="table-header">
           <tr className="header-row">
@@ -217,7 +242,7 @@ const CompanyJobPost = () => {
                     className="edit-button"
                     onClick={() => handleView(job)}
                   >
-                    <i class="fa fa-info-circle"></i>
+                    <i className="fa fa-info-circle"></i>
                   </button>
                 </td>
                 <td className="job-cell">
@@ -225,7 +250,7 @@ const CompanyJobPost = () => {
                     className="edit-button"
                     onClick={() => handleEditJob(job)}
                   >
-                    <i class="fa fa-edit"></i>
+                    <i className="fa fa-edit"></i>
                   </button>
                 </td>
               </tr>
@@ -233,16 +258,12 @@ const CompanyJobPost = () => {
           )}
         </tbody>
       </table>
-
       {open && (
         <div className="modal-overlay">
           <div className="modal-content">
-             <div className="heading">
-               <h2 className="modal-title">
+            <h2 className="modal-title">
               {editingId ? "Edit Job" : "Post a New Job"}
-              </h2>
-              <span onClick={resetForm}>X</span>
-             </div>
+            </h2>
             <form onSubmit={handleSubmit}>
               {formFields.map(({ name, label, type, salary }) => {
                 const isFullWidth = [
@@ -250,9 +271,7 @@ const CompanyJobPost = () => {
                   "desiredSkills",
                   "applicationDeadline",
                 ].includes(name);
-
                 const isTextArea = name === "jobDescription";
-
                 return (
                   <div
                     className={`form-group ${isFullWidth ? "full" : ""}`}
@@ -277,7 +296,6 @@ const CompanyJobPost = () => {
                           salary ? jobDetails.salary[name] : jobDetails[name]
                         }
                         onChange={handleChange}
-                        required
                         disabled={loading}
                       />
                     )}
@@ -285,6 +303,14 @@ const CompanyJobPost = () => {
                 );
               })}
               <div className="form-actions">
+                <button
+                  type="button"
+                  onClick={resetForm}
+                  className="btn cancel"
+                  disabled={loading}
+                >
+                  Cancel
+                </button>
                 <button
                   type="submit"
                   className="btn primary"
@@ -301,7 +327,6 @@ const CompanyJobPost = () => {
           </div>
         </div>
       )}
-
       {selectedJobDetails && (
         <div className="modal-overlay">
           <div className="modal-content">
@@ -323,7 +348,7 @@ const CompanyJobPost = () => {
               onClick={() => setSelectedJobDetails(false)}
               className="btn-cancel"
             >
-              <i class="fa fa-times" aria-hidden="true"></i>
+              <i className="fa fa-times" aria-hidden="true"></i>
             </button>
           </div>
         </div>

@@ -6,6 +6,16 @@
     color: #27272A;
     padding: 60px 10px;
   
+   .subscriptionbtn{
+        margin-bottom: 10px;
+    button{
+      border: 1px solid #fff;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+   }
   
   .job-table {
     min-width: 100%; 
@@ -300,6 +310,30 @@ form {
   font-weight: 600;
   cursor: pointer;
 }
+/* New Subscribe Button Styles */
+.subscribe-button {
+  padding: 10px 16px;
+  background: linear-gradient(to right, #f59e0b, #d97706);
+  box-shadow: 0 10px 25px rgba(63, 63, 63, 0.5);
+  transition: background 0.3s ease, transform 0.2s ease;
+  color: #1f2937;
+  border: none;
+  border-radius: 5px;
+  font-weight: 600;
+  cursor: pointer;
+}
 
+.subscribe-button:hover {
+  background: linear-gradient(to right, #d97706, #b45309);
+  transform: translateY(-2px);
+}
+
+.subscribe-button:focus {
+  outline: 2px solid #1e3a8a;
+  outline-offset: 2px;
+}
+
+
+  
   
   }

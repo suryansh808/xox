@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import API from "../API";
+import Cookies from "js-cookie";
 
 const Joblist = () => {
   const [joblist, setJoblist] = useState([]);
@@ -13,20 +14,22 @@ const Joblist = () => {
   const [resumes, setResumes] = useState([]);
   const [selectedResumeId, setSelectedResumeId] = useState("");
   const [appliedJobs, setAppliedJobs] = useState([]);
+  const [jobLimit, setJobLimit] = useState(2);
   const userId = localStorage.getItem("user");
+   const token = Cookies.get("authToken");
 
   const fetchJobs = async () => {
     try {
       const response = await axios.get(`${API}/company-all-jobs`);
-      // console.log(response.data.filter(item => item && item.hrId != null && item.hrName != null));
-      setJoblist(response.data.filter(item => item && item.hrId != "" && item.hrName != ""));
+      setJoblist(response.data);
     } catch (error) {
       console.error("Fetch jobs error:", error.message);
     }
   };
+
   const fetchUserResumes = async () => {
     try {
-      const response = await axios.get(`${API}/resume/${userId}`);
+      const response = await axios.get(`${API}/resume`,{headers: { Authorization: token}});
       setResumes(response.data);
       if (response.data.length > 0) {
         setSelectedResumeId(response.data[0]._id);
@@ -35,13 +38,25 @@ const Joblist = () => {
       console.error("Fetch resumes error:", error.message);
     }
   };
+
+
   const fetchAppliedJobs = async () => {
     try {
-      const response = await axios.get(`${API}/user-applications/${userId}`);
+      const response = await axios.get(`${API}/user-applications`,{headers: { Authorization: token}});
       const appliedJobIds = response.data.map((application) => application.jobId);
       setAppliedJobs(appliedJobIds);
     } catch (error) {
       console.error("Fetch applied jobs error:", error.message);
+    }
+  };
+
+  const fetchUserDetails = async () => {
+    try {
+      const response = await axios.get(`${API}/user`,{headers: { Authorization: token}});
+      setJobLimit(response.data.jobLimit || 2);
+    } catch (error) {
+      console.error("Fetch user details error:", error.message);
+      alert(error.response?.data?.message || "Failed to load user details.");
     }
   };
 
@@ -50,6 +65,7 @@ const Joblist = () => {
     if (userId) {
       fetchUserResumes();
       fetchAppliedJobs();
+      fetchUserDetails();
     }
   }, [userId]);
 
@@ -58,7 +74,7 @@ const Joblist = () => {
       setSelectedJob(joblist[0]);
     }
   }, [joblist]);
-  
+
   const handleSelectedJobDetails = (job) => {
     setSelectedJob(job);
   };
@@ -70,6 +86,7 @@ const Joblist = () => {
       [name]: value,
     }));
   };
+
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
       handleSearch();
@@ -84,6 +101,7 @@ const Joblist = () => {
     );
     setFilteredJobs(filtered);
   };
+
   const handleJobApplication = async (e) => {
     e.preventDefault();
     if (!userId) {
@@ -91,11 +109,15 @@ const Joblist = () => {
       return;
     }
     if (!selectedResumeId) {
-      alert("Please select a resume before applying.");
+      alert("create a resume before applying to job.");
       return;
     }
     if (!selectedJob) {
       alert("No job selected.");
+      return;
+    }
+    if (appliedJobs.length >= jobLimit) {
+      alert("You have reached your job application limit. Please subscribe to apply for more jobs.");
       return;
     }
     const jobId = selectedJob._id;
@@ -118,6 +140,10 @@ const Joblist = () => {
       console.error("Error applying for job:", error.message);
       alert("Error applying for job. Please try again.");
     }
+  };
+
+  const handleSubscribe = () => {
+    window.location.href = "/subscribe";
   };
 
   return (
@@ -171,15 +197,24 @@ const Joblist = () => {
             <div className="job__details">
               <div className="job__apply">
                 <h1 className="job__title">{selectedJob.jobTitle}</h1>
-                <button
-                  onClick={handleJobApplication}
-                  className={`apply__button ${
-                    appliedJobs.includes(selectedJob._id) ? "applied" : ""
-                  }`}
-                  disabled={appliedJobs.includes(selectedJob._id)}
-                >
-                  {appliedJobs.includes(selectedJob._id) ? "Applied" : "Apply Now"}
-                </button>
+                {appliedJobs.length >= jobLimit && !appliedJobs.includes(selectedJob._id) ? (
+                  <button
+                    onClick={handleSubscribe}
+                    className="subscribe__button"
+                  >
+                    Subscribe
+                  </button>
+                ) : (
+                  <button
+                    onClick={handleJobApplication}
+                    className={`apply__button ${
+                      appliedJobs.includes(selectedJob._id) ? "applied" : ""
+                    }`}
+                    disabled={appliedJobs.includes(selectedJob._id)}
+                  >
+                    {appliedJobs.includes(selectedJob._id) ? "Applied" : "Apply Now"}
+                  </button>
+                )}
               </div>
               <div className="job__overview">
                 <p>

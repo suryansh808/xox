@@ -41,6 +41,7 @@
   .table-cell{
      border: 1px solid #FFFFFF;
      padding: 6px;
+
      text-align: center;
   }
   
@@ -73,6 +74,17 @@
   
   .table-body {
     display: block;
+
+    .send-offer-button{
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      font-weight: 600;
+    }
 
   }
    .file__upload{

@@ -1,10 +1,10 @@
-
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import API from '../API';
 
 const CompanyJobs = () => {
   const [jobs, setJobs] = useState([]);
+  // const [companies, setCompanies] = useState([]); 
   const [selectedCompany, setSelectedCompany] = useState(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [hr, setHr] = useState([]);
@@ -14,6 +14,7 @@ const CompanyJobs = () => {
       try {
         const response = await axios.get(`${API}/company-all-jobs`);
         setJobs(response.data);
+        // console.log(response.data);
       } catch (error) {
         console.log(error.message);
       }
@@ -26,8 +27,18 @@ const CompanyJobs = () => {
         console.log(error.message);
       }
     };
+    // const fetchCompanies = async () => {
+    //   try {
+    //     const response = await axios.get(`${API}/companies`);
+    //     setCompanies(response.data);
+    //     console.log("Affan",response.data);
+    //   } catch (error) {
+    //     console.log(error.message);
+    //   }
+    // };
     fetchJobs();
     fetchHr();
+    // fetchCompanies();
   }, []);
 
   const handleAssignJob = async (jobId, hrId) => {
@@ -40,11 +51,21 @@ const CompanyJobs = () => {
       alert(response.data.message);
       const updatedJobs = await axios.get(`${API}/company-all-jobs`);
       setJobs(updatedJobs.data);
-      console.log(setJobs(updatedJobs.data));
     } catch (error) {
       alert('Failed to assign job: ' + error.response?.data?.message || error.message);
     }
   };
+
+  // const handleAddJobLimit = async (companyId) => {
+  //   try {
+  //     const response = await axios.post(`${API}/increment-job-limit`, { companyId });
+  //     alert(response.data.message);
+  //     const updatedCompanies = await axios.get(`${API}/companies`);
+  //     setCompanies(updatedCompanies.data);
+  //   } catch (error) {
+  //     alert('Failed to update job limit: ' + error.response?.data?.message || error.message);
+  //   }
+  // };
 
   const groupedJobs = jobs.reduce((acc, job) => {
     if (!acc[job.companyName]) {
@@ -71,12 +92,14 @@ const CompanyJobs = () => {
       : 'N/A';
     return {
       companyName,
+      // companyId: companyData?.companyId || 'N/A',
       jobCount: jobsForCompany.length,
       location: jobsForCompany[0]?.location || 'N/A',
       totalPositions: jobsForCompany.reduce((sum, job) => sum + (job.noofposition || 0), 0),
-      experienceRange
+      experienceRange,
     };
   });
+
   const handleJobCountClick = (companyName) => {
     if (groupedJobs[companyName]) {
       setSelectedCompany(companyName);
@@ -85,6 +108,7 @@ const CompanyJobs = () => {
       console.error('No jobs found for company:', companyName);
     }
   };
+
   return (
     <div id="admin-company-joblist">
        <div className="company__job__container">
@@ -97,6 +121,8 @@ const CompanyJobs = () => {
             <th className="header-cell">No of Jobs</th>
             <th className="header-cell">Total Positions</th>
             <th className="header-cell">Experience Range</th>
+            {/* <th className="header-cell">Job Post Limit</th> */}
+            {/* <th className="header-cell">Add Job Limit</th> */}
           </tr>
         </thead>
         <tbody className="table-body">
@@ -113,13 +139,22 @@ const CompanyJobs = () => {
                 </td>
                 <td className="job-cell">{company.totalPositions}</td>
                 <td className="job-cell">{company.experienceRange}</td>
+                {/* <td className="job-cell">{company.jobPostLimit}</td>
+                <td className="job-cell">
+                  <button
+                    onClick={() => handleAddJobLimit(company.companyId)}
+                    className="add-limit-button"
+                  >
+                    Add Limit
+                  </button>
+                </td> */}
               </tr>
             ))
           ) : (
             <tr className="no-jobs-row">
-              <td className="no-jobs-cell" colSpan="5">
+              <td className="no-jobs-cell" colSpan="7">
                 No jobs available
-              </td>
+              </td> 
             </tr>
           )}
         </tbody>
@@ -157,9 +192,9 @@ const CompanyJobs = () => {
                       </td>
                       <td className="dialog-job-cell">
                         <select 
-                          className="hr-dropdown"
+                          className="hr-dropdown" 
                           onChange={(e) => handleAssignJob(job._id, e.target.value)}
-                          value={job.hrId || ''}
+                          value={job.hrId || ''} 
                         >
                           <option value="">Select HR</option>
                           {hr.length > 0 ? (

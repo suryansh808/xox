@@ -14,6 +14,22 @@ const CompanyOnboardList = () => {
     }
   };
 
+    const handleAddJobLimit = async (companyId) => {
+      const confirmAddLimit = window.confirm('Are you sure you want to add a job post limit for this company?');
+    if (!confirmAddLimit) {
+      return;
+    }
+    try {
+      const response = await axios.post(`${API}/increment-job-limit`, { companyId });
+      alert(response.data.message);
+       fetchContactUs();
+      // const updatedCompanies = await axios.get(`${API}/companies`);
+      // setCompanies(updatedCompanies.data);
+    } catch (error) {
+      alert('Failed to update job limit: ' + error.response?.data?.message || error.message);
+    }
+  };
+
   useEffect(() => {
     fetchContactUs();
   }, []);
@@ -32,6 +48,8 @@ const CompanyOnboardList = () => {
             <th>Type</th>
             <th>Position</th>
             <th>Business Model</th>
+            <th>Job Post Limit</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -44,6 +62,15 @@ const CompanyOnboardList = () => {
                 <td>{item.companyType ? item.companyType : item.otherCompanyType}</td>
                 <td>{item.position}</td>
                 <td>{item.businessmodel}</td>
+                <td>{item.jobPostLimit}</td>
+                 <td>
+                  <button
+                    onClick={() => handleAddJobLimit(item.companyId)}
+                    className="add-limit-button"
+                  >
+                    Add Limit
+                  </button>
+                </td>
               </tr>
             ))
           ) : (

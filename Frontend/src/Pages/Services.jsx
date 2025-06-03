@@ -1,84 +1,171 @@
 const services = [
   {
-    title: "Job Posting for Companies",
+    title: "Job Posting for CompaniesJob Posting & Talent Discovery",
     icon: "📢",
     description:
-      "Easily post jobs and reach thousands of verified candidates from various industries.",
+      "Instantly publish jobs and connect with top-tier candidates using intelligent matching.",
   },
   {
-    title: "Smart Job Matching",
+    title: "End-to-End Hiring Workflow",
+    icon: "🔄",
+    description:
+      "From screening to offer letter—run your full recruitment lifecycle in one place.",
+  },
+  {
+    title: "AI-Powered Resume Parsing",
     icon: "🤖",
     description:
-      "Our system intelligently matches students with relevant opportunities based on skills and preferences.",
+      "Eliminate manual screening with smart filters and scoring models.",
   },
   {
-    title: "Student Profiles & Resumes",
-    icon: "📝",
+    title: "Interview Management System",
+    icon: "📅",
     description:
-      "Students can build detailed profiles to showcase their skills, education, and projects.",
+      "Schedule, conduct, and evaluate interviews with in-platform tools and integrations.",
   },
   {
-    title: "Campus Hiring Support",
-    icon: "🎓",
+    title: "Employer Branding Tools",
+    icon: "🏢",
     description:
-      "Connect with colleges for internships and fresher recruitment drives.",
+      "Create branded company pages, promote your culture, and attract passive talent.",
+  },
+  {
+    title: "Candidate Experience Optimization",
+    icon: "✨",
+    description:
+      "Personalized dashboards, real-time updates, and smart notifications for applicants.",
   },
 ];
+import { Link } from "react-router-dom";
+import jobseeker from "../assets/job-seekers.png";
 
 const Services = () => {
   return (
     <div id="services">
       <div className="services-page">
         {/* Hero Section */}
-        <section className="hero">
-          <h1>Our Services</h1>
-          <p>
-            At Doltec, we bridge the gap between top talent and growing
-            companies with smart recruitment tools.
-          </p>
-        </section>
-
-        {/* Services Grid */}
-        <section className="services-grid">
-          {services.map((service, index) => (
-            <div className="service-card" key={index}>
-              <div className="icon">{service.icon}</div>
-              <h3>{service.title}</h3>
-              <p>{service.description}</p>
-            </div>
-          ))}
-        </section>
-
-        {/* How It Works */}
-        <section className="how-it-works">
-          <h2>How It Works</h2>
-          <div className="steps">
+        <section className="our__hero">
+          <div className="our__hero__content">
+            <h2>End-to-End Recruitment, Reinvented</h2>
+            <p>
+              Explore our suite of modern, AI-powered hiring services designed
+              for today's job market.
+            </p>
             <div>
-              <h4>For Companies</h4>
-              <ol>
-                <li> <i class="fa fa-arrow-right" aria-hidden="true"></i> Create a company profile.</li>
-                <li> <i class="fa fa-arrow-right" aria-hidden="true"></i> Post jobs and set requirements.</li>
-                <li> <i class="fa fa-arrow-right" aria-hidden="true"></i> Receive applications or browse candidates.</li>
-                <li> <i class="fa fa-arrow-right" aria-hidden="true"></i> Hire directly through the platform.</li>
-              </ol>
-            </div>
-            <div>
-              <h4>For Students</h4>
-              <ol>
-                <li> <i class="fa fa-arrow-right" aria-hidden="true"></i> Create your student profile.</li>
-                <li> <i class="fa fa-arrow-right" aria-hidden="true"></i> Explore jobs or get matched automatically.</li>
-                <li> <i class="fa fa-arrow-right" aria-hidden="true"></i> Apply with one click.</li>
-                <li> <i class="fa fa-arrow-right" aria-hidden="true"></i> Track status and get hired.</li>
-              </ol>
+              <Link to="/CompanySignup">
+                <button>Explore Features</button>
+              </Link>
+              <Link to="/ContactUs">
+                <button>Request a Demo</button>
+              </Link>
             </div>
           </div>
         </section>
 
+        {/* Services Grid */}
+        <section className="services-grid">
+          <h2>What We Offer</h2>
+          <div className="service__card">
+            {services.map((service, index) => (
+              <div className="service-card" key={index}>
+                <div className="icon">{service.icon}</div>
+                <h3>{service.title}</h3>
+                <p>{service.description}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Recruiter-Specific Services */}
+        <section className="how-it-works">
+          <h2>For Recruiters & Hiring Teams</h2>
+          <div className="steps">
+            <div className="step">
+              <h3>Role-Based Access</h3>
+              <p>
+                Assign permissions to recruiters, HR, and managers within one
+                unified system.
+              </p>
+            </div>
+            <div className="step">
+              <h3>Collaboration Tools</h3>
+              <p>
+                Share feedback, compare candidates, and align decisions through
+                one platform.
+              </p>
+            </div>
+            <div className="step">
+              <h3>Analytics & Reporting</h3>
+              <p>
+                Track hiring performance, candidate activity, and pipeline
+                metrics in real time.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Job Seeker Services */}
+        <div className="job__seekers">
+          <h2>Empowering Job Seekers to Succeed</h2>
+          <div className="seeker__container">
+            <div className="left__img">
+              <img src={jobseeker} alt="" />
+            </div>
+            <div className="right__content">
+              <div className="steps">
+                <div className="step">
+                  <h3>Smart Job Recommendations</h3>
+                  <p>Jobs tailored to you</p>
+                </div>
+                <div className="step">
+                  <h3>Application Tracking</h3>
+                  <p>Track status instantly</p>
+                </div>
+                <div className="step">
+                  <h3>Resume Builder & Templates</h3>
+                  <p>Build resumes effortlessly</p>
+                </div>
+                <div className="step">
+                  <h3>Interview Scheduling</h3>
+                  <p>Book slots with ease</p>
+                </div>
+                <div className="step">
+                  <h3>Notifications & Alerts</h3>
+                  <p>Never miss updates</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Add-On / Premium Services */}
+        <div className="preminm__services">
+          <h2>Advanced Services & Integrations</h2>
+          <p>Supercharge your hiring with Doltec's premium solutions.</p>
+
+          <div className="preminum__container">
+            <div className="preminum__card">
+              <h3>🔗 API Access for Enterprise Systems</h3>
+            </div>
+            <div className="preminum__card">
+              <h3>🌐 White-labeled Career Portals</h3>
+            </div>
+            <div className="preminum__card">
+              <h3>🧠 Third-party Assessment Integrations</h3>
+            </div>
+            <div className="preminum__card">
+              <h3>🔍 Background Verification Partners</h3>
+            </div>
+          </div>
+        </div>
+
         {/* CTA Section */}
-        <section className="cta">
-          <h2>Start your journey with Doltec today</h2>
-          <button>Post a Job</button>
-          <button>Create Student Profile</button>
+        <section className="cta-section">
+          <h2>Ready to Elevate Your Hiring Strategy?</h2>
+          <div className="call__btn">
+            <button>Post Your First Job</button>
+          <button>Contact Sales</button>
+          </div>
         </section>
       </div>
     </div>

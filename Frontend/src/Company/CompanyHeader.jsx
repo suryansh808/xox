@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
+import Cookies from "js-cookie";
 const CompanyHeader = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const sidebarRef = useRef(null);
@@ -10,6 +10,8 @@ const CompanyHeader = () => {
 
   const navigate = useNavigate();
   const handleLogout = () => {
+    localStorage.removeItem("companyId");
+     Cookies.remove('companyToken', { path: '/' });
     alert("Logout Successfully");
     navigate("/");
   };
@@ -33,7 +35,7 @@ const CompanyHeader = () => {
   return (
     <div id="CompanyHeader">
       <header className="company-header">
-        <div className="logo">DashBoard</div>
+        <div className="logo"></div>
         <div className="menu-icon" onClick={toggleSidebar}>
           ☰
         </div>

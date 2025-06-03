@@ -1,10 +1,10 @@
-import { useLocation } from "react-router-dom";
-import logo from '../assets/mainlogo.png'
+import { Link, useLocation } from "react-router-dom";
 const Footer = () => {
   const location = useLocation();
   const noHeaderFooterRoutes = [
     "/",
     "/Home",
+    "/chooseaplan",
     "/Joblist",
     "/AppliedStatus",
     "/Resume",
@@ -24,6 +24,8 @@ const Footer = () => {
     "/RejectedCandidates",
     "/HiredCandidates",
     "/Dashboard",
+    "/selectaplan",
+    "/dashboard",
     "/ManageThoughts",
     "/UpdateLandingPage",
     "/CompanyJobs",
@@ -54,10 +56,11 @@ const Footer = () => {
            </div>
 
            <div className="footer__links">
-              <a href="/about">About</a>
-              <a href="/services">Services</a>
-              <a href="/contactus">Contact</a>
-              <a href="/privacy-policy">Privacy Policy</a>
+              <Link to="/about">About</Link>
+              <Link to="/services">Services</Link>
+              <Link to="/Insight4">Share your throughs</Link>
+              <Link to="/contactus">Contact</Link>
+              <Link>Privacy Policy</Link>
             </div>
 
 

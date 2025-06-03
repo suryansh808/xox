@@ -32,7 +32,7 @@ const ManageThoughts = () => {
 
 
   const handleChangeRepliesVisible = async (thoughtId, replyIndex , visibilty) => {
-    console.log(thoughtId , visibilty ,replyIndex )
+    // console.log(thoughtId , visibilty ,replyIndex )
     try {
       const response = await axios.put(
         `${API}/changerepliesvisibilty/${thoughtId}/replies/${replyIndex}` ,{visibilty}

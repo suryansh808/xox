@@ -7,25 +7,13 @@
     /* border-bottom: 1px solid #141414; */
   }
   
-  /* h2 {
-    font-size: 2rem;
-    margin-bottom: 20px;
-    color: #cac4c4;
-    text-align: center;
-    text-transform: uppercase;
-  } */
-  
-  p {
-    font-size: 1.1rem;
-    margin: 10px 0;
-    text-align: center;
-  }
+
   
   /* Flex Section for About & How It Works */
   .flex-section {
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
+    /* align-items: center; */
     justify-content: center;
     gap: 40px;
   }
@@ -53,10 +41,7 @@
     .doltec__text{
       text-align: left;
       font-size: 1.4rem;
-    }
-
-  
-     
+    }   
     .about__text{
 
       
@@ -88,7 +73,8 @@
   
   .image-wrapper img {
     width: 100%;
-    height: auto;
+    height: 550px;
+    object-fit: cover;  
     border-radius: 12px;
   }
   
@@ -99,7 +85,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 20px;
+    /* gap: 10px;  */
   }
   
   .features-section ul li {
@@ -131,7 +117,6 @@
   
   
   /* Steps in How It Works */
-
   .howitwork__h2{
     font-size: 2rem;
     margin-bottom: -20px;
@@ -142,6 +127,7 @@
 
     .howitworks__p{
       padding: 10px;
+      text-align: center;
        color: #cac4c4;
     }
 
@@ -177,35 +163,6 @@
   }
 
   
-  /* Testimonials */
-  .testimonials blockquote {
-    font-style: italic;
-    margin: 20px auto;
-    max-width: 700px;
-    padding: 20px;
-    border-left: 4px solid #5e5f61;
-    background-color: #080808;
-    border-radius: 5px;
-    color: #f2f2f2;
-    text-align: left;
-  }
-  
-  /* Call to Action */
-   .cta-section { 
-     /* background-color: red; */
-     padding: 0;
-     width: 100%;
-     height: 500px;
-     img{
-      object-fit: cover;
-      object-position: center;
-      width: 100%;
-      height: 100%;
-      border-radius: 20px;
-     }
-   }
-  
-
   .recrutment__footer{
      background-color: #ffffff;
      border-radius: 12px 12px 0 0 ;
@@ -250,6 +207,7 @@
     .copyrights{
       border-top: 1px solid #141414;
       p{
+        text-align: center;
         font-size: 15px;
       }
    }
@@ -264,6 +222,12 @@
       flex-direction: column;
       text-align: center;
     }
+        .image-wrapper img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;  
+    border-radius: 12px;
+  }
 
     .recrutment__footer{
       padding: 10px 10px;
@@ -284,7 +248,8 @@
            }
         }
     }
-   
+
+  
 
     .content-wrapper {
       text-align: center;

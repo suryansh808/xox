@@ -2,40 +2,38 @@
   padding: 60px 10px 0 10px;
   position: relative;
 
-.filterandsearchbar{
-  padding: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-
-  .searchbar {
+  .filterandsearchbar {
+    padding: 10px;
     display: flex;
-    gap: 5px;
-    
-    input {
+    justify-content: center;
+    align-items: center;
+    position: relative;
+
+    .searchbar {
+      display: flex;
+      gap: 5px;
+
+      input {
         padding: 5px 10px;
         border: 1px solid gray;
         border-radius: 5px;
         outline: none;
-    }
-    button{
-      background: #eee;
-       color: black;
-       padding: 5px 10px;
-       border-radius: 5px;
-       cursor: pointer;
-       font-weight: 600;
-       transition: all 0.3s;
-      &:active{
-        background: #ccc;
-        transform: scale(0.9);
+      }
+      button {
+        background: #eee;
+        color: black;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.3s;
+        &:active {
+          background: #ccc;
+          transform: scale(0.9);
+        }
       }
     }
-}
-
-}
-
+  }
 
   .joblist__container {
     height: calc(100dvh - 120px);
@@ -48,44 +46,42 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+    background: #eee;
+    border-radius: 10px;
     width: 400px;
     overflow-y: scroll;
     scrollbar-width: none;
     padding: 5px;
-    background: #eee;
-     border-radius: 10px;
-    color: #0f0f0f;
     border-right: 1px solid rgb(39, 39, 39);
 
     .job__titleandlocation {
-      background: #000000;
+      /* background: #eee; */
       color: white;
+      background-color: #080808;
       box-shadow: 0 10px 25px rgba(190, 186, 186, 0.2);
       transition: background 0.3s ease;
-      padding: 10px;  
+      padding: 10px;
       border-radius: 10px;
       cursor: pointer;
       display: flex;
       align-items: center;
       gap: 10px;
 
-      .company__logo{
+      .company__logo {
         background-color: #0f0f0f;
         border-radius: 10px;
         overflow: hidden;
-        border: 1px solid gray;
 
-        img{
-          width:90px;
-          height:65px;
+        img {
+          width: 90px;
+          height: 65px;
           overflow: hidden;
           border-radius: 10px;
           object-fit: cover;
         }
       }
-      .company__name{
+      .company__name {
         width: 100%;
-        
       }
     }
   }
@@ -103,50 +99,59 @@
     scrollbar-width: none;
     padding: 10px;
 
-    .job__apply{
+    .job__apply {
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 10px;
     }
-      h1{
-        font-size: 20px;
-        font-weight: 600;
-      }
-      .apply__button {
-        padding: 10px 20px;
-        font-size: 16px;
-        font-weight: bold;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        background-color: #0f0f0f ; 
-        color: white;
-        transition: background-color 0.3s ease;
-      }
-      .apply__button.applied {
-        padding: 10px 20px;
-        font-size: 16px;
-        font-weight: bold;
-        border: none;
-        border-radius: 5px;
-        background-color: #28a745; 
-        cursor: not-allowed; 
-      }
-    
-    .job__overview{
+    h1 {
+      font-size: 20px;
+      font-weight: 600;
+    }
+    .apply__button {
+      padding: 10px 20px;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      background-color: blue;
+      color: white;
+      transition: background-color 0.3s ease;
+    }
+    .apply__button.applied {
+      padding: 10px 20px;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      border-radius: 5px;
+      background-color: #28a745;
+      cursor: not-allowed;
+    }
+
+    .subscribe__button {
+      background-color: #ff9500;
+      color: white;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .job__overview {
       padding: 10px;
       display: flex;
       flex-direction: column;
       gap: 10px;
     }
-    .job__description{
+    .job__description {
       padding: 10px;
     }
-    .job__requirements{
+    .job__requirements {
       padding: 10px;
 
-      ul{
+      ul {
         list-style: none;
         display: flex;
         gap: 10px;
@@ -154,6 +159,44 @@
     }
   }
 
- 
+  /* filter css start */
 
+  .filter__popup {
+    position: absolute;
+    top: 50px;
+    left: 0;
+    background-color: #080808;
+    color: rgb(255, 255, 255);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(153, 149, 149, 0.25);
+    z-index: 999;
+    width: 250px;
+    animation: fadeSlideIn 0.3s ease;
+  }
+
+  .filter__close {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    font-size: 18px;
+    cursor: pointer;
+    color: #fff;
+    transition: color 0.2s ease;
+  }
+
+  .filter__close:hover {
+    color: #ff6b6b;
+  }
+}
+
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

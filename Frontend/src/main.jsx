@@ -42,7 +42,9 @@ import './Style/CompanyInterviewProcess.css'
 import './Style/CompanyRejectedCandidates.css'
 import './Style/InterviewProcessHR.css'
 import './Style/CompanyHiredCandidates.css';
-
+import './Style/HrRejectedCandidate.css';
+import "./Style/Chooseaplan.css"
+import "./Style/Selectaplan.css"
 createRoot(document.getElementById('root')).render(
   <StrictMode>
       <App />

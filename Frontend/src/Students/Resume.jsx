@@ -1,11 +1,12 @@
 import React, { useEffect, useState} from "react";
 import axios from "axios";
 import API from "../API";
-
+import Cookies from "js-cookie";
 
 
 const Resume = () => {
-  const id = localStorage.getItem("user");
+  // const id = localStorage.getItem("user");
+  const token = Cookies.get("authToken");
 
   const [personalInfo, setPersonalInfo] = useState({
     name: "",
@@ -42,7 +43,6 @@ const Resume = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const resumeData = {
-      userId: id,
       personalInfo,
       educations,
       skills,
@@ -51,11 +51,12 @@ const Resume = () => {
       experience,
     };
     try {
+       const config = { headers: { Authorization: token, },};
       if (isEditing) {
-        await axios.put(`${API}/resumes/${editingId}`, resumeData);
+        await axios.put(`${API}/resumes/${editingId}`,resumeData,  config);
         alert("Resume updated successfully!");
       } else {
-        await axios.post(`${API}/resumes`, resumeData);
+        await axios.post(`${API}/resumes`,resumeData ,  config);
         alert("Resume created successfully!");
       }
       setPersonalInfo({
@@ -82,17 +83,15 @@ const Resume = () => {
     }
   };
 
+
   const fetchUserResumes = async () => {
     try {
-      const response = await axios.get(`${API}/resume/${id}`);
+      const response = await axios.get(`${API}/resume`,{ headers:{ Authorization: token}});
       setResume(response.data);
-    } catch (error) {
-      console.error(
-        "Error fetching user resumes:",
-        error.response?.data?.error || error.message
-      );
+    } catch (error) {console.error( "Error fetching user resumes:", error.response?.data?.error || error.message );
     }
   };
+
   useEffect(() => {
     fetchUserResumes();
   }, []);

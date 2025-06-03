@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
+import Cookies from "js-cookie";
 const AdminHeader = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const sidebarRef = useRef(null);
@@ -11,6 +11,8 @@ const AdminHeader = () => {
   const navigate = useNavigate();
   const handleLogout = () => {
     alert("Logout Successfully");
+    Cookies.remove('adminToken', { path: '/' });
+    localStorage.removeItem("AdminId");
     navigate("/");
   };
 
