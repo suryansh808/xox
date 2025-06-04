@@ -24,12 +24,28 @@ app.use(cors({
   credentials: true,
 }));
 
+// mongoose.connect(process.env.DATABASE_URL, {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+//   serverSelectionTimeoutMS: 20000, 
+// })
+// .then(() => console.log('MongoDB connected'))
+// .catch(err => console.error('MongoDB connection error:', err));
+
+// app.use('/', UserRoute);
+// app.use('/', AdminRoute);
+// app.use('/', HrRoute);
+// app.use('/', CompanyRoute);
+// app.use('/', ApplicationRoute);
+// app.use('/', Thought);
+
 mongoose.connect(process.env.DATABASE_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  serverSelectionTimeoutMS: 20000,
 })
-.then(() => console.log('MongoDB connected'))
-.catch(err => console.error('MongoDB connection error:', err));
+.then(() => {
+  console.log('✅ MongoDB connected');
 
 app.use('/', UserRoute);
 app.use('/', AdminRoute);
@@ -37,6 +53,17 @@ app.use('/', HrRoute);
 app.use('/', CompanyRoute);
 app.use('/', ApplicationRoute);
 app.use('/', Thought);
+
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+})
+.catch(err => console.error('❌ MongoDB connection error:', err));
+
+mongoose.connection.on('connecting', () => console.log('🛠 Connecting to MongoDB...'));
+mongoose.connection.on('connected', () => console.log('✅ MongoDB connected'));
+mongoose.connection.on('error', err => console.error('❌ MongoDB error:', err));
+mongoose.connection.on('disconnected', () => console.warn('⚠️ MongoDB disconnected'));
+
 
 app.get("/", (req, res) => {
   res.send("Welcome to the Backend Server!");
