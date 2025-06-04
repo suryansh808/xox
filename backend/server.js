@@ -112,5 +112,7 @@ const startServer = async () => {
   }
 };
 
+startServer()
+
 // Export for serverless environments (like Vercel)
 module.exports = app;
