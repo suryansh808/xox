@@ -140,7 +140,7 @@ const About = () => {
       </section>
 
       {/* CTA */}
-      <section className="cta">
+      {/* <section className="cta">
         <h2>Join Us or Hire With Us</h2>
         <p>
           Whether you're a candidate ready for your next leap, or a company
@@ -150,7 +150,7 @@ const About = () => {
           <button>Explore Opportunities</button>
           <button>Partner with Us</button>
         </div>
-      </section>
+      </section> */}
     </div>
   );
 };

@@ -160,13 +160,13 @@ const Services = () => {
         </div>
 
         {/* CTA Section */}
-        <section className="cta-section">
+        {/* <section className="cta-section">
           <h2>Ready to Elevate Your Hiring Strategy?</h2>
           <div className="call__btn">
             <button>Post Your First Job</button>
           <button>Contact Sales</button>
           </div>
-        </section>
+        </section> */}
       </div>
     </div>
   );

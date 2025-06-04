@@ -90,14 +90,13 @@ const Products = () => {
         </div>
       </section>
 
-      <section className="cta">
+      {/* <section className="cta">
         <h2>Get Started with Doltec Products Today</h2>
          <div className="cta__btn">
            <button>Start Posting Jobs</button>
            <button>Schedule a Demo</button>
          </div>
-      </section>
-  
+      </section>*/}
     </div>
   );
 };

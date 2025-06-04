@@ -104,6 +104,38 @@
     width: 100%;
     margin-left: 30px;
     text-align: justify;
+    /* background-color: red; */
+
+    h2{
+      font-size: 20px;
+    }
+    p{
+     color: #f0e9e9;
+     width: 800px;
+     line-height: 1.6;
+     padding: 8px 0;
+    }
+     
+      ol {
+            list-style: none;
+            padding: 0;
+            text-align: left;
+            margin: 20px 0;
+        }
+
+         ol li {
+            margin: 10px 0;
+            position: relative;
+            padding-left: 20px;
+        }
+
+         ol li::before {
+            content: '✔';
+            position: absolute;
+            left: 0;
+            color: #FFFFFF;
+        }
+
   }
   
   .hamburger {

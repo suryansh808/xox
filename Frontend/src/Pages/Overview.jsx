@@ -73,14 +73,14 @@ const Overview = () => {
       </section>
 
       {/* Call to Action Section */}
-      <section className="cta-section">
+      {/* <section className="cta-section">
         <h2>Ready to Hire Smarter?</h2>
          <div className="call__btn">
            <button className="cta-btn"><Link to="/CompanyLogin">Start Hiring</Link></button>
            <button className="cta-btn"><Link to="/StudentLogIn">Explore Jobs</Link></button>
          </div>
        
-      </section>
+      </section> */}
     </div>
   );
 };

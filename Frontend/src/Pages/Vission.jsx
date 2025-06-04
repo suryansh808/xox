@@ -96,13 +96,13 @@ const Vision = () => {
        </section>
 
       {/* CTA */}
-      <section className="cta">
+      {/* <section className="cta">
         <h2>Join Us in Shaping the Future of Work</h2>
         <div className="cta__btn">
           <button>Start Hiring with Doltec</button>
           <button>Explore Careers at Doltec</button>
         </div>
-      </section>
+      </section> */}
     </div>
   );
 };

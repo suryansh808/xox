@@ -12,13 +12,12 @@ const Header = () => {
   const [activeMobileMenuOption, setActiveMobileMenuOption] = useState(null);
 
   const toggleDropdown = (dropdownId) => {
-    // Set the dropdown as active and default to the first option
     if (activeDropdown === dropdownId) {
       setActiveDropdown(null);
-      setActiveOption(null); // Close dropdown
+      setActiveOption(null);
     } else {
       setActiveDropdown(dropdownId);
-      setActiveOption("Option1"); // Default to first option
+      setActiveOption("Option1");
     }
   };
 
@@ -243,52 +242,45 @@ const Header = () => {
                 </div>
                 {activeOption === "Option1" && (
                   <div className="option_content">
-                    <h1>Doltec — Bridging Talent with Opportunity</h1>
-                    <p> At Doltec, we're transforming the way businesses find talent and how students launch their careers. As a dynamic service-based platform, we empower companies to post jobs and connect with the next generation of professionals. From startups to industry leaders, we help build brighter futures through opportunity, innovation, and access — all in one place.</p>
-                    <p>Explore our platform and discover how Doltec can help you hire smarter and get hired faster.</p>
+                    <h2>Doltec Consultancy Services — Bridging Talent with Opportunity</h2>
+                    <p> At Doltec, we are not just matching jobs to resumes — we are architecting the future of talent acquisition and career growth. Positioned at the intersection of innovation and impact, Doltec Consultancy Services is redefining recruitment through a unified, tech-enabled platform. Whether you're a fast-scaling startup or an established enterprise, we provide precision hiring solutions tailored to your business goals. For job seekers — particularly students and early-career professionals — we offer a frictionless gateway to meaningful opportunities.</p>
+                    <p>Our mission is to enable intelligent hiring and accelerate employability through data-driven matchmaking, industry-aligned assessments, and consultative talent strategies. Doltec is where potential meets purpose — empowering organizations to hire smarter and individuals to get hired faster.</p>
                   </div>
                 )}
                 {activeOption === "Option2" && (
                   <div className="option_content">
-                    <h1>Industries</h1>
-                    <ol>
-                      <li>Lorem ipsum dolor sit amet.</li>
-                      <li>Lorem ipsum dolor sit amet.</li>
-                      <li>Lorem ipsum dolor sit amet.</li>
-                      <li>Lorem ipsum dolor sit amet.</li>
-                      <li>Lorem ipsum dolor sit amet.</li>
-                    </ol>
+                    <h2>Sector-Specific Expertise. Cross-Industry Impact.</h2>
+                     <p>Doltec Consultancy Services operates with a multi-industry focus, providing bespoke recruitment and staffing solutions across high-growth verticals. Our platform is designed to adapt to the evolving workforce demands of modern enterprises.</p>
+                     <ol>
+                      <li>Information Technology (IT) & Software Development</li>
+                      <li>Financial Services & FinTech</li>
+                      <li>Education & EdTech</li>
+                      <li>Healthcare & Life Sciences</li>
+                     </ol>
                   </div>
                 )}
                 {activeOption === "Option3" && (
                   <div className="option_content">
-                    <h1>Services</h1>
+                    <h2>Consultative. Scalable. Results-Driven.</h2>
+                    <p>Doltec offers a comprehensive suite of recruitment and talent advisory services, purpose-built to elevate hiring agility and workforce quality. Our service offerings include</p>
                     <ol>
-                      <li>Lorem ipsum dolor sit amet.</li>
-                      <li>Lorem ipsum dolor sit amet.</li>
-                      <li>Lorem ipsum dolor sit amet.</li>
-                      <li>Lorem ipsum dolor sit amet.</li>
-                      <li>Lorem ipsum dolor sit amet.</li>
-                      <li>Lorem ipsum dolor sit amet.</li>
-                      <li>Lorem ipsum dolor sit amet.</li>
-                      <li>Lorem ipsum dolor sit amet.</li>
-                      <li>Lorem ipsum dolor sit amet.</li>
-                      <li>Lorem ipsum dolor sit amet.</li>
+                      <li>End-to-End Recruitment Process Outsourcing (RPO)</li>
+                      <li>Campus Hiring & University Engagement Programs</li>
+                      <li>Technical & Non-Technical Talent Acquisition</li>
+                      <li>Job Postings & Employer Branding Solutions</li>
                     </ol>
                   </div>
                 )}
                 {activeOption === "Option4" && (
                   <div className="option_content">
-                    <h1>Product and Platform</h1>
-                    <h2>
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Possimus laudantium, cumque iste praesentium a laborum
-                      voluptatibus sint quaerat facilis molestias dolore facere
-                      aliquam fugiat consectetur, eius dolorum voluptates est
-                      ipsum. Voluptatem sit odio aspernatur aliquid soluta ad
-                      deserunt itaque accusantium ut, mollitia placeat deleniti
-                      nostrum quidem, doloribus error dicta iusto?
-                    </h2>
+                    <h2>Your Digital Talent Ecosystem. All-in-One. Always-On.</h2>
+                    <p>Doltec’s digital platform is a full-stack hiring ecosystem built for modern recruiters and career-driven individuals. Our intuitive interface and AI-driven backend streamline every touchpoint of the hiring journey — from job posting to offer rollout.</p>
+                     <ol>
+                      <li>Smart Job Posting with Dynamic Filters</li>
+                      <li>Applicant Tracking & Workflow Automation</li>
+                      <li>Integrated Video Interviewing Tools</li>
+                      <li>Real-Time Analytics & Hiring Dashboards</li>
+                     </ol>
                   </div>
                 )}
               </div>
@@ -328,65 +320,37 @@ const Header = () => {
                 </div>
                 {activeOption === "Option1" && (
                   <div className="option_content">
-                    <h1>Our Mission</h1>
-                    <h3>
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      In cupiditate commodi qui soluta repudiandae quam iusto
-                      facilis natus ab magnam, repellendus adipisci? Optio ab
-                      natus enim nisi explicabo ipsam similique reiciendis animi
-                      quibusdam eos vel iure neque tempore quis, iusto amet,
-                      mollitia nemo. Architecto reiciendis libero hic cumque
-                      error sapiente.
-                    </h3>
+                    <h2>Empowering the Workforce of Tomorrow.</h2>
+                     <p>At Doltec, our mission is to revolutionize the talent landscape by bridging the gap between academia and industry through intelligent, scalable, and human-centric solutions. We aim to empower organizations with top-tier talent while equipping students and job seekers with the skills, exposure, and guidance needed to thrive in the evolving professional world.</p>
+                     <p>We don’t just enable employment—we build futures through purpose-driven partnerships, technology-led strategies, and outcome-focused execution.</p>
                   </div>
                 )}
                 {activeOption === "Option2" && (
                   <div className="option_content">
-                    <h1>Our Vission</h1>
-                    <h3>
-                      Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                      Culpa fugit placeat assumenda necessitatibus unde delectus
-                      sint doloribus natus consectetur veniam obcaecati ipsum
-                      eaque ipsa, voluptatem est reprehenderit saepe veritatis
-                      ea et similique dolorum neque. Architecto numquam delectus
-                      quis quod sequi accusantium deserunt dolor maiores modi
-                      rerum aut quasi possimus qui ad doloribus necessitatibus
-                      debitis, illo expedita quas? Eius, iste cumque!
-                    </h3>
+                    <h2>To Be the Premier Gateway Between Talent and Industry.</h2>
+                    <p>
+                     Our vision is to become the most trusted consultancy and career enablement platform globally—one that is synonymous with quality hiring, student empowerment, and digital-first recruitment innovation. We envision a world where every capable individual has direct access to the right opportunity, and every organization finds its ideal talent—seamlessly, strategically, and sustainably.
+                    </p>
                   </div>
                 )}
                 {activeOption === "Option3" && (
                   <div className="option_content">
-                    <h1>Our Project</h1>
+                    <h2>Doltec: A Unified Recruitment Ecosystem.</h2>
+                    <p>Our flagship project, Doltec, is a next-gen recruitment and career enablement platform designed to digitally transform the hiring lifecycle. This platform serves dual stakeholders—companies seeking agile recruitment solutions and students or early-career professionals seeking direction, development, and deployment.</p>
                     <ol>
-                      <li>Lorem ipsum dolor sit amet.</li>
-                      <li>Lorem ipsum dolor sit amet.</li>
-                      <li>Lorem ipsum dolor sit amet.</li>
-                      <li>Lorem ipsum dolor sit amet.</li>
-                      <li>Lorem ipsum dolor sit amet.</li>
+                      <li>A dynamic job board for companies to post openings and track applications.</li>
+                      <li>AI-powered candidate matching based on skill, interest, and company culture.</li>
+                      <li>Integrated campus hiring tools to engage with colleges and training institutes.</li>
+                      <li>A student-focused portal with resume tools, interview prep, and placement drives.</li>
                     </ol>
                   </div>
                 )}
                 {activeOption === "Option4" && (
                   <div className="option_content">
-                    <h1>About Us</h1>
-                    <h3>
-                      Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                      Architecto, officiis explicabo. Iure reprehenderit
-                      tempore, eum sint incidunt consectetur eveniet non quam
-                      eius dignissimos voluptate, esse, eos eligendi culpa vitae
-                      aspernatur facilis veniam quaerat numquam perspiciatis
-                      nobis voluptas. Eos dolorum fugiat distinctio. Sint ullam,
-                      dolores ratione temporibus est minus et labore doloribus
-                      necessitatibus modi quia minima quos ab eum consequatur
-                      debitis error laborum veritatis, quaerat quibusdam magni
-                      aliquam repudiandae? Consequatur, minus unde! Repellendus
-                      recusandae, maxime pariatur blanditiis inventore
-                      doloremque culpa autem ab eum sunt explicabo officia nobis
-                      necessitatibus quidem nesciunt ipsa, tenetur suscipit
-                      tempore quibusdam ullam neque dolorem. Omnis, vero
-                      numquam?
-                    </h3>
+                    <h2>Strategic Consultants. Digital Innovators. Talent Architects.</h2>
+                     <p>Doltec Consultancy Services is a forward-thinking recruitment and talent advisory firm engineered to meet the workforce challenges of the digital era. We operate at the confluence of human capital strategy, education, and technology — creating seamless pathways from campus to corporate.</p>
+                     <p>Founded with a commitment to excellence, our team comprises industry veterans, HR technologists, and career development experts who understand the unique dynamics of both employers and emerging professionals. From end-to-end hiring support to full-scale platform implementation, we deliver results that redefine success in the recruitment space.</p>
+                     <strong>At Doltec, we don't just fill roles — we fulfill visions.</strong>
                   </div>
                 )}
               </div>
