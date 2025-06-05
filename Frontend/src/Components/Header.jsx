@@ -100,15 +100,8 @@ const Header = () => {
               </li>
             </ul>
             <div className="hamburger"><i onClick={toggleMobileMenu} class="fa fa-bars" aria-hidden="true"></i></div>
-            <div
-              onClick={() => {
-                toggleDropdown();
-              }}
-            >
-              <Link to="/">
-                {" "}
-                <ToggleComponent />
-              </Link>
+            <div onClick={() => {toggleDropdown()}}>
+              <Link to="/"> {" "} <ToggleComponent /> </Link>
             </div>
           </div>
 

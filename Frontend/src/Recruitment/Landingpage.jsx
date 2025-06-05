@@ -21,39 +21,38 @@ const Landingpage = () => {
             <h3 className="for__">For Employers</h3>
             <ul className="for__points">
               <li>
-                <i class="fa fa-tag"></i> Post job openings in minutes with our
-                intuitive employer dashboard.
+                <i class="fa fa-tag"></i> <p> Post job openings in minutes with our intuitive employer dashboard.</p>
               </li>
               <li>
-                <i class="fa fa-tag"></i> Access a dynamic talent pool equipped
-                with intelligent candidate matching.
+                <i class="fa fa-tag"></i> <p>Access a dynamic talent pool equipped
+                with intelligent candidate matching.</p>
               </li>
               <li>
-                <i class="fa fa-tag"></i> Communicate, shortlist, interview, and
-                hire—all within the platform.
+                <i class="fa fa-tag"></i> <p> Communicate, shortlist, interview, and
+                hire—all within the platform.</p>
               </li>
               <li>
-                <i class="fa fa-tag"></i> Track every stage of recruitment with
-                real-time analytics and reports.
+                <i class="fa fa-tag"></i> <p>Track every stage of recruitment with
+                real-time analytics and reports.</p>
               </li>
             </ul>
             <h3 className="for__">For Job Seekers</h3>
             <ul className="for__points">
               <li>
-                <i class="fa fa-tag"></i> Discover curated job listings tailored
-                to your profile and preferences.
+                <i class="fa fa-tag"></i> <p>Discover curated job listings tailored
+                to your profile and preferences.</p>
               </li>
               <li>
-                <i class="fa fa-tag"></i> Build your digital resume and apply to
-                multiple jobs with a single click.
+                <i class="fa fa-tag"></i> <p>Build your digital resume and apply to
+                multiple jobs with a single click.</p>
               </li>
               <li>
-                <i class="fa fa-tag"></i> Track applications, get interview
-                alerts, and connect with recruiters effortlessly.
+                <i class="fa fa-tag"></i> <p>Track applications, get interview
+                alerts, and connect with recruiters effortlessly.</p>
               </li>
               <li>
-                <i class="fa fa-tag"></i> Access career tools, resources, and
-                recommendations to boost your job-readiness.
+                <i class="fa fa-tag"></i> <p>Access career tools, resources, and
+                recommendations to boost your job-readiness.</p>
               </li>
             </ul>
           </div>
@@ -66,24 +65,24 @@ const Landingpage = () => {
         <ul>
           <li>
             <i className="fa fa-cog" aria-hidden="true"></i>
-            <strong>Role-Specific Dashboards</strong> 
+            <h3>Role-Specific Dashboards</h3> 
             <p>
               Tailored interfaces for recruiters and job seekers to streamline task management and optimize workflows.
             </p>
           </li>
           <li>
             <i class="fa fa-android" aria-hidden="true"></i>
-            <strong>AI-Powered Resume Screening:</strong> 
+            <h3>AI-Powered Resume Screening:</h3> 
            <p> Intelligent candidate shortlisting using machine learning for faster, more accurate hiring decisions.</p>
           </li>
           <li>
             <i class="fa fa-bell" aria-hidden="true"></i>
-            <strong>Real-Time Job Alerts & Interview Notifications:</strong>
+            <h3>Real-Time Job Alerts & Interview :</h3>
            <p> Stay informed instantly with dynamic updates on opportunities and interview schedules.</p>
           </li>
           <li>
             <i class="fa fa-steam" aria-hidden="true"></i>
-            <strong>Application Tracking & Insights:</strong>
+            <h3>Application Tracking & Insights:</h3>
            <p> Monitor application status with full transparency and gain actionable insights at every stage.</p>
           </li>     
         </ul>

@@ -1,11 +1,12 @@
 const ToggleComponent = () => {
     return (
-      <div id="Switch">
-      <input
-       id="checkbox" type="checkbox" />
-      <label className="switch" for="checkbox">
-        <i className="fa fa-share text-white font-bold"></i>
-      </label>
+     <div className="backborder">
+       <div id="Switch">
+         <label  className="switch" htmlFor="checkbox">
+              <i className="fa fa-share"></i>
+               <div className="hover-label">IT Services</div>
+        </label>
+       </div>
       </div>
     );
   };

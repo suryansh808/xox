@@ -19,9 +19,9 @@ const Recruitment = () => {
                 <ToggleComponent />
               </Link>
             </span>
-            <Link to="/HRLogin" >
+            {/* <Link to="/HRLogin" >
               Team
-            </Link>
+            </Link> */}
           </li>
           <li>
             <Link to="/CompanyLogin">

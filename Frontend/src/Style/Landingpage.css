@@ -19,7 +19,7 @@
   }
     
     .feature__h2{
-    font-size: 2rem;
+    font-size: 25px;
     margin-bottom: 20px;
     color: #cac4c4;
     text-align: center;
@@ -44,21 +44,20 @@
     }   
     .about__text{
 
-      
-       .for__{
+      .for__{
         font-size: 1.4rem;
-        background-color: #4d4a4a;
-        display: inline;
         padding: 5px;
-        border-radius: 5px
-         
-       }
+        border-radius: 5px;
+        border-bottom:1px solid gray
+       } 
 
        .for__points{
         font-size: 1.2rem;
         margin: 15px 0;
 
          li{
+          display: flex;
+          align-items: center;
           list-style: none;
           margin-bottom: 5px;
 
@@ -104,8 +103,8 @@
     i{
       font-size: 2rem;
     }
-    strong{
-      font-size: 1.2rem;
+    h3{
+      font-size: 20px;
     }
     p{
       font-size: 1.2rem;
@@ -118,17 +117,18 @@
   
   /* Steps in How It Works */
   .howitwork__h2{
-    font-size: 2rem;
-    margin-bottom: -20px;
+    font-size: 25px;
+    /* margin-bottom: 4px; */
     color: #cac4c4;
     text-align: center;
     text-transform: uppercase;
     }
 
     .howitworks__p{
-      padding: 10px;
+      padding: 8px;
+      font-size: 18px;
       text-align: center;
-       color: #cac4c4;
+      color: #cac4c4;
     }
 
   .steps {
@@ -152,7 +152,6 @@
     .step__h2{
        text-align: center;
        font-weight: 600;
-       /* letter-spacing: 5px; */
        padding: 8px 0;
     }
     .step__p{
@@ -252,26 +251,26 @@
   
 
     .content-wrapper {
-      text-align: center;
+      /* text-align: center; */
 
        .about__text{
          .for__{
-         display: block;
-          text-align: left;
+            text-align: left;
         }
       } 
 
         .doltec__text{
-       text-align: justify
-       
+          text-align: justify;
+          font-size:16px;
     }
         
     
 
       .for__points{
          li{
-          text-align: left;
-
+           p{
+            font-size: 14px;
+           }
           i{
             margin-right: 5px
           }
@@ -282,6 +281,14 @@
     .features-section ul li {
       max-width: 100%;
       flex: 1 1 100%;
+
+       p{
+        font-size: 14px;
+        text-align: justify;
+       }
+       h3{
+        font-size: 14px;
+       }
     }
   
     .step {
