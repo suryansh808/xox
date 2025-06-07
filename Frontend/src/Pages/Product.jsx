@@ -2,35 +2,36 @@ import {Link} from 'react-router-dom';
 const products = [
   {
     title: 'Job Post Engine',
-  icon: '🧰',
-    description: 'Create, publish, and manage job listings across multiple categories.',
+    icon: '🧰',
+    description: 'Create and manage job listings across multiple role categories.',
   },
   {
-    title: 'Candidate CRM',
-     icon: '📋',
-    description: 'Centralized repository to track, tag, and manage applicants throughout their lifecycle.',
+    title: 'Candidate Tracker',
+    icon: '📋',
+    description: 'Track, organize, and manage candidates through hiring lifecycle stages.',
   },
   {
     title: 'Interview Manager',
     icon: '📅',
-    description: 'Built-in scheduling, video interview integrations, and evaluation scoring..',
+    description: 'Schedule interviews, integrate video, and score candidate evaluations.',
   },
   {
     title: 'Resume Analyzer',
-    icon: '🧠', 
-    description: 'AI/ML-powered resume parsing and match scoring with job role alignment.',
+    icon: '🧠',
+    description: 'Parse resumes using AI to match skills with roles.',
   },
   {
-    title: 'Hiring Analytics Dashboard',
-     icon: '📈',
-    description: 'Visual insights into hiring metrics, pipeline health, and recruiter efficiency.',
+    title: 'Hiring Insights',
+    icon: '📈',
+    description: 'Gain visual reports on pipeline, metrics, and team performance.',
   },
   {
-    title: 'Offer Management Tool',
-   icon: '✉️', 
-    description: 'Draft, issue, and digitally manage offer letters with status tracking.',
+    title: 'Offer Manager',
+    icon: '✉️',
+    description: 'Send, manage, and track digital offer letters with ease.',
   },
 ];
+
 
 const Products = () => {
   return (
@@ -89,14 +90,6 @@ const Products = () => {
           </div>
         </div>
       </section>
-
-      {/* <section className="cta">
-        <h2>Get Started with Doltec Products Today</h2>
-         <div className="cta__btn">
-           <button>Start Posting Jobs</button>
-           <button>Schedule a Demo</button>
-         </div>
-      </section>*/}
     </div>
   );
 };

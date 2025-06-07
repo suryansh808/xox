@@ -72,17 +72,17 @@ const Landingpage = () => {
           </li>
           <li>
             <i class="fa fa-android" aria-hidden="true"></i>
-            <h3>AI-Powered Resume Screening:</h3> 
+            <h3>AI-Powered Resume Screening</h3> 
            <p> Intelligent candidate shortlisting using machine learning for faster, more accurate hiring decisions.</p>
           </li>
           <li>
             <i class="fa fa-bell" aria-hidden="true"></i>
-            <h3>Real-Time Job Alerts & Interview :</h3>
+            <h3>Real-Time Job Alerts & Interview</h3>
            <p> Stay informed instantly with dynamic updates on opportunities and interview schedules.</p>
           </li>
           <li>
             <i class="fa fa-steam" aria-hidden="true"></i>
-            <h3>Application Tracking & Insights:</h3>
+            <h3>Application Tracking & Insights</h3>
            <p> Monitor application status with full transparency and gain actionable insights at every stage.</p>
           </li>     
         </ul>
@@ -96,30 +96,30 @@ const Landingpage = () => {
           <div className="steps">
             <div className="step">
                <h2 className="step__h2" > For Job Seekers</h2>
-              <h3>1. Create Your Profile</h3>
+              <h3>1. Create Your Profile.</h3>
               <p className="step__p">
                 Build your professional profile and resume in minutes.
               </p>
-              <h3>2. Find & Apply</h3>
+              <h3>2. Find & Apply.</h3>
               <p className="step__p">
                 Get personalized job matches and apply with a single click.
               </p>
-              <h3>3. Track & Get Hired</h3>
+              <h3>3. Track & Get Hired.</h3>
               <p className="step__p">
                 Monitor your application status and connect directly with recruiters.
               </p>
             </div>
             <div className="step">
               <h2 className="step__h2" >For Employers</h2>
-              <h3>1. Post & Promote Jobs</h3>
+              <h3>1. Post & Promote Jobs.</h3>
               <p className="step__p">
                Publish openings and attract top talent instantly.
               </p>
-              <h3>2. Shortlist Smarter</h3>
+              <h3>2. Shortlist Smarter.</h3>
               <p className="step__p">
                 Use AI-driven filters to identify the best candidates faster.
               </p>
-              <h3>3. Hire End-to-End </h3>
+              <h3>3. Hire End-to-End.</h3>
               <p className="step__p">
                 Manage interviews, offers, and onboarding—all within Doltec.
               </p>

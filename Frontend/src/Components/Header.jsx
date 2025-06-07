@@ -166,6 +166,12 @@ const Header = () => {
                     </ul>
                   )}
                 </li>
+                <li onClick={toggleMobileMenu}>
+                <Link className=" hover:text-white" to="/ContactUs">
+                  {" "}
+                  CONTACT US
+                </Link>
+              </li>
                 {/* <li onClick={() => toggleMobileMenuOption("option4")}>
                   INSIGHT
                   {activeMobileMenuOption === "option4" && (

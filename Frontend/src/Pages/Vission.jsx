@@ -1,29 +1,25 @@
 
 const Vision = () => {
   
-  const values = [
+const values = [
   {
-    title: "Transparency First",
-    description:
-      "We remove the guesswork from the recruitment process—for employers and applicants.",
+    title: "Transparency",
+    description: "No guesswork—clear for employers and applicants.",
     icon: "🔍",
   },
   {
-    title: "Tech with Purpose",
-    description:
-      "Every feature we build solves a real hiring challenge.",
+    title: "Purposeful Tech",
+    description: "Built to solve real hiring problems.",
     icon: "💻",
   },
   {
-    title: "Candidate-Centricity",
-    description:
-      "We prioritize candidate experience at every touchpoint.",
+    title: "Candidate First",
+    description: "Focused on great candidate experiences.",
     icon: "🤝",
   },
   {
-    title: "Data-Driven Decisions",
-    description:
-      "Insights, not instinct, drive hiring success.",
+    title: "Data-Driven",
+    description: "We hire using insights, not instincts.",
     icon: "📊",
   },
 ];
@@ -38,10 +34,10 @@ const Vision = () => {
             Our mission is to build a seamless recruitment ecosystem where
             talent meets opportunity without friction.
           </p>
-          <div className="mission__btn">
+          {/* <div className="mission__btn">
             <button>Explore Our Journey</button>
             <button>Meet Our Team</button>
-          </div>
+          </div> */}
         </div>
       </section>
 
@@ -94,15 +90,6 @@ const Vision = () => {
           ))}
         </div>
        </section>
-
-      {/* CTA */}
-      {/* <section className="cta">
-        <h2>Join Us in Shaping the Future of Work</h2>
-        <div className="cta__btn">
-          <button>Start Hiring with Doltec</button>
-          <button>Explore Careers at Doltec</button>
-        </div>
-      </section> */}
     </div>
   );
 };

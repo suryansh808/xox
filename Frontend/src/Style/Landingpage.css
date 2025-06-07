@@ -39,8 +39,9 @@
     text-align: left;
 
     .doltec__text{
-      text-align: left;
-      font-size: 1.4rem;
+      text-align: justify;
+      font-size: 20px;
+      margin-bottom: 10px;
     }   
     .about__text{
 
@@ -53,7 +54,7 @@
 
        .for__points{
         font-size: 1.2rem;
-        margin: 15px 0;
+        margin: 20px 0;
 
          li{
           display: flex;
@@ -105,6 +106,7 @@
     }
     h3{
       font-size: 20px;
+      font-weight: 600;
     }
     p{
       font-size: 1.2rem;
@@ -154,10 +156,14 @@
        font-weight: 600;
        padding: 8px 0;
     }
+    h3{
+      font-weight: 600;
+    }
     .step__p{
       text-align: left;
        line-height: 20px;
-       margin-left: 20px;
+       margin-left: 17px;
+       margin-bottom: 8px;
     }
   }
 
@@ -277,6 +283,10 @@
         }
        }
     }
+
+    .howitworks__p{
+      font-size: 16px;
+    }
   
     .features-section ul li {
       max-width: 100%;
@@ -284,15 +294,24 @@
 
        p{
         font-size: 14px;
-        text-align: justify;
+        text-align: center;
        }
        h3{
         font-size: 14px;
+        font-weight: 600;
        }
     }
   
     .step {
       flex: 1 1 100%;
+
+       h3{
+       font-size:14px ;
+    }
+
+      .step__p{
+        font-size: 12px;
+    }
     }
   }
   

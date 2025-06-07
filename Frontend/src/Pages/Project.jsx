@@ -34,7 +34,7 @@ const Projects = () => {
       </section>
 
       <section className="innovation__drive">
-        <h2>Innovation-Driven, Outcome-Focused</h2>
+        <h2>Outcome-Focused</h2>
         <div className="innovation__content">
           <p> Each project is a testament to Doltec’s commitment to delivering frictionless hiring experiences. We don’t believe in one-size-fits-all—we believe in architecting talent pipelines that scale with your business.</p>
         </div>
@@ -44,7 +44,7 @@ const Projects = () => {
          <h2> Want to Partner With Us?</h2>
          <p>Explore how Doltec can reimagine your hiring workflows.</p>
          <div>
-              Contact us: <a href="mailto:hello@doltec.in">hello@doltec.in</a> | 🤝 <Link to="/ContactUs">Get in Touch</Link>
+              Contact us: <a href="mailto:support@doltec.in">support@doltec.in</a> | 🤝 <Link to="/ContactUs">Get in Touch</Link>
          </div>
       </section>
 

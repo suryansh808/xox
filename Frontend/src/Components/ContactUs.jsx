@@ -80,6 +80,7 @@ const ContactUs = () => {
           </div>
 
           <button type="submit" className="submit-button">Send Message</button>
+          <div className='mail'><i className="fa fa-envelope" aria-hidden="true"></i><a href="mailto:doltec@gmail.com">support@doltec.in</a></div>
         </form>
 
         {isDialogOpen && (
@@ -94,16 +95,9 @@ const ContactUs = () => {
         )}
       </div>
 
-      <div className="contact-info">
-        <h2>Our Address</h2>
-        <p>Phone: <a href="tel:+91976885083">+91 976885083</a></p>
-        <p>Email: <a href="mailto:doltec@gmail.com">doltec@gmail.com</a></p>
-        <p><strong>Krutanic Solutions</strong>
-          2nd floor, 33, Chikkathogur Main Rd,
-          Pragathi Nagar, Electronic City,
-          Bengaluru, Karnataka 560100
-        </p>
+      <div className="contact-info"> 
       </div>
+
     </div>
   );
 };

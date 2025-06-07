@@ -106,7 +106,7 @@ const Services = () => {
 
         {/* Job Seeker Services */}
         <div className="job__seekers">
-          <h2>Empowering Job Seekers to Succeed</h2>
+          <h2>Empower Job Success</h2>
           <div className="seeker__container">
             <div className="left__img">
               <img src={jobseeker} alt="" />
@@ -159,14 +159,6 @@ const Services = () => {
           </div>
         </div>
 
-        {/* CTA Section */}
-        {/* <section className="cta-section">
-          <h2>Ready to Elevate Your Hiring Strategy?</h2>
-          <div className="call__btn">
-            <button>Post Your First Job</button>
-          <button>Contact Sales</button>
-          </div>
-        </section> */}
       </div>
     </div>
   );

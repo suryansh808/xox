@@ -30,7 +30,7 @@
     0px 0px 2px white inset,
     0px 0px 10px white inset,
     0px 0px 40px white,
-    0px 0px 100px white,
+    0px 0px 0px white,
     0px 0px 5px white;
 }
 
@@ -89,7 +89,7 @@
   .backborder {
   display: inline-block;
   position: relative;
-  padding: 5px; /* space for the border effect */
+  padding: 5px;
   border-radius: 50%;
   background: linear-gradient(270deg, #fff, #00f, #0ff, #fff);
   background-size: 600% 600%;
@@ -116,7 +116,7 @@
     0px 0px 2px white inset,
     0px 0px 10px white inset,
     0px 0px 40px white,
-    0px 0px 100px white,
+    0px 0px 0px white,
     0px 0px 5px white;
 }
 

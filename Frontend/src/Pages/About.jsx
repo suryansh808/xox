@@ -14,7 +14,7 @@ const About = () => {
             instant. We're building the next-gen recruitment platform where
             talent meets opportunity—seamlessly, efficiently, and at scale.”
           </p>
-          <button>Explore Our Platform</button>
+          {/* <button>Explore Our Platform</button> */}
         </div>
       </section>
 
@@ -34,8 +34,8 @@ const About = () => {
         <h2>A Talent-Centric Tomorrow</h2>
         <div className="vission__qoute">
           <p>
-            To bridge the gap between education and employment by empowering
-            students and recruiters with intelligent tools and equal access.
+            "To bridge the gap between education and employment by empowering
+            students and recruiters with intelligent tools and equal access."
           </p>
         </div>
       </section>
@@ -138,19 +138,6 @@ const About = () => {
           ))}
         </div>
       </section>
-
-      {/* CTA */}
-      {/* <section className="cta">
-        <h2>Join Us or Hire With Us</h2>
-        <p>
-          Whether you're a candidate ready for your next leap, or a company
-          seeking game-changing talent—Doltec is your growth partner.
-        </p>
-        <div className="cta__btn">
-          <button>Explore Opportunities</button>
-          <button>Partner with Us</button>
-        </div>
-      </section> */}
     </div>
   );
 };
