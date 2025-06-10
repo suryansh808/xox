@@ -25,7 +25,7 @@ const Recruitment = () => {
           </li>
           <li>
             <Link to="/CompanyLogin">
-              Hiring Partner
+            Post a job and hire
             </Link>
           </li>
         </ul>
