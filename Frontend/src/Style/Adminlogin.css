@@ -36,7 +36,7 @@
     flex-direction: column;
     justify-content: center;
     padding: 2rem;
-    background-color: #5f5656;
+    /* background-color: #5f5656; */
     box-shadow: -4px 0 12px rgba(0, 0, 0, 0.2);
   }
 
@@ -67,7 +67,7 @@
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    max-width: 500px;
+    /* max-width: 500px; */
   }
 
   .input-field {
@@ -76,9 +76,20 @@
     border: 1px solid #d1d5db;
     background-color: #fff;
     color: #000;
+    width: 100%;
     font-size: 1rem;
     outline: none;
     transition: box-shadow 0.2s ease-in-out;
+  }
+  .password-wrapper{
+    position: relative;
+    .toggle-icon{
+      color: #000;
+      position: absolute;
+      top: 20%;
+      right: 10px;
+      z-index: 9999;
+    }
   }
 
   .input-field:focus {
@@ -93,8 +104,9 @@
   }
 
   .login-button {
-    background: linear-gradient(to right, #000000, #333333);
+    background: linear-gradient(to right, #000000, #000000);
     color: #fff;
+    border: 1px solid gray;
     padding: 0.75rem;
     border-radius: 0.5rem;
     font-weight: 600;
@@ -102,7 +114,7 @@
     text-transform: uppercase;
     cursor: pointer;
     transition: transform 0.2s ease-in-out;
-    border: none;
+    /* border: none; */
   }
 
   .login-button:active {

@@ -7,9 +7,11 @@ const Adminlogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
+const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
-
+  const handleTogglePasswordVisibility = () => {
+    setShowPassword((prevShow) => !prevShow);
+  };
     useEffect(() => {
       if (Cookies.get("adminToken")) {
         navigate("/Dashboard");
@@ -44,6 +46,7 @@ const Adminlogin = () => {
         </div>
         <div className="login-box">
            <div className="heading">
+            <div></div>
             <h2 className="">Admin LogIn</h2>
             <Link to="/" className=""><i class="fa fa-arrow-left"></i></Link>
            </div>
@@ -55,13 +58,18 @@ const Adminlogin = () => {
               placeholder="Email"
               className="input-field"
             />
-            <input
-              type="password"
+            <div className="password-wrapper">
+               <input
+              type={showPassword ? 'text' : 'password'}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Password"
               className="input-field"
             />
+            <span onClick={handleTogglePasswordVisibility} className="toggle-icon">
+                  {!showPassword ? <i class="fa fa-eye-slash"></i> : <i class="fa fa-eye"></i>}
+            </span>
+            </div>
             {error && <p className="error-message">{error}</p>}
             <button onClick={handleLogin} className="login-button">
               Log In

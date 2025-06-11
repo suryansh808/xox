@@ -81,7 +81,7 @@ const Header = () => {
       {showHeaderFooter && (
         <div id="header">
           <div className="navbar" style={{ boxShadow: "none" }}>
-            <img src={headerlogo} alt="" />
+             <Link to="/ITServices"><img src={headerlogo} alt="" /></Link>
             <ul>
               <li onClick={() => toggleDropdown()}>
                 <Link className=" hover:text-white" to="/ITServices">
