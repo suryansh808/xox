@@ -93,9 +93,9 @@ const Header = () => {
               <li onClick={() => toggleDropdown("who_we_are")}>WHO WE ARE</li>
               {/* <li onClick={() => toggleDropdown("insight")}>INSIGHT</li> */}
               <li onClick={() => toggleDropdown()}>
-                <Link className=" hover:text-white" to="/ContactUs">
+                <Link className=" hover:text-white" to="/About">
                   {" "}
-                  CONTACT US
+                  ABOUT US
                 </Link>
               </li>
             </ul>
@@ -167,9 +167,9 @@ const Header = () => {
                   )}
                 </li>
                 <li onClick={toggleMobileMenu}>
-                <Link className=" hover:text-white" to="/ContactUs">
+                <Link className=" hover:text-white" to="/About">
                   {" "}
-                  CONTACT US
+                  ABOUT US
                 </Link>
               </li>
                 {/* <li onClick={() => toggleMobileMenuOption("option4")}>

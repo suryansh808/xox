@@ -55,9 +55,7 @@ const Recruitment = () => {
           </span>
           <span>
             <i className="fa fa-github"></i>
-          </span>
-      
-        
+          </span>  
         </div>
       </div>
       <div className="featured">RECRUITMENT</div>
