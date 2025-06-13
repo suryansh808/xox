@@ -45,6 +45,10 @@ import './Style/CompanyHiredCandidates.css';
 import './Style/HrRejectedCandidate.css';
 import "./Style/Chooseaplan.css"
 import "./Style/Selectaplan.css"
+import "./Style/PageNotFound.css"
+
+
+import "./Style/Landing.css"
 createRoot(document.getElementById('root')).render(
   <StrictMode>
       <App />

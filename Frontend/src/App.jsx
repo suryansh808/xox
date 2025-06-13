@@ -75,6 +75,7 @@ import {PrivateRoute} from './PrivateRoute';
 import { HrPrivateRoute } from './PrivateRoute';
 import { CompanyPrivateRoute } from './PrivateRoute';
 import { AdminPrivateRoute } from './PrivateRoute';
+import PageNotFound from './Components/PageNotFound';
 
 
 
@@ -155,6 +156,10 @@ const AppContent = () => {
           <Route path="/Insight3" element={<Insight3/>} />
           <Route path="/Insight4" element={<Insight4/>} />
           <Route path="/ContactUs" element={<ContactUs/>} />
+
+
+
+          <Route path="*" element={<PageNotFound/>} />
          
 
 

@@ -1,6 +1,7 @@
 import suryansh from "../assets/dev/suryanshsaxena.jpg";
 import danish from "../assets/dev/danish.jpg";
 import affan from "../assets/dev/affan.jpg";
+import aryan from "../assets/dev/aryan.png"
 
 const About = () => {
   return (
@@ -125,6 +126,13 @@ const About = () => {
               image: `${affan}`,
               linkedIn: "https://in.linkedin.com/in/mohammedafan",
             },
+            {
+              name: "Aryan Chauhan",
+              role: "",
+              image: `${aryan}`,
+              linkedIn: "https://www.linkedin.com/in/aryan-ranjan-228a36289/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
+            },
+
           ].map((member, index) => (
             <div key={index} className="team__member">
               <img src={member.image} alt={member.name} />

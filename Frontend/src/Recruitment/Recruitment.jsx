@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import ToggleComponent from "../Components/ToggleComponent";
+// import Landing from "./Landing";
 import Landingpage from "./Landingpage";
 const Recruitment = () => {
   return (
@@ -64,6 +65,7 @@ const Recruitment = () => {
       </div>
     </div>
     <Landingpage/>
+    {/* <Landing/> */}
     </div>
   )
 }
