@@ -15,7 +15,8 @@ import WhoweareAbout from './Pages/About';
 import Insight1 from './Pages/Insight1';
 import Insight2 from './Pages/Insight2';
 import Insight3 from './Pages/Insight3';
-import Insight4 from './Pages/Insight4';
+// import Insight4 from './Pages/Insight4';
+import Community from './Pages/Community';
 import ContactUs from './Components/ContactUs';
 
 import Recruitment from './Recruitment/Recruitment';
@@ -76,6 +77,7 @@ import { HrPrivateRoute } from './PrivateRoute';
 import { CompanyPrivateRoute } from './PrivateRoute';
 import { AdminPrivateRoute } from './PrivateRoute';
 import PageNotFound from './Components/PageNotFound';
+
 
 
 
@@ -154,7 +156,7 @@ const AppContent = () => {
           <Route path="/Insight1" element={<Insight1/>} />
           <Route path="/Insight2" element={<Insight2/>} />
           <Route path="/Insight3" element={<Insight3/>} />
-          <Route path="/Insight4" element={<Insight4/>} />
+          <Route path="/Community" element={<Community/>} />
           <Route path="/ContactUs" element={<ContactUs/>} />
 
 

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import API from '../API';
 
-const Insight4 = () => {
+const Community = () => {
   const [thought, setThought] = useState("");
   const [thoughts, setThoughts] = useState([]);
   const [replyText, setReplyText] = useState({});
@@ -149,4 +149,4 @@ const Insight4 = () => {
   );
 };
 
-export default Insight4;
+export default Community;
