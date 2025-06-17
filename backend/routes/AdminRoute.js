@@ -28,6 +28,7 @@ router.post("/adminlogin", async (req, res) => {
         message: "Admin logged in successfully",
         adminId: adminlogin._id,
         email: adminlogin.email,
+        name: adminlogin.name,
         token,
       });
   } catch (error) {

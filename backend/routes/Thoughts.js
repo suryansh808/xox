@@ -8,6 +8,7 @@ router.post("/thoughts", async (req, res) => {
   try {
     const newThought = new Thought({
       text: req.body.text,
+      owner: req.body.user,
       replies: [],
     });
 
@@ -33,7 +34,7 @@ router.post("/thoughtsreplies/:id", async (req, res) => {
     const thought = await Thought.findById(req.params.id);
     if (!thought) return res.status(404).json({ message: "Thought not found" });
 
-    thought.replies.push({ text: req.body.text });
+    thought.replies.push({ text: req.body.text , user: req.body.user});
     await thought.save();
     res.status(200).json(thought);
   } catch (error) {
