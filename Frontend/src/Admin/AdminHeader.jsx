@@ -13,6 +13,7 @@ const AdminHeader = () => {
     alert("Logout Successfully");
     Cookies.remove('adminToken', { path: '/' });
     localStorage.removeItem("AdminId");
+    localStorage.removeItem("name");
     navigate("/");
   };
 

@@ -59,7 +59,7 @@ const CompanySignup = () => {
       if (res.data.success) {
         localStorage.setItem('companyId', res.data.companyId);
         alert('Login successful');
-        navigate('/CompanyDashboard');
+        navigate('/CompanyLogin');
       } else {
         alert(res.data.message || 'Invalid credentials');
       }

@@ -25,7 +25,9 @@ const [showPassword, setShowPassword] = useState(false);
     }
     try {
       const response =  await axios.post(`${API}/adminlogin`, { email, password });
+      console.log(response.data);
       localStorage.setItem("admin", "true");
+      localStorage.setItem("name" , response.data.name);
       Cookies.set("adminToken", response.data.token, { expires: 1, secure: true, sameSite: "none", path: "/",});
       alert("Login successful");
       setError(""); 

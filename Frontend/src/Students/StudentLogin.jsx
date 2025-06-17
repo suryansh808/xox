@@ -25,6 +25,7 @@ const StudentLogIn = () => {
         
       if (response.status === 200) {
           localStorage.setItem("user", response.data.user);
+          localStorage.setItem("name", response.data.name);
           localStorage.setItem("email", response.data.email);
           Cookies.set('authToken', response.data.token, {
         expires: 1,

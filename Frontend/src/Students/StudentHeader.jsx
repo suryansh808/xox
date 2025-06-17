@@ -13,6 +13,7 @@ const StudentHeader = () => {
   const handleLogout = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("email");
+    localStorage.removeItem("name");
     Cookies.remove('authToken', { path: '/' });
     alert("Logout Successfully");
     navigate("/");

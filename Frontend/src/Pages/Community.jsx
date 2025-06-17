@@ -7,23 +7,25 @@ const Community = () => {
   const [thoughts, setThoughts] = useState([]);
   const [replyText, setReplyText] = useState({});
   const [selectedThought, setSelectedThought] = useState(null);
-
+  const user = localStorage.getItem("name");
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       const response = await axios.post(`${API}/thoughts`, {
+        user:user,
         text: thought,
       });
       setThought("");
       fetchThoughts();
-      alert("your thought has been share...");
+      alert("Your thought has been shared successfully.");
     } catch (error) {
       console.error("Error saving thought:", error);
     }
   };
 
   const fetchThoughts = async () => {
+  
     try {
       const response = await axios.get(`${API}/getthoughts`);
       setThoughts(response.data.filter((item) => item.visible === "show"));
@@ -44,10 +46,10 @@ const Community = () => {
 
   const handleReplySubmit = async (thoughtId) => {
     if (!replyText[thoughtId]) return;
-    const newReply = { text: replyText[thoughtId], createdAt: new Date().toISOString(), visible: "show", };
+    const newReply = { text: replyText[thoughtId], createdAt: new Date().toISOString(), visible: "show", user:user };
     try {
       await axios.post(`${API}/thoughtsreplies/${thoughtId}`, newReply);
-      alert("submited");
+      alert("Your reply has been posted.");
       if (selectedThought && selectedThought._id === thoughtId) {
         setSelectedThought((prev) => ({
           ...prev,
@@ -59,6 +61,7 @@ const Community = () => {
     } catch (error) {
       console.error("Error adding reply:", error);
     }
+  
   };
   
   useEffect(() => {
@@ -96,8 +99,8 @@ const Community = () => {
                 <div
                   className="left__boxs"
                   key={thought._id}
-                  onClick={() => handleThoughtSelect(thought)}
-                >
+                  onClick={() => handleThoughtSelect(thought)}>
+                  <span><i class="fa fa-user"></i> {thought.owner ? thought.owner : "Unknown"}</span>
                   <p>{thought.text}</p>
                 </div>
               ))}
@@ -115,9 +118,14 @@ const Community = () => {
                     <div className="replies">
                       {selectedThought?.replies?.filter(reply => reply.visible === "show").map((reply, index) => (
                           <div className="replyprofile" key={index}>
-                                  <i class="fa fa-user" aria-hidden="true"></i>
-                                <span>{new Date(reply.createdAt).toLocaleString("en-IN",{timeZone: "Asia/Kolkata",dateStyle: "medium",timeStyle: "short",})}   </span>                           
-                                  <pre>{reply.text}</pre>
+                               <div className="reply_pro">
+                                <i class="fa fa-user" aria-hidden="true"></i>
+                                 <div className="name_flex">
+                                    <span>{reply.user ? reply.user : "Unknown"}</span>
+                                    <span>{new Date(reply.createdAt).toLocaleString("en-IN",{timeZone: "Asia/Kolkata",dateStyle: "medium",timeStyle: "short",})}   </span>                           
+                                 </div>
+                               </div>
+                                <pre>{reply.text}</pre>
                           </div>
                       ))}
                     </div>

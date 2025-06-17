@@ -23,6 +23,7 @@ const CompanyLogin = () => {
     try {
       const res = await axios.post(`${API}/company-login`, loginData);
       if (res.data) {
+        localStorage.setItem("name" , res.data.companyName);
         localStorage.setItem('companyId', res.data.companyId);
          Cookies.set("companyToken", res.data.token, {
                   expires: 1,
