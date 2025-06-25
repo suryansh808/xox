@@ -198,7 +198,7 @@ const CompanyJobPost = () => {
         )}
       </div>
        <div className="subscriptionbtn">
-         <button onClick={() => setDialogOpen(true)}>Subscribe</button>
+         {/* <button onClick={() => setDialogOpen(true)}>Subscribe</button> */}
       <SubscriptionDialog isOpen={dialogOpen} onClose={() => setDialogOpen(false)} />
       </div>
       <table className="job-table">
