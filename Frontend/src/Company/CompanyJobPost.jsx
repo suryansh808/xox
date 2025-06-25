@@ -185,7 +185,6 @@ const CompanyJobPost = () => {
 
   return (
     <div id="companyjobpost">
-     
       <div className="heading">
         <h2 className="job-list-title">Job List</h2>
         {jobs.length < jobPostLimit ? (

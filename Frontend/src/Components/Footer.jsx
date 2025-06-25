@@ -68,19 +68,13 @@ const Footer = () => {
               <a href="http://" target="_blank">
                 <i class="fa fa-facebook"></i>
               </a>
-              <a href="http://" target="_blank">
+              <a href="https://www.instagram.com/doltec.in" target="_blank">
                 <i class="fa fa-instagram"></i>
-              </a>
-              <a href="http://" target="_blank">
-                <i class="fa fa-twitter"></i>
               </a>
               <a href="http://" target="_blank">
                 <i class="fa fa-github"></i>
               </a>
-              <a href="http://" target="_blank">
-                <i class="fa fa-youtube-play"></i>
-              </a>
-              <a href="http://" target="_blank">
+              <a href="https://www.linkedin.com/in/doltec-0138a1369" target="_blank">
                 <i class="fa fa-linkedin-square"></i>
               </a>
             </div>

@@ -8,7 +8,7 @@ const ContactUsResponse = () => {
   const fetchContactUs = async () => {
     try {
       const res = await axios.get(`${API}/getcontactus`);
-      setResponses(res.data);
+      setResponses(res.data);      
     } catch (err) {
       console.error('Error fetching contact responses:', err.message);
     }
@@ -16,7 +16,7 @@ const ContactUsResponse = () => {
 
   useEffect(() => {
     fetchContactUs();
-  }, []);
+  }, []); 
 
   return (
    <div id="contactresponse">
@@ -31,6 +31,7 @@ const ContactUsResponse = () => {
             <th>Email</th>
             <th>Phone</th>
             <th>Message</th>
+            <th>Date and Time</th>
           </tr>
         </thead>
         <tbody>
@@ -42,6 +43,7 @@ const ContactUsResponse = () => {
                 <td>{item.email}</td>
                 <td>{item.phone}</td>
                 <td>{item.message}</td>
+                <td>{new Date(item.timestamp).toLocaleString()}</td>
               </tr>
             ))
           ) : (
