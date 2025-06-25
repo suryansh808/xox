@@ -93,6 +93,23 @@ const App = () => {
 const AppContent = () => {
   const location = useLocation();
 
+  const itHeader = [
+    "/itservices",
+    "/overview",
+    "/industries",
+    "/services",
+    "/product",
+    "/mission",
+    "/vission",
+    "/project",
+    "/about",
+    "/insight1",
+    "/insight2",
+    "/insight3",
+    "/community",
+    "/contactus",
+  ];
+
   const studentHeader = [
     "/home",
     "/settings",
@@ -137,7 +154,8 @@ const AppContent = () => {
   return (
     <div>
 
-        <Header/>
+        
+        {itHeader.includes(location.pathname.toLowerCase()) && (<Header/>)}
         {studentHeader.includes(location.pathname.toLowerCase()) && (<StudentHeader/>)}
         {adminHeader.includes(location.pathname.toLowerCase()) && (<AdminHeader/>)}
         {hrHeader.includes(location.pathname.toLowerCase()) && (<HRHeader/>)}
