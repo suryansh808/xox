@@ -8,7 +8,8 @@ const userSchema = new mongoose.Schema({
   otp: String,
   jobLimit:{type:Number, default:2},
   password:{type:String},
-  confirmPassword:{Type:String}
+  confirmPassword:{Type:String},
+timestamp: { type: Date, default: Date.now }
   
 });
 

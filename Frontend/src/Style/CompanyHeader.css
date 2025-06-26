@@ -11,8 +11,8 @@
       left: 0;
       width: 100%;
       z-index: 1000;
-      /* border-bottom: 1px solid rgba(255, 255, 255, 0.1); */
-      /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); */
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 2px 5px rgba(221, 217, 217, 0.2);
       transition: background-color 0.3s ease-in-out;
       
     }
@@ -26,6 +26,10 @@
       font-size: 1.8rem;
       cursor: pointer;
       user-select: none;
+    }
+    .menu-icon:hover {
+      color: #e0d8d8;
+      
     }
     
     /* Sidebar Styling */

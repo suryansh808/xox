@@ -187,7 +187,7 @@ const Joblist = () => {
               </div>
               <div className="company__name">
                 <strong className="">{job.jobTitle}</strong>
-                <p className="">{job.location}</p>
+                <p className="">{job.city}</p>
               </div>
             </div>
           ))}

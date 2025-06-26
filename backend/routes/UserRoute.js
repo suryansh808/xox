@@ -112,7 +112,7 @@ router.post("/usersignup", async (req, res) => {
 //get all users
 router.get('/allusers', async (req, res) => {
   try {
-    const users = await User.find().select('-password -__v -otp -confirmPassword -profile');
+    const users = await User.find().select('-password -__v -otp -confirmPassword -profile').sort({ _id:-1}).lean();
     res.status(200).json(users);
   } catch (error) {
     console.error(error);

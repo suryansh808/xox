@@ -20,7 +20,29 @@
   .hr-form {
     width: 100%;
     display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
     gap: 1rem;
+
+    div{
+      flex: 1;
+      min-width: 280px;
+    }
+   
+
+    .password-wrapper{
+      position: relative;
+
+      .toggle-icon{
+        position: absolute;
+        right: 10px;
+        top: 50%; 
+        transform: translateY(-50%);
+        cursor: pointer;
+      }
+    }
+
   }
 
   @media (max-width: 768px) {
@@ -48,7 +70,7 @@
   }
   
   .hr-button {
-    width: 500px;
+   min-width: 280px;
     border: 1px solid #ddd;
     color: white;
     padding: 10px;
@@ -84,6 +106,15 @@
     border-collapse: collapse;
     /* color: black; */
     /* background-color: white; */
+
+    .fa-pencil-square-o{
+      cursor: pointer;
+      color: #0d6efd;
+    }
+    .fa-trash{
+      cursor: pointer;
+      color: red;
+    }
   }
   
   .hr-table th,

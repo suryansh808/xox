@@ -41,7 +41,8 @@ const UserManagement = () => {
             <th>Email</th>
             <th>Phone</th>
             <th>Assigned Limit</th>
-            <th>Limits</th>
+            <th>Action</th>
+            <th>Date and Time</th>
           </tr>
         </thead>
         <tbody>
@@ -55,17 +56,19 @@ const UserManagement = () => {
                 <td>{item.jobLimit || 0}</td>
                 <td>
                   <button
+                  title='Add Limits'
                     className="add-limit-button"
                     onClick={() => handleAddJobLimit(item._id)}
                   >
-                    Add Limit
+                   <i class="fa fa-sliders"></i>
                   </button>
                 </td>
+               <td>{new Date(item.timestamp).toLocaleString()}</td>
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan="6" className="no-response">No users found</td>
+              <td colSpan="7" className="no-response">No users found</td>
             </tr>
           )}
         </tbody>

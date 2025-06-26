@@ -79,7 +79,7 @@ const ContactUs = () => {
             ></textarea>
           </div>
 
-          <button type="submit" className="submit-button">Send Message</button>
+          <button type="submit" className="submit-button" >Send Message</button>
           <div className='mail'><i className="fa fa-envelope" aria-hidden="true"></i><a href="mailto:doltec@gmail.com">support@doltec.in</a></div>
         </form>
 

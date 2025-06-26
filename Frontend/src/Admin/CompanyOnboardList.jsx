@@ -45,11 +45,13 @@ const CompanyOnboardList = () => {
             <th>S.No</th>
             <th>Name</th>
             <th>Email</th>
+            <th>Phone</th>
             <th>Type</th>
             <th>Position</th>
             <th>Business Model</th>
-            <th>Job Post Limit</th>
+            <th>Limit</th>
             <th>Action</th>
+            <th>D & T</th>
           </tr>
         </thead>
         <tbody>
@@ -59,23 +61,18 @@ const CompanyOnboardList = () => {
                 <td>{index + 1}</td>
                 <td>{item.companyName}</td>
                 <td>{item.email}</td>
+                <td>{item.phone}</td>
                 <td>{item.companyType ? item.companyType : item.otherCompanyType}</td>
                 <td>{item.position}</td>
                 <td>{item.businessmodel}</td>
                 <td>{item.jobPostLimit}</td>
-                 <td>
-                  <button
-                    onClick={() => handleAddJobLimit(item.companyId)}
-                    className="add-limit-button"
-                  >
-                    Add Limit
-                  </button>
-                </td>
+                <td><button title='Add Job Limits' onClick={() => handleAddJobLimit(item.companyId)} className="add-limit-button"><i class="fa fa-sliders"></i></button></td>
+                <td>{new Date(item.timestamp).toLocaleDateString()}</td>
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan="6" className="no-response">No users found</td>
+              <td colSpan="10" className="no-response">No users found</td>
             </tr>
           )}
         </tbody>

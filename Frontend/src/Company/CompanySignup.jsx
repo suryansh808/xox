@@ -11,6 +11,7 @@ const CompanySignup = () => {
     position: '',
     businessmodel: '',
     email: '',
+    phone: '',
     password: '',
     confirmPassword: '',
   });
@@ -51,6 +52,7 @@ const CompanySignup = () => {
       position: formData.position,
       businessmodel: formData.businessmodel,
       email: formData.email,
+      phone: formData.phone,
       password: formData.password,
     };
     try {
@@ -93,6 +95,15 @@ const CompanySignup = () => {
                 name="email"
                 placeholder="Company Email"
                 value={formData.email}
+                onChange={handleChange}
+                className="signup-input"
+                required
+              />
+              <input
+                type="number"
+                name="phone"
+                placeholder="Company Phone"
+                value={formData.phone}
                 onChange={handleChange}
                 className="signup-input"
                 required

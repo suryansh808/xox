@@ -48,7 +48,7 @@ const ContactUsResponse = () => {
             ))
           ) : (
             <tr>
-              <td colSpan="5" className="no-response">No messages received yet.</td>
+              <td colSpan="6" className="no-response">No messages received yet.</td>
             </tr>
           )}
         </tbody>

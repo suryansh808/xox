@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import API from "../API";
-import SubscriptionDialog from './SubscriptionDialog';
+// import SubscriptionDialog from './SubscriptionDialog';
 
 const formFields = [
   { name: "jobTitle", label: "Job Title", type: "text" },
   { name: "location", label: "Location", type: "text" },
+  { name: "city", label: "City", type: "text" },
   { name: "jobType", label: "Job Type (e.g., In Office)", type: "text" },
   { name: "jobTiming", label: "Job Timing (e.g., Full Time)", type: "text" },
   { name: "workingDays", label: "Working Days (e.g., 5 Days)", type: "text" },
@@ -21,6 +22,7 @@ const CompanyJobPost = () => {
   const initialJobDetails = {
     jobTitle: "",
     location: "",
+    city:"",
     jobType: "",
     jobTiming: "",
     workingDays: "",
@@ -101,6 +103,7 @@ const CompanyJobPost = () => {
     }
     const requiredFields = [
       "jobTitle",
+      "city",
       "location",
       "jobType",
       "jobTiming",
@@ -199,7 +202,7 @@ const CompanyJobPost = () => {
       </div>
        <div className="subscriptionbtn">
          {/* <button onClick={() => setDialogOpen(true)}>Subscribe</button> */}
-      <SubscriptionDialog isOpen={dialogOpen} onClose={() => setDialogOpen(false)} />
+      {/* <SubscriptionDialog isOpen={dialogOpen} onClose={() => setDialogOpen(false)} /> */}
       </div>
       <table className="job-table">
         <thead className="table-header">
@@ -332,6 +335,7 @@ const CompanyJobPost = () => {
             <h2 className="modal-title">Job Details</h2>
             <div className="job-details">
               <p><strong>JobType: </strong>{selectedJob.jobType}</p>
+              <p><strong>City: </strong>{selectedJob.city}</p>
               <p><strong>Experience:</strong> {selectedJob.experience}</p>
               <p>
                 <strong>Salary:</strong> {selectedJob.salary.minSalary} -{" "}

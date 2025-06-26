@@ -8,7 +8,7 @@ require("dotenv").config();
 
 router.post('/company-signup', async (req, res) => {
   try {
-    const { companyName, companyType, otherCompanyType, position, businessmodel, email, password } = req.body;
+    const { companyName, companyType, otherCompanyType, position, businessmodel, email, phone , password } = req.body;
  
     const existingCompany = await Company.findOne({ $or: [{ email }, { companyName }] });
     if (existingCompany) {
@@ -23,6 +23,7 @@ router.post('/company-signup', async (req, res) => {
       position,
       businessmodel,
       email,
+      phone,
       companyId: `comp${Date.now()}`, 
       password, 
     });
@@ -65,7 +66,7 @@ router.post('/company-login', async (req, res) => {
 
 router.get("/allcompany", async (req, res) => {
   try {
-    const jobs = await Company.find().select("-password -__v -companyLogoUrl").lean();
+    const jobs = await Company.find().select("-password -__v -companyLogoUrl").sort({ _id:-1}).lean();
     res.status(200).json(jobs);
   } catch (error) {
     console.error("Error fetching all companys:", error);
@@ -101,7 +102,7 @@ router.post("/company-jobs", async (req, res) => {
     }
 
     const requiredFields = [
-      "jobTitle", "location", "jobType", "jobTiming", "workingDays",
+      "jobTitle","city" , "location", "jobType", "jobTiming", "workingDays",
       "jobDescription", "desiredSkills", "experience", "noofposition", "applicationDeadline"
     ];
     for (const field of requiredFields) {

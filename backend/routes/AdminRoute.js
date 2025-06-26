@@ -96,10 +96,51 @@ router.post("/createhr", async (req, res) => {
   }
 });
 
+//hr edit account
+router.put("/edithr/:id", async (req, res) => {
+  try {
+    const { name, email, number, password } = req.body;
+    const { id } = req.params;
+
+    const updatedHr = await Createhr.findByIdAndUpdate(
+      id,
+      { name, email, number, password },
+      { new: true }
+    );
+
+    if (!updatedHr) {
+      return res.status(404).json({ message: "HR not found" });
+    }
+
+    res.status(200).json({ message: "HR updated successfully", data: updatedHr });
+  } catch (error) {
+    console.error("Update Error:", error);
+    res.status(500).json({ message: "Server Error" });
+  }
+});
+
+//delete hr account
+router.delete("/deletehr/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deletedHr = await Createhr.findByIdAndDelete(id);
+
+    if (!deletedHr) {
+      return res.status(404).json({ message: "HR not found" });
+    }
+
+    res.status(200).json({ message: "HR deleted successfully" });
+  } catch (error) {
+    console.error("Delete Error:", error);
+    res.status(500).json({ message: "Server Error" });
+  }
+});
+
+
 //get hr account
 router.get("/gethr", async (req, res) => {
   try {
-    const hr = await Createhr.find().sort({ _id: -1 });
+    const hr = await Createhr.find().select("-password").sort({ _id: -1 }).lean();
     if (!hr) {
       return res.status(404).json({ message: "HR not found" });
     }
@@ -157,6 +198,7 @@ router.get("/company-all-jobs", async (req, res) => {
           companyLogoUrl: { $ifNull: ["$company.companyLogoUrl", ""] },
           companyId: 1,
           jobTitle: 1,
+          city: 1,
           location: 1,
           jobType: 1,
           jobTiming: 1,

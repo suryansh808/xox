@@ -98,7 +98,7 @@ const AppliedStatus = () => {
             >
               <div className="company__name">
                 <strong>{job.jobId.jobTitle}</strong>
-                <p>{job.jobId.location}</p>
+                <p>{job.jobId.city}</p>
               </div>
             </div>
           ))}
