@@ -55,7 +55,7 @@ import "./Style/PlatformFeatures_landingpage.css"
 import "./Style/SuccessStories_landingpage.css"
 import "./Style/Resources_landingpage.css"
 import "./Style/Footer_landingpage.css"
-import "./Style/resources.css"
+import "./Style/Resources.css"
 
 
 import "./Style/Landing.css"
