@@ -1,136 +1,24 @@
 import { Link } from "react-router-dom";
-import howitworks from "../assets/howitworks.png";
-import aboutus from "../assets/aboutus.png";
+import Hero from "./Hero";
+import HowItWorks from "./HowItWorks";
+import FeaturedRoles from "./FeaturedRoles";
+import PlatformFeatures from "./PlatformFeatures";
+import SuccessStories from "./SuccessStories";
+import Resources from "./Resources";
+import DualCtaFooter from "./DualCtaFooter";
+
 
 const Landingpage = () => {
   return (
     <div id="landingpage">
-      {/* About Section */}
-      <section className="flex-section reverse">
-        <div className="image-wrapper">
-          <img src={aboutus} alt="JobPortal Illustration" />
-        </div>
-        <div className="content-wrapper">
-          <p className="doltec__text">
-            Doltec is a next-generation recruitment platform built to redefine
-            how talent meets opportunity. Our mission is to streamline and
-            optimize the entire hiring lifecycle—from job posting to
-            onboarding—under a single, intelligent ecosystem.
-          </p>
-          <div className="about__text">
-            <h3 className="for__">For Employers</h3>
-            <ul className="for__points">
-              <li>
-                <i class="fa fa-tag"></i> <p> Post job openings in minutes with our intuitive employer dashboard.</p>
-              </li>
-              <li>
-                <i class="fa fa-tag"></i> <p>Access a dynamic talent pool equipped
-                with intelligent candidate matching.</p>
-              </li>
-              <li>
-                <i class="fa fa-tag"></i> <p> Communicate, shortlist, interview, and
-                hire—all within the platform.</p>
-              </li>
-              <li>
-                <i class="fa fa-tag"></i> <p>Track every stage of recruitment with
-                real-time analytics and reports.</p>
-              </li>
-            </ul>
-            <h3 className="for__">For Job Seekers</h3>
-            <ul className="for__points">
-              <li>
-                <i class="fa fa-tag"></i> <p>Discover curated job listings tailored
-                to your profile and preferences.</p>
-              </li>
-              <li>
-                <i class="fa fa-tag"></i> <p>Build your digital resume and apply to
-                multiple jobs with a single click.</p>
-              </li>
-              <li>
-                <i class="fa fa-tag"></i> <p>Track applications, get interview
-                alerts, and connect with recruiters effortlessly.</p>
-              </li>
-              <li>
-                <i class="fa fa-tag"></i> <p>Access career tools, resources, and
-                recommendations to boost your job-readiness.</p>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      {/* Features Section */}
-      <section className="features-section">
-        <h2 className="feature__h2">Platform Features</h2>
-        <ul>
-          <li>
-            <i className="fa fa-cog" aria-hidden="true"></i>
-            <h3>Role-Specific Dashboards</h3> 
-            <p>
-              Tailored interfaces for recruiters and job seekers to streamline task management and optimize workflows.
-            </p>
-          </li>
-          <li>
-            <i class="fa fa-android" aria-hidden="true"></i>
-            <h3>AI-Powered Resume Screening</h3> 
-           <p> Intelligent candidate shortlisting using machine learning for faster, more accurate hiring decisions.</p>
-          </li>
-          <li>
-            <i class="fa fa-bell" aria-hidden="true"></i>
-            <h3>Real-Time Job Alerts & Interview</h3>
-           <p> Stay informed instantly with dynamic updates on opportunities and interview schedules.</p>
-          </li>
-          <li>
-            <i class="fa fa-steam" aria-hidden="true"></i>
-            <h3>Application Tracking & Insights</h3>
-           <p> Monitor application status with full transparency and gain actionable insights at every stage.</p>
-          </li>     
-        </ul>
-      </section>
-
-      {/* How It Works Section */}
-      <section className="flex-section">
-        <div className="content-wrapper">
-          <h2 className="howitwork__h2">How It Works</h2>
-          <p className="howitworks__p">Doltec transforms recruitment into a seamless, end-to-end digital experience.</p>
-          <div className="steps">
-            <div className="step">
-               <h2 className="step__h2" > For Job Seekers</h2>
-              <h3>1. Create Your Profile.</h3>
-              <p className="step__p">
-                Build your professional profile and resume in minutes.
-              </p>
-              <h3>2. Find & Apply.</h3>
-              <p className="step__p">
-                Get personalized job matches and apply with a single click.
-              </p>
-              <h3>3. Track & Get Hired.</h3>
-              <p className="step__p">
-                Monitor your application status and connect directly with recruiters.
-              </p>
-            </div>
-            <div className="step">
-              <h2 className="step__h2" >For Employers</h2>
-              <h3>1. Post & Promote Jobs.</h3>
-              <p className="step__p">
-               Publish openings and attract top talent instantly.
-              </p>
-              <h3>2. Shortlist Smarter.</h3>
-              <p className="step__p">
-                Use AI-driven filters to identify the best candidates faster.
-              </p>
-              <h3>3. Hire End-to-End.</h3>
-              <p className="step__p">
-                Manage interviews, offers, and onboarding—all within Doltec.
-              </p>
-            </div>
-           
-          </div>
-        </div>
-        <div className="image-wrapper">
-          <img src={howitworks} alt="Steps for using JobPortal" />
-        </div>
-      </section>
+      <Hero />
+      <HowItWorks />
+      <FeaturedRoles/>
+      <PlatformFeatures/>
+      <SuccessStories/>
+      <Resources/>
+      {/* <DualCtaFooter/> */}
+    
 
       {/* Footer */}
       <div className="recrutment__footer">
@@ -261,20 +149,23 @@ const Landingpage = () => {
               <li>
                 <Link to="Services">Services</Link>
               </li>
+               <li>
+                <Link to="community">Community</Link>
+               </li>
               <li>
                 <Link to="Overview">Overview</Link>
               </li>
               <li>
-                <Link to="Product">Product</Link>
+                <Link to="refundcancellationpolicy">Refund Policy</Link>
               </li>
               <li>
-                <Link to="Mission">Mission</Link>
+                <Link to="mission">Vission</Link>
               </li>
               <li>
-                <Link to="Vission">Vission</Link>
+                <Link to="Termsandconditions">T&C</Link>
               </li>
               <li>
-                <Link to="Project">Project</Link>
+                <Link to="privacypolicy">Privacy Policy</Link>
               </li>
               <li>
                 <Link to="About">About</Link>

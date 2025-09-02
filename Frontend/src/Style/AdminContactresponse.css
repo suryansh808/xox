@@ -1,4 +1,6 @@
 #contactresponse{
+  background-color: rgba(14, 14, 15, 0.8);
+  min-height: 100vh;
 .contactus-container {
     padding: 70px 10px;
   }

@@ -1,6 +1,7 @@
 #userdashboard {
   padding: 70px 10px;
   height: calc(100dvh - 0px);
+     background-color: rgba(14, 14, 15, 0.8);
 
   .user__container {
     display: flex;

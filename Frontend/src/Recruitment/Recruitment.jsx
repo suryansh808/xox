@@ -65,7 +65,6 @@ const Recruitment = () => {
       </div>
     </div>
     <Landingpage/>
-    {/* <Landing/> */}
     </div>
   )
 }

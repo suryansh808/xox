@@ -1,5 +1,6 @@
 #assigned-job {
-   
+    background-color: rgba(14, 14, 15, 0.8);
+    min-height: 100vh;
     .assigned__container{
       padding: 70px 10px;
     }

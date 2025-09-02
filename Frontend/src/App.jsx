@@ -25,6 +25,7 @@ import StudentLogIn from './Students/StudentLogin';
 import StudentSignUp from './Students/StudentSignUp';
 import Home from './Students/Home';
 import StudentHeader from './Students/StudentHeader';
+import PrivateChats from './Students/PrivateChats';
 import Joblist from './Students/Joblist';
 import AppliedStatus from './Students/AppliedStatus';
 import Resume from './Students/Resume';
@@ -77,6 +78,11 @@ import { HrPrivateRoute } from './PrivateRoute';
 import { CompanyPrivateRoute } from './PrivateRoute';
 import { AdminPrivateRoute } from './PrivateRoute';
 import PageNotFound from './Components/PageNotFound';
+import PrivacyPolicy from './Pages/PrivacyProlicy';
+import RefundCancellationPolicy from './Pages/RefundCancellationPolicy';
+import TermsAndConditions from './Pages/TermsAndConditions';
+import Resources from './Pages/Resources';
+
 
 
 
@@ -108,6 +114,11 @@ const AppContent = () => {
     "/insight3",
     "/community",
     "/contactus",
+    "/privacypolicy",
+    "/refundcancellationpolicy",
+    "/termsandconditions",
+    "/resources",
+
   ];
 
   const studentHeader = [
@@ -116,7 +127,8 @@ const AppContent = () => {
     "/resume",
     "/appliedstatus",
     "/joblist",
-    "/chooseaplan"
+    "/chooseaplan",
+    "/privatechats",
   ];
   const adminHeader = [
     "/dashboard",
@@ -176,6 +188,11 @@ const AppContent = () => {
           <Route path="/Insight3" element={<Insight3/>} />
           <Route path="/Community" element={<Community/>} />
           <Route path="/ContactUs" element={<ContactUs/>} />
+          <Route path="/PrivacyPolicy" element={<PrivacyPolicy/>} />
+          <Route path="/RefundCancellationPolicy" element={<RefundCancellationPolicy/>} />
+          <Route path="/TermsAndConditions" element={<TermsAndConditions/>} />
+          <Route path="/Resources" element={<Resources/>} />
+           
 
 
 
@@ -195,6 +212,7 @@ const AppContent = () => {
           <Route path="/Resume" element={<PrivateRoute><Resume/></PrivateRoute>} />
           <Route path="/Settings" element={<PrivateRoute><Settings/></PrivateRoute>} />
           <Route path="/Chooseaplan" element={<PrivateRoute><Chooseaplan/></PrivateRoute>} />
+          <Route path="/PrivateChats" element={<PrivateRoute><PrivateChats/></PrivateRoute>} />
 
 
 

@@ -46,6 +46,16 @@ import './Style/HrRejectedCandidate.css';
 import "./Style/Chooseaplan.css"
 import "./Style/Selectaplan.css"
 import "./Style/PageNotFound.css"
+import "./Style/PrivateChats.css"
+
+import "./Style/Hero_Landingpage.css"
+import "./Style/Howitworks_landingpage.css"
+import "./Style/FeatureRoles_landingpage.css"
+import "./Style/PlatformFeatures_landingpage.css"
+import "./Style/SuccessStories_landingpage.css"
+import "./Style/Resources_landingpage.css"
+import "./Style/Footer_landingpage.css"
+import "./Style/resources.css"
 
 
 import "./Style/Landing.css"

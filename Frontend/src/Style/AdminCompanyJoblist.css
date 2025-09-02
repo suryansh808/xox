@@ -1,4 +1,6 @@
 #admin-company-joblist { 
+    background-color: rgba(14, 14, 15, 0.8);
+    min-height: 100vh;
     .company__job__container{
       padding: 70px 10px;
     }

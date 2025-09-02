@@ -1,6 +1,7 @@
 #appliedjoblist {
   padding: 60px 10px 0 10px;
   position: relative;
+     background-color: rgba(14, 14, 15, 0.8);
 
   .joblist__container {
     height: calc(100dvh - 60px);

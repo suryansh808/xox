@@ -67,7 +67,7 @@ const CompanyOnboardList = () => {
                 <td>{item.businessmodel}</td>
                 <td>{item.jobPostLimit}</td>
                 <td><button title='Add Job Limits' onClick={() => handleAddJobLimit(item.companyId)} className="add-limit-button"><i class="fa fa-sliders"></i></button></td>
-                <td>{new Date(item.timestamp).toLocaleDateString()}</td>
+                <td>{new Date(item.timestamp).toLocaleString()}</td>
               </tr>
             ))
           ) : (

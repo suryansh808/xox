@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import axios from 'axios';
-import API from '../API';
+import axios from "axios";
+import API from "../API";
 
 const Community = () => {
   const [thought, setThought] = useState("");
@@ -13,7 +13,7 @@ const Community = () => {
 
     try {
       const response = await axios.post(`${API}/thoughts`, {
-        user:user,
+        user: user,
         text: thought,
       });
       setThought("");
@@ -25,7 +25,6 @@ const Community = () => {
   };
 
   const fetchThoughts = async () => {
-  
     try {
       const response = await axios.get(`${API}/getthoughts`);
       setThoughts(response.data.filter((item) => item.visible === "show"));
@@ -46,7 +45,12 @@ const Community = () => {
 
   const handleReplySubmit = async (thoughtId) => {
     if (!replyText[thoughtId]) return;
-    const newReply = { text: replyText[thoughtId], createdAt: new Date().toISOString(), visible: "show", user:user };
+    const newReply = {
+      text: replyText[thoughtId],
+      createdAt: new Date().toISOString(),
+      visible: "show",
+      user: user,
+    };
     try {
       await axios.post(`${API}/thoughtsreplies/${thoughtId}`, newReply);
       alert("Your reply has been posted.");
@@ -56,14 +60,13 @@ const Community = () => {
           replies: [...(prev.replies || []), newReply],
         }));
       }
-  
+
       setReplyText((prev) => ({ ...prev, [thoughtId]: "" }));
     } catch (error) {
       console.error("Error adding reply:", error);
     }
-  
   };
-  
+
   useEffect(() => {
     if (!selectedThought && thoughts.length > 0) {
       setSelectedThought(thoughts[0]);
@@ -74,10 +77,25 @@ const Community = () => {
     setSelectedThought(thought);
   };
 
+  const [profileBox, setProfileBox] = useState(false);
+  const handleopenprofile = (data) => {
+    setProfileBox(true);
+    setProfileBox({ user: data.user });
+  };
+
+  // const [chatbox, setChatbox] = useState(false);
+  // const openchatbox = () => {
+  //   setChatbox(true);
+  // };
+
+  // const [menu, setMenu] = useState(false);
+  // const handleopenmenu = () => {
+  //   setMenu(!menu);
+  // };
+
   return (
     <div id="sharethoughts">
       <div className="share__container">
-
         <div className="form-group">
           <form onSubmit={handleSubmit}>
             <input
@@ -99,8 +117,12 @@ const Community = () => {
                 <div
                   className="left__boxs"
                   key={thought._id}
-                  onClick={() => handleThoughtSelect(thought)}>
-                  <span><i class="fa fa-user"></i> {thought.owner ? thought.owner : "Unknown"}</span>
+                  onClick={() => handleThoughtSelect(thought)}
+                >
+                  <span>
+                    <i class="fa fa-user"></i>{" "}
+                    {thought.owner ? thought.owner : "Unknown"}
+                  </span>
                   <p>{thought.text}</p>
                 </div>
               ))}
@@ -116,18 +138,34 @@ const Community = () => {
                   <div className="reply__container">
                     <h2>replies:</h2>
                     <div className="replies">
-                      {selectedThought?.replies?.filter(reply => reply.visible === "show").map((reply, index) => (
+                      {selectedThought?.replies
+                        ?.filter((reply) => reply.visible === "show")
+                        .map((reply, index) => (
                           <div className="replyprofile" key={index}>
-                               <div className="reply_pro">
-                                <i class="fa fa-user" aria-hidden="true"></i>
-                                 <div className="name_flex">
-                                    <span>{reply.user ? reply.user : "Unknown"}</span>
-                                    <span>{new Date(reply.createdAt).toLocaleString("en-IN",{timeZone: "Asia/Kolkata",dateStyle: "medium",timeStyle: "short",})}   </span>                           
-                                 </div>
-                               </div>
-                                <pre>{reply.text}</pre>
+                            <div
+                              onClick={() => handleopenprofile(reply)}
+                              className="reply_pro"
+                            >
+                              <i class="fa fa-user" aria-hidden="true"></i>
+                              <div className="name_flex">
+                                <span>
+                                  {reply.user ? reply.user : "Unknown"}
+                                </span>
+                                <span>
+                                  {new Date(reply.createdAt).toLocaleString(
+                                    "en-IN",
+                                    {
+                                      timeZone: "Asia/Kolkata",
+                                      dateStyle: "medium",
+                                      timeStyle: "short",
+                                    }
+                                  )}{" "}
+                                </span>
+                              </div>
+                            </div>
+                            <pre>{reply.text}</pre>
                           </div>
-                      ))}
+                        ))}
                     </div>
                   </div>
                   <div className="replytextbox">
@@ -148,13 +186,34 @@ const Community = () => {
                 </div>
               )}
             </div>
+            {/* profile box */}
+            {profileBox && (
+              <div className="profile__box">
+                <div className="profile__box__inside">
+                  <div className="profile__box__header">
+                    <h2></h2>
+                    <button
+                      className="close__btn"
+                      onClick={() => setProfileBox(false)}
+                    >
+                      X
+                    </button>
+                  </div>
+                  <div className="profile__box__content">
+                    <h2>{profileBox.user}</h2>
+                    <button className="addfriend__btn">Add Friend +</button>
+                    {/* <button className="pending__btn">Pending</button> */}
+                    {/* <button className="remove__btn">Remove Friend</button> */}
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
-
         </div>
-
       </div>
     </div>
   );
-};
+}   
+
 
 export default Community;

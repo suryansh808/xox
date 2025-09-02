@@ -60,7 +60,9 @@ const Footer = () => {
               <Link to="/services">Services</Link>
               <Link to="/community">Community</Link>
               <Link to="/contactus">Contact</Link>
-              <Link>Privacy Policy</Link>
+              <Link to="/privacypolicy">Privacy Policy</Link>
+              <Link to="/refundcancellationpolicy">Refund Policy</Link>
+              <Link to="/termsandconditions">T&C</Link>
             </div>
 
 

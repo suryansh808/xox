@@ -1,6 +1,6 @@
 
 #companysignup{
-
+background-color: rgba(14, 14, 15, 0.8);
   .signup-container {
     display: flex;
     flex-direction: column;
@@ -19,7 +19,7 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    background: #000000dc;
+    /* background: #000000dc; */
     padding: 1rem;
   }
   

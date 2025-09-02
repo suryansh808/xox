@@ -1,5 +1,6 @@
 
 #companylogin{
+  background-color: rgba(14, 14, 15, 0.8);
   .company-login-container {
     display: flex;
     flex-direction: column;
@@ -34,7 +35,7 @@
     justify-content: center;
     width: 100%;
     padding: 1rem;
-    background: #000000e5;
+    /* background: #000000e5; */
   }
   
   @media (min-width: 768px) {

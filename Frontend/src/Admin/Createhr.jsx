@@ -201,7 +201,7 @@ const handleDelete = (id) => async () => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="4" className="no-hr">
+                  <td colSpan="5" className="no-hr">
                     No HRs found
                   </td>
                 </tr>

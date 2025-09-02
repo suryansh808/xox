@@ -1,10 +1,10 @@
 #companyjobpost {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
     color: #27272A;
     padding: 60px 10px;
+    min-height: 100vh;
+     background-color: rgba(14, 14, 15, 0.8);
   
    .subscriptionbtn{
         margin-bottom: 10px;

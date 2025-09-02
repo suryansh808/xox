@@ -73,6 +73,11 @@ const StudentHeader = () => {
             </Link>
           </li>
           <li>
+            <Link onClick={toggleSidebar} to="/PrivateChats">
+              <i class="fa fa-comments-o"></i> Private Chats
+            </Link>
+          </li>
+          <li>
             <Link onClick={toggleSidebar} to="/Settings">
               <i className="fa fa-cog"></i> Settings
             </Link>

@@ -1,4 +1,6 @@
 #createhr{
+  background-color: rgba(14, 14, 15, 0.8);
+  min-height: 100vh;
 .hr-container {
     display: flex;
     flex-direction: column;

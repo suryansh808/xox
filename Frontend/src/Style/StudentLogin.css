@@ -1,7 +1,7 @@
 
 
 #studentlogin{
-
+background-color: rgba(14, 14, 15, 0.8);
   .login-container {
     min-height: 100vh;
     display: flex;

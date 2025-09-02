@@ -1,7 +1,7 @@
 #company-profile {  
   padding: 80px 20px;
 
-
+  background-color: rgba(14, 14, 15, 0.8);
   height: 100vh;
   .profile{
      display: flex;
@@ -98,7 +98,7 @@
   
   .upload-btn:disabled {
     background: #ccc;
-    color: #666;
+    color: #000000;
     cursor: not-allowed;
     pointer-events: none; 
   }
