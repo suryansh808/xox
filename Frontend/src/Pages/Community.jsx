@@ -1,37 +1,103 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import API from "../API";
+import Cookies from "js-cookie";
 
 const Community = () => {
+  const navigate = useNavigate();
   const [thought, setThought] = useState("");
   const [thoughts, setThoughts] = useState([]);
   const [replyText, setReplyText] = useState({});
   const [selectedThought, setSelectedThought] = useState(null);
-  const user = localStorage.getItem("name");
+  const [profileBox, setProfileBox] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [friendStatus, setFriendStatus] = useState({
+    friendRequests: [],
+    friends: [],
+  });
+
+  // Parse user data from localStorage
+  let userData = {};
+  try {
+    const storedUser = localStorage.getItem("user");
+    userData = storedUser ? JSON.parse(storedUser) : {};
+  } catch (error) {
+    console.error("Error parsing user data from localStorage:", error);
+  }
+  const userId = userData?._id;
+  const userName = userData?.name;
+
+  // Redirect to login if user data is missing
+  // useEffect(() => {
+  //   if (!userId || !userName) {
+  //     console.error("User not logged in: userId or userName missing", {
+  //       userId,
+  //       userName,
+  //       userData,
+  //     });
+  //     navigate("/StudentLogIn");
+  //   }
+  // }, [userId, userName, navigate]);
+
+  // Fetch friend requests and friends
+  const fetchFriendStatus = async () => {
+    try {
+      const response = await axios.get(`${API}/checkfriend`, {
+        headers: {
+          Authorization: `Bearer ${Cookies.get("authToken")}`,
+        },
+      });
+      setFriendStatus({
+        friendRequests: response.data.friendRequests || [],
+        friends: response.data.friends || [],
+      });
+    } catch (error) {
+      console.error("Error fetching friend status:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchFriendStatus();
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    if (!userName) {
+      alert("Please log in to share thoughts");
+      return;
+    }
+    setIsLoading(true);
     try {
       const response = await axios.post(`${API}/thoughts`, {
-        user: user,
+        userId,
         text: thought,
       });
       setThought("");
-      fetchThoughts();
+      await fetchThoughts();
       alert("Your thought has been shared successfully.");
     } catch (error) {
       console.error("Error saving thought:", error);
+      alert(error.response?.data?.message || "Error sharing thought");
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const fetchThoughts = async () => {
+    setIsLoading(true);
     try {
       const response = await axios.get(`${API}/getthoughts`);
+      // console.log("Thoughts fetched:", response.data);
       setThoughts(response.data.filter((item) => item.visible === "show"));
     } catch (error) {
       console.error("Error fetching thoughts:", error);
+      alert("Error fetching thoughts");
+    } finally {
+      setIsLoading(false);
     }
   };
+
   useEffect(() => {
     fetchThoughts();
   }, []);
@@ -45,25 +111,60 @@ const Community = () => {
 
   const handleReplySubmit = async (thoughtId) => {
     if (!replyText[thoughtId]) return;
+    if (!userName) {
+      alert("Please log in to post replies");
+      return;
+    }
     const newReply = {
+      userId,
       text: replyText[thoughtId],
       createdAt: new Date().toISOString(),
       visible: "show",
-      user: user,
     };
+    setIsLoading(true);
     try {
       await axios.post(`${API}/thoughtsreplies/${thoughtId}`, newReply);
       alert("Your reply has been posted.");
       if (selectedThought && selectedThought._id === thoughtId) {
         setSelectedThought((prev) => ({
           ...prev,
-          replies: [...(prev.replies || []), newReply],
+          replies: [...(prev.replies || []), { ...newReply, user: userName }],
         }));
       }
-
       setReplyText((prev) => ({ ...prev, [thoughtId]: "" }));
     } catch (error) {
       console.error("Error adding reply:", error);
+      alert(error.response?.data?.message || "Error posting reply");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleAcceptFriend = async (senderId, senderName) => {
+    setIsLoading(true);
+    try {
+      await axios.post(
+        `${API}/acceptfriend`,
+        { senderId },
+        {
+          headers: {
+            Authorization: `Bearer ${Cookies.get("authToken")}`,
+          },
+        }
+      );
+      alert(`Friend request from ${senderName} accepted!`);
+      setFriendStatus((prev) => ({
+        ...prev,
+        friendRequests: prev.friendRequests.filter(
+          (req) => req.userId !== senderId
+        ),
+        friends: [...prev.friends, { userId: senderId, name: senderName }],
+      }));
+    } catch (error) {
+      console.error("Error accepting friend request:", error);
+      alert(error.response?.data?.message || "Error accepting friend request");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -77,25 +178,60 @@ const Community = () => {
     setSelectedThought(thought);
   };
 
-  const [profileBox, setProfileBox] = useState(false);
-  const handleopenprofile = (data) => {
-    setProfileBox(true);
-    setProfileBox({ user: data.user });
+  const handleOpenProfile = (data) => {
+    setProfileBox({ user: data.user, userId: data.userId });
   };
 
-  // const [chatbox, setChatbox] = useState(false);
-  // const openchatbox = () => {
-  //   setChatbox(true);
-  // };
+  const handleAddFriend = async (targetId, targetName) => {
+    if (!userId || !userName) {
+      alert("Please log in to send friend requests");
+      return;
+    }
+    if (targetId === userId) {
+      alert("You cannot add yourself as a friend");
+      return;
+    }
+    if (
+      friendStatus.friendRequests.some((req) => req.userId === targetId) ||
+      friendStatus.friends.some((friend) => friend.userId === targetId)
+    ) {
+      return;
+    }
+    setIsLoading(true);
+    try {
+      await axios.post(`${API}/friendrequest`, {
+        senderId: userId,
+        targetId,
+      });
+      alert(`Friend request sent to ${targetName}!`);
+      setFriendStatus((prev) => ({
+        ...prev,
+        friendRequests: [
+          ...prev.friendRequests,
+          { userId: targetId, name: targetName },
+        ],
+      }));
+    } catch (error) {
+      alert(error.response?.data?.message || "Error sending friend request");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-  // const [menu, setMenu] = useState(false);
-  // const handleopenmenu = () => {
-  //   setMenu(!menu);
-  // };
+  const getFriendButtonText = (targetId) => {
+    if (friendStatus.friends.some((friend) => friend.userId === targetId)) {
+      return "Friend Added";
+    }
+    if (friendStatus.friendRequests.some((req) => req.userId === targetId)) {
+      return "Request Sent";
+    }
+    return "Add Friend +";
+  };
 
   return (
     <div id="sharethoughts">
       <div className="share__container">
+      
         <div className="form-group">
           <form onSubmit={handleSubmit}>
             <input
@@ -104,53 +240,60 @@ const Community = () => {
               value={thought}
               required
               onChange={(e) => setThought(e.target.value)}
+              disabled={isLoading}
             />
-            <button type="submit">Share</button>
+            <button type="submit" disabled={isLoading}>
+              {isLoading ? "Sharing..." : "Share"}
+            </button>
           </form>
         </div>
-
         <div className="flex__container">
-          {/* Left Side: Thoughts List */}
           <div className="left">
             <div className="left__inside">
-              {thoughts.map((thought) => (
-                <div
-                  className="left__boxs"
-                  key={thought._id}
-                  onClick={() => handleThoughtSelect(thought)}
-                >
-                  <span>
-                    <i class="fa fa-user"></i>{" "}
-                    {thought.owner ? thought.owner : "Unknown"}
-                  </span>
-                  <p>{thought.text}</p>
-                </div>
-              ))}
+              {isLoading ? (
+                <p>Loading thoughts...</p>
+              ) : thoughts.length === 0 ? (
+                <p>No thoughts available</p>
+              ) : (
+                thoughts.map((thought) => (
+                  <div
+                    className="left__boxs"
+                    key={thought._id}
+                    onClick={() => handleThoughtSelect(thought)}
+                  >
+                    <span>
+                      <i className="fa fa-user"></i> {thought.owner}
+                    </span>
+                    <p>{thought.text}</p>
+                  </div>
+                ))
+              )}
             </div>
           </div>
-
-          {/* Right Side: Selected Thought and Replies */}
           <div className="right">
             <div className="right__inside">
               {selectedThought && (
                 <div className="right__sideBox">
                   <h2>{selectedThought.text}</h2>
                   <div className="reply__container">
-                    <h2>replies:</h2>
+                    <h2>Replies:</h2>
                     <div className="replies">
                       {selectedThought?.replies
                         ?.filter((reply) => reply.visible === "show")
                         .map((reply, index) => (
                           <div className="replyprofile" key={index}>
                             <div
-                              onClick={() => handleopenprofile(reply)}
+                              onClick={() =>
+                                handleOpenProfile({
+                                  user: reply.user,
+                                  userId: reply.userId,
+                                })
+                              }
                               className="reply_pro"
                             >
-                              <i class="fa fa-user" aria-hidden="true"></i>
+                              <i className="fa fa-user" aria-hidden="true"></i>
                               <div className="name_flex">
-                                <span>
-                                  {reply.user ? reply.user : "Unknown"}
-                                </span>
+                                <span>{reply.user}</span>
                                 <span>
                                   {new Date(reply.createdAt).toLocaleString(
                                     "en-IN",
@@ -159,7 +302,7 @@ const Community = () => {
                                       dateStyle: "medium",
                                       timeStyle: "short",
                                     }
-                                  )}{" "}
+                                  )}
                                 </span>
                               </div>
                             </div>
@@ -171,27 +314,28 @@ const Community = () => {
                   <div className="replytextbox">
                     <textarea
                       placeholder="reply..."
-                      type="text"
                       value={replyText[selectedThought._id] || ""}
                       onChange={(e) =>
                         handleReplyChange(selectedThought._id, e.target.value)
                       }
+                      disabled={isLoading}
                     />
                     <button
                       onClick={() => handleReplySubmit(selectedThought._id)}
+                      disabled={isLoading}
                     >
-                      Share
+                      {isLoading ? "Posting..." : "Share"}
                     </button>
                   </div>
                 </div>
               )}
             </div>
-            {/* profile box */}
             {profileBox && (
               <div className="profile__box">
                 <div className="profile__box__inside">
                   <div className="profile__box__header">
-                    <h2></h2>
+                    {/* <h2>{profileBox.user}</h2> */}
+                    <span></span>
                     <button
                       className="close__btn"
                       onClick={() => setProfileBox(false)}
@@ -201,9 +345,26 @@ const Community = () => {
                   </div>
                   <div className="profile__box__content">
                     <h2>{profileBox.user}</h2>
-                    <button className="addfriend__btn">Add Friend +</button>
-                    {/* <button className="pending__btn">Pending</button> */}
-                    {/* <button className="remove__btn">Remove Friend</button> */}
+                    <button
+                      className="addfriend__btn"
+                      onClick={() =>
+                        handleAddFriend(profileBox.userId, profileBox.user)
+                      }
+                      disabled={
+                        isLoading ||
+                        profileBox.userId === userId ||
+                        friendStatus.friendRequests.some(
+                          (req) => req.userId === profileBox.userId
+                        ) ||
+                        friendStatus.friends.some(
+                          (friend) => friend.userId === profileBox.userId
+                        )
+                      }
+                    >
+                      {isLoading
+                        ? "Sending..."
+                        : getFriendButtonText(profileBox.userId)}
+                    </button>
                   </div>
                 </div>
               </div>
@@ -213,7 +374,6 @@ const Community = () => {
       </div>
     </div>
   );
-}   
-
+};
 
 export default Community;

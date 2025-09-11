@@ -14,22 +14,25 @@ router.post("/userlogin", async (req, res) => {
     if (!user) {
       return res.status(400).json({ message: "Invalid email or password" });
     }
-    if (req.body.password !== user.password) {
+    if (req.body.password !== user.password) { 
       return res.status(400).json({ message: "Invalid email or password" });
     }
-    const payload = {  user: { _id: user._id }, role: "user" };
+    const payload = { user: { _id: user._id }, role: "user" };
     const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1d" });
 
-
-    res
-      .status(200)
-      .json({
-        message: "User logged in successfully",
-        user: user._id,
+    res.status(200).json({
+      message: "User logged in successfully",
+      user: {
+        _id: user._id,
         email: user.email,
         name: user.name,
-        token,
-      });
+        phone: user.phone,
+        jobLimit: user.jobLimit,
+        planType: user.planType,
+        accessLevel: user.accessLevel,
+      },
+      token,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server Error" });

@@ -1,4 +1,6 @@
 #hrcompanyjoblist{
+  background-color: rgba(14, 14, 15, 0.8);
+      min-height: 100vh;
 
   .job-container {
       display: flex;

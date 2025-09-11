@@ -56,9 +56,10 @@ import "./Style/SuccessStories_landingpage.css"
 import "./Style/Resources_landingpage.css"
 import "./Style/Footer_landingpage.css"
 import "./Style/Resources.css"
-
-
 import "./Style/Landing.css"
+import "./Style/CommunitySection.css"
+
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
       <App />

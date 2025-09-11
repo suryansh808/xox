@@ -110,9 +110,9 @@ const HRHeader = () => {
             </Link>
           </li>
           <li>
-            <button onClick={handleLogout}>
+            <Link onClick={handleLogout}>
               <i className="fa fa-right-from-bracket"></i> Logout
-            </button>
+            </Link>
           </li>
         </ul>
       </div>

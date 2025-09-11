@@ -5,7 +5,8 @@ import FeaturedRoles from "./FeaturedRoles";
 import PlatformFeatures from "./PlatformFeatures";
 import SuccessStories from "./SuccessStories";
 import Resources from "./Resources";
-import DualCtaFooter from "./DualCtaFooter";
+// import DualCtaFooter from "./DualCtaFooter";
+import CommunitySection from "./CommunitySection";
 
 
 const Landingpage = () => {
@@ -17,6 +18,7 @@ const Landingpage = () => {
       <PlatformFeatures/>
       <SuccessStories/>
       <Resources/>
+      <CommunitySection/>
       {/* <DualCtaFooter/> */}
     
 

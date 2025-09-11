@@ -105,7 +105,7 @@ export default function FeaturedRoles() {
         </div>
 
         {/* Trusted by */}
-        <div id="companies" className="companies">
+        {/* <div id="companies" className="companies">
           <p className="trusted-by">Trusted by</p>
           <div className="companies-grid">
             {[
@@ -125,7 +125,7 @@ export default function FeaturedRoles() {
               </div>
             ))}
           </div>
-        </div>
+        </div> */}
 
         <div className="mobile-cta">
         <Link to="/StudentLogIn"><button className="btn primary w-full">See all roles</button></Link>

@@ -1,6 +1,7 @@
 #hr__profile {
     padding: 80px 10px;
-    
+      background-color: rgba(14, 14, 15, 0.8);
+      min-height: 100vh;
   .counter__container {
     .jobposted__count {
       display: flex;
