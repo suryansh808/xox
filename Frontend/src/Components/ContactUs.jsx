@@ -35,8 +35,28 @@ const ContactUs = () => {
   return (
     <div className="contact-container">
       <div className="form-section">
+
+        <div className="form_title">
+          <h2>Get in Touch with Us</h2>
+          <p>Have questions or need AI solutions? Let us know by filling out the form, and we'll be in touch!</p>
+        </div>
+          
+        <div className="infoDetails">
+          <div className="gmail">
+             <div>
+              <i class="fa fa-envelope" aria-hidden="true"></i> E-mail
+             </div>
+            <a href="mailto:support@doltec.in">support@doltec.in</a>
+          </div>
+          <div className="number">
+             <div>
+                <i class="fa fa-phone" aria-hidden="true"></i> Phone
+             </div>
+            <a href="tel:+918310626647">+91-8310626647</a>
+          </div>
+        </div>
+
         <form  onSubmit={handleSubmit} className="contact-form">
-          <h2 className="form-title">Get in Touch</h2>
 
           <div className="form-group two-columns">
             <input
@@ -51,7 +71,7 @@ const ContactUs = () => {
               type="number"
               name="phone"
               value={formData.phone}
-              placeholder="Phone Number"
+              placeholder="Contact Number"
               onChange={handleChange}
               required
             />
@@ -62,7 +82,7 @@ const ContactUs = () => {
               type="email"
               name="email"
               value={formData.email}
-              placeholder="Email Address"
+              placeholder="Email Id"
               onChange={handleChange}
               required
             />
@@ -72,7 +92,7 @@ const ContactUs = () => {
             <textarea
               name="message"
               value={formData.message}
-              placeholder="Your Message"
+              placeholder="Write your message here..."
               rows="5"
               onChange={handleChange}
               required
@@ -80,7 +100,8 @@ const ContactUs = () => {
           </div>
 
           <button type="submit" className="submit-button" >Send Message</button>
-          <div className='mail'><i className="fa fa-envelope" aria-hidden="true"></i><a href="mailto:doltec@gmail.com">support@doltec.in</a></div>
+          {/* <div className='mail'><i className="fa fa-envelope" aria-hidden="true"></i><a href="mailto:doltec@gmail.com">support@doltec.in</a></div> */}
+
         </form>
 
         {isDialogOpen && (
@@ -94,10 +115,6 @@ const ContactUs = () => {
           </div>
         )}
       </div>
-
-      <div className="contact-info"> 
-      </div>
-
     </div>
   );
 };

@@ -190,9 +190,10 @@ const PrivateChats = () => {
               <div
                 key={friend.userId}
                 className={`chat-item ${activeChat === friend.userId ? "active" : ""}`}
-                onClick={() => setActiveChat(friend.userId)}
-              >
-                {friend.name}
+                onClick={() => setActiveChat(friend.userId)}>
+                
+                    <img src={friend.profile} alt="profilepicture" />
+                    <h2>{friend.name}</h2>
               </div>
             ))}
           </div>

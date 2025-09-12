@@ -40,7 +40,7 @@ router.post("/thoughts", async (req, res) => {
 
 router.get("/getthoughts", async (req, res) => {
   try {
-    const thoughts = await Thought.find({ visible: "show" }).populate("userId", "name").populate("replies.userId", "name");
+    const thoughts = await Thought.find({ visible: "show" }).populate("userId", "name").populate("replies.userId", "name profile");
     res.status(200).json(
       thoughts.map((thought) => ({
         _id: thought._id,
@@ -52,6 +52,7 @@ router.get("/getthoughts", async (req, res) => {
         replies: thought.replies.map((reply) => ({
           userId: reply.userId._id.toString(),
           user: reply.userId?.name || "Unknown",
+          profile: reply.userId?.profile || "",
           text: reply.text,
           visible: reply.visible,
           createdAt: reply.createdAt,
@@ -78,7 +79,7 @@ router.post("/thoughtsreplies/:id", async (req, res) => {
     }
     thought.replies.push({ userId, text });
     await thought.save();
-    const updatedThought = await Thought.findById(req.params.id).populate("userId", "name").populate("replies.userId", "name profile");
+    const updatedThought = await Thought.findById(req.params.id).populate("userId", "name").populate("replies.userId", "name");
     res.status(200).json({
       _id: updatedThought._id,
       userId: updatedThought.userId._id.toString(),
@@ -190,7 +191,7 @@ router.post("/friendrequest", async (req, res) => {
     const emailMessage = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; border: 1px solid #ddd; border-radius: 8px; overflow: hidden;">
   <div style="background-color: #4A90E2; color: #fff; text-align: center; padding: 20px;">
-      <h1>Doltec Community</h1>
+      <h1>DOLTEC</h1>
   </div>
   <div style="padding: 20px; text-align: center;">
       <p style="font-size: 16px; color: #333;">Hello ${target.name},</p>
@@ -212,7 +213,7 @@ router.post("/friendrequest", async (req, res) => {
   </div>
   <div style="text-align: center; font-size: 12px; color: #888; padding: 10px 0; border-top: 1px solid #ddd;">
       <p>If you don’t recognize this request, you can safely ignore this email.</p>
-      <p>&copy; 2025 Doltec Community. All Rights Reserved.</p>
+      <p>&copy; 2025 Doltec Consultancy Services. All Rights Reserved.</p>
   </div>
 </div>
     `;
@@ -318,7 +319,7 @@ router.get("/getchats", async (req, res) => {
     }
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const userId = decoded.user._id;
-    const user = await User.findById(userId).select("friendRequests friends").populate("friendRequests", "name").populate("friends", "name");
+    const user = await User.findById(userId).select("friendRequests friends").populate("friendRequests", "name").populate("friends", "name profile");
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -335,6 +336,7 @@ router.get("/getchats", async (req, res) => {
       friends: user.friends.map((friend) => ({
         userId: friend._id.toString(),
         name: friend.name || "Unknown",
+        profile: friend.profile || "",
       })),
       chats: chats.map((chat) => ({
         chatId: chat._id.toString(),

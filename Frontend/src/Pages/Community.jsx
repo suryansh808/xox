@@ -65,6 +65,7 @@ const Community = () => {
     e.preventDefault();
     if (!userName) {
       alert("Please log in to share thoughts");
+       navigate("/StudentLogIn");
       return;
     }
     setIsLoading(true);
@@ -88,7 +89,7 @@ const Community = () => {
     setIsLoading(true);
     try {
       const response = await axios.get(`${API}/getthoughts`);
-      // console.log("Thoughts fetched:", response.data);
+      console.log("Thoughts fetched:", response.data);
       setThoughts(response.data.filter((item) => item.visible === "show"));
     } catch (error) {
       console.error("Error fetching thoughts:", error);
@@ -113,6 +114,7 @@ const Community = () => {
     if (!replyText[thoughtId]) return;
     if (!userName) {
       alert("Please log in to post replies");
+      navigate("/StudentLogIn");
       return;
     }
     const newReply = {
@@ -185,6 +187,7 @@ const Community = () => {
   const handleAddFriend = async (targetId, targetName) => {
     if (!userId || !userName) {
       alert("Please log in to send friend requests");
+       navigate("/StudentLogIn");
       return;
     }
     if (targetId === userId) {
@@ -261,9 +264,9 @@ const Community = () => {
                     key={thought._id}
                     onClick={() => handleThoughtSelect(thought)}
                   >
-                    <span>
-                      <i className="fa fa-user"></i> {thought.owner}
-                    </span>
+                    <h4 className="owner">
+                     {thought.owner}
+                    </h4>
                     <p>{thought.text}</p>
                   </div>
                 ))
@@ -274,7 +277,7 @@ const Community = () => {
             <div className="right__inside">
               {selectedThought && (
                 <div className="right__sideBox">
-                  <h2>{selectedThought.text}</h2>
+                  <h1 className="topic">{selectedThought.text}</h1>
                   <div className="reply__container">
                     <h2>Replies:</h2>
                     <div className="replies">
@@ -291,9 +294,9 @@ const Community = () => {
                               }
                               className="reply_pro"
                             >
-                              <i className="fa fa-user" aria-hidden="true"></i>
+                              <img src={reply.profile} alt="profileimg" />
                               <div className="name_flex">
-                                <span>{reply.user}</span>
+                                <h2>{reply.user}</h2>
                                 <span>
                                   {new Date(reply.createdAt).toLocaleString(
                                     "en-IN",
@@ -313,7 +316,7 @@ const Community = () => {
                   </div>
                   <div className="replytextbox">
                     <textarea
-                      placeholder="reply..."
+                      placeholder="Write your reply..."
                       value={replyText[selectedThought._id] || ""}
                       onChange={(e) =>
                         handleReplyChange(selectedThought._id, e.target.value)

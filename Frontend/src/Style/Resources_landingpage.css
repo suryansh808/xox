@@ -72,10 +72,11 @@
 }
 
 .resource-card {
-  background: #080808;
+  background: #000000;
   border: 1px solid #e2e8f033;
   padding: 1.25rem;
   border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(235, 229, 229, 0.2);
   transition: box-shadow 0.2s ease-in-out;
 }
 
@@ -86,9 +87,7 @@
 .resource-tag {
   display: inline-flex;
   align-items: center;
-  padding: 0.25rem 0.5rem;
-  border: 1px solid #e2e8f071;
-  border-radius: 9999px;
+  border-bottom: 1px solid #e2e8f033;
   font-size: 0.75rem;
   color: #ffffff;
 }
@@ -110,8 +109,27 @@
   margin-top: 0.75rem;
   display: inline-block;
   font-size: 0.9rem;
-  color: #2563eb;
+  background-color: #ffffff;
+  width: 2rem;
+  height: 2rem;
+  text-align: center;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-decoration: none;
+
+  i{
+    color: #000000;
+    font-size: 1rem;
+    rotate: -40deg;
+      transition: transform 0.2s ease-in-out;
+  }
+  &:hover i{ 
+    scale: 1.1;
+
+
+  }
 }
 
 .resource-readmore:hover {

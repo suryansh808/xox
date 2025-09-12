@@ -1,54 +1,84 @@
 .contact-container {
-     background-color: rgba(14, 14, 15, 0.8);
-
-    max-width: 1500px;
+    background-color: rgba(14, 14, 15, 0.8);
+    /* max-width: 1500px; */
     margin: 0 auto;
     display: flex;
+    justify-content:center;
+    align-items: center;
     padding: 50px 10px;
+
+    
 
   }
   
   .form-section {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     width: 50%;
+    background-color: black;
+    border-radius: 10px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    overflow: hidden;
+
+    .infoDetails{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      width: 100%;
+      padding: 2rem;
+
+      .gmail{
+        border: 1px solid gray;
+        background: #000000;
+        background: linear-gradient(150deg, rgba(0, 0, 0, 1) 50%, rgba(11, 75, 179, 1) 100%);
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        min-width: 50%;
+        padding: 10px;
+        border-radius: 10px;
+
+         a{
+          font-size: 18px;
+         }
+      }
+      .number{
+        border: 1px solid gray;
+        background: #000000;
+        background: linear-gradient(150deg, rgba(0, 0, 0, 1) 50%, rgba(11, 75, 179, 1) 100%);
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        min-width: 50%;
+        padding: 10px;
+        border-radius: 10px;
+      
+         a{
+          font-size: 18px;
+         }
+      }
+    }
   }
   
   .contact-form {
-    max-width: 600px;
+    margin: auto;
     width: 100%;
-    background: #080808;
+    background: #000000;
     padding: 2rem;
-    border-radius: 10px;
     box-shadow: 0 10px 20px rgba(0,0,0,0.1);
   }
   
-  .form-title {
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
+  .form_title h2{
+    font-size: 2rem;
     font-weight: bold;
     text-align: center;
   }
-
-  .mail{
-    /* background-color: red; */
-    border-bottom: 1px solid gray;
-    border-radius: 10px;
-    display: flex;
-    padding: 5px;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
+  .form_title p{
+    text-align: center;
     margin-top: 10px;
-
-    .fa-envelope{
-      color: red;
-    }
-     a{
-      font-size: 18px;
-     }
+    font-size: 1rem;
+    color: gray;
   }
+
   
   .form-group {
     margin-bottom: 1rem;
@@ -65,7 +95,7 @@
   .contact-form input,
   .contact-form textarea {
     padding: 0.75rem;
-    border: 1px solid #ccc;
+    border: 1px solid gray;
     border-radius: 6px;
     font-size: 1rem;
     width: 100%;
@@ -73,19 +103,18 @@
   }
   
   .submit-button {
-    background-color: #000;
+     background: #0624bd;
+    background: radial-gradient(circle, rgba(6, 36, 189, 1) 0%, rgba(0, 0, 0, 1) 100%);
     color: white;
     padding: 0.75rem;
-    border: none;
+    border: 1px solid gray;
     border-radius: 6px;
     font-weight: bold;
+     width: 100%;
     cursor: pointer;
     transition: background 0.3s ease;
   }
   
-  .submit-button:hover {
-    background-color: #1b1a1a;
-  }
   
   .dialog-overlay {
     position: fixed;
@@ -118,15 +147,13 @@
   .dialog-box button {
     margin-top: 1rem;
     padding: 0.5rem 1rem;
-    /* background: #020202; */
     border: 1px solid #ccc;
     color: rgb(255, 255, 255);
-    /* border: none; */
     border-radius: 6px;
     cursor: pointer;
   }
   
-  .contact-info {
+  /* .contact-info {
     background-image: url("https://images.unsplash.com/photo-1484807352052-23338990c6c6?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
     background-size: cover;
     background-position: center;
@@ -154,21 +181,32 @@
     opacity: 0.5;
     width: 100%;
     height: 100%;
-  }
+  } */
   
   @media screen and (max-width: 768px) {
     .contact-container {
-      flex-direction: column;
+      /* flex-direction: column; */
       padding: 20px;
     }
   
-    .form-section,
-    .contact-info {
+    .form-section {
       width: 100%;
     }
+     .contact-form{
+
+      padding: 10px;
+     }
   
-    .contact-info {
-      margin-top: 20px;
+    .infoDetails{
+      flex-direction: column;
+      gap: 5px !important;
+      height: auto;
+      padding: 10px !important;
+      /* background-color: aqua; */
+
+      .gmail , .number{
+        min-width: 100% !important;
+      }
     }
     
   }

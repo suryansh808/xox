@@ -41,6 +41,7 @@ const Footer = () => {
     "/CompanyHiredCandidates",
     "/CompanyRejectedCandidates",
     "/CompanyHRSelected",
+    "/PrivateChats",
 
   ];
   const showHeaderFooter = !noHeaderFooterRoutes.includes(location.pathname);
@@ -49,6 +50,14 @@ const Footer = () => {
     <>
       {showHeaderFooter && (
         <footer className="footer">
+          <div className="whatsappicon">
+        <a
+          href="https://api.whatsapp.com/send?phone=918310626647&text=Hello%2C%20I%20would%20like%20to%20know%20more%20about%20Doltec%20%F0%9F%91%8B"
+          target="_blank"
+        >
+          <i className="fa fa-whatsapp"></i>
+        </a>
+          </div>
           <div className="footer__container">
 
            <div className="footer__brand">
