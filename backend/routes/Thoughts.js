@@ -40,7 +40,7 @@ router.post("/thoughts", async (req, res) => {
 
 router.get("/getthoughts", async (req, res) => {
   try {
-    const thoughts = await Thought.find({ visible: "show" }).populate("userId", "name").populate("replies.userId", "name profile");
+    const thoughts = await Thought.find({ visible: "show" }).populate("userId", "name").populate("replies.userId", "name profile").lean();;
     res.status(200).json(
       thoughts.map((thought) => ({
         _id: thought._id,
@@ -61,6 +61,7 @@ router.get("/getthoughts", async (req, res) => {
     )
     );
   } catch (error) {
+    console.error(error); 
     res.status(500).json({ message: error.message });
   }
 });

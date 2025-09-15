@@ -2007,6 +2007,7 @@
       align-items: center;
       width: 100%;
       min-height: 100vh;
+      background: transparent;
       /* position: absolute;
       top: 50%;
       left: 50%;
