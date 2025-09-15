@@ -65,7 +65,7 @@ const Community = () => {
     e.preventDefault();
     if (!userName) {
       alert("Please log in to share thoughts");
-       navigate("/StudentLogIn");
+      navigate("/StudentLogIn");
       return;
     }
     setIsLoading(true);
@@ -89,11 +89,9 @@ const Community = () => {
     setIsLoading(true);
     try {
       const response = await axios.get(`${API}/getthoughts`);
-      console.log("Thoughts fetched:", response.data);
       setThoughts(response.data.filter((item) => item.visible === "show"));
     } catch (error) {
       console.error("Error fetching thoughts:", error);
-      alert("Error fetching thoughts");
     } finally {
       setIsLoading(false);
     }
@@ -187,7 +185,7 @@ const Community = () => {
   const handleAddFriend = async (targetId, targetName) => {
     if (!userId || !userName) {
       alert("Please log in to send friend requests");
-       navigate("/StudentLogIn");
+      navigate("/StudentLogIn");
       return;
     }
     if (targetId === userId) {
@@ -232,22 +230,34 @@ const Community = () => {
   };
 
   const getFriendButtonClass = (targetId) => {
-  if (friendStatus.friends.some((friend) => friend.userId === targetId)) {
-    return "addedfriend__btn"; // green
-  }
-  if (friendStatus.friendRequests.some((req) => req.userId === targetId)) {
-    return "pending__btn"; // yellow
-  }
-  return "addfriend__btn"; // blue by default
-};
-
+    if (friendStatus.friends.some((friend) => friend.userId === targetId)) {
+      return "addedfriend__btn"; // green
+    }
+    if (friendStatus.friendRequests.some((req) => req.userId === targetId)) {
+      return "pending__btn"; // yellow
+    }
+    return "addfriend__btn"; // blue by default
+  };
 
   return (
     <div id="sharethoughts">
-      <div className="share__container">
-   
-                <input type="checkbox" id="sidebar-toggle" hidden />
-                <label htmlFor="sidebar-toggle" className="sidebar-toggle"><i class="fa fa-commenting" title="See all the new thoughts" aria-hidden="true"></i></label>
+    
+      {
+        isLoading ? (
+          <div className="loading">
+            <div className="loader"></div>
+          </div>
+        ) :
+        (
+          <div className="share__container">
+        <input type="checkbox" id="sidebar-toggle" hidden />
+        <label htmlFor="sidebar-toggle" className="sidebar-toggle">
+          <i
+            class="fa fa-commenting"
+            title="See all the new thoughts"
+            aria-hidden="true"
+          ></i>
+        </label>
 
         <div className="form-group">
           <form onSubmit={handleSubmit}>
@@ -264,7 +274,7 @@ const Community = () => {
             </button>
           </form>
         </div>
-            
+
         <div className="flex__container">
           <div className="left">
             <div className="left__inside">
@@ -279,9 +289,7 @@ const Community = () => {
                     key={thought._id}
                     onClick={() => handleThoughtSelect(thought)}
                   >
-                    <h4 className="owner">
-                     {thought.owner}
-                    </h4>
+                    <h4 className="owner">{thought.owner}</h4>
                     <p>{thought.text}</p>
                   </div>
                 ))
@@ -312,7 +320,8 @@ const Community = () => {
                               <img src={reply.profile} alt="profileimg" />
                               <div className="name_flex">
                                 <div>
-                                   <h2>{reply.user}</h2><i class="fa fa-plus-circle"></i>
+                                  <h2>{reply.user}</h2>
+                                  <i class="fa fa-plus-circle"></i>
                                 </div>
                                 <span>
                                   {new Date(reply.createdAt).toLocaleString(
@@ -365,7 +374,7 @@ const Community = () => {
                   <div className="profile__box__content">
                     <h2>{profileBox.user}</h2>
                     <button
-                        className={getFriendButtonClass(profileBox.userId)}
+                      className={getFriendButtonClass(profileBox.userId)}
                       onClick={() =>
                         handleAddFriend(profileBox.userId, profileBox.user)
                       }
@@ -390,7 +399,11 @@ const Community = () => {
             )}
           </div>
         </div>
-      </div>
+         </div>
+        )
+      }
+          
+ 
     </div>
   );
 };

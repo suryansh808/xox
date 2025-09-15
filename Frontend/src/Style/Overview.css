@@ -2001,6 +2001,42 @@
 #sharethoughts {
      background-color: #000000;
 
+     .loading{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      z-index: 100;
+      transform: translate(-50%, -50%);
+     }
+
+     .loader {
+  width: 15px;
+  aspect-ratio: 1;
+  position: relative;
+}
+.loader::before,
+.loader::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: #e40000;
+}
+.loader::before {
+  box-shadow: -25px 0;
+  animation: l8-1 1s infinite linear;
+}
+.loader::after {
+  transform: rotate(0deg) translateX(25px);
+  animation: l8-2 1s infinite linear;
+}
+
+
+    
+
   .share__container .form-group {
     padding: 7px;
     display: flex;
@@ -2580,4 +2616,10 @@
       }
     }
   }
+}
+@keyframes l8-1 {
+    100%{transform: translateX(25px)}
+}
+@keyframes l8-2 {
+    100%{transform: rotate(-180deg) translateX(25px)}
 }
