@@ -31,6 +31,8 @@
   display: grid;
   grid-template-columns: 250px 1fr;
   gap: 20px;
+  /* background-color: red; */
+  min-height: calc(100vh - 120px);
   padding: 15px;
   /* background-color: #004080; */
 }
@@ -74,6 +76,13 @@
 }
 
 /* Jobs */
+
+.jobs-section{
+  /* background-color: #004080; */
+  overflow-y: scroll;
+  scrollbar-width: 0px;
+}
+
 .jobs-section h2 {
   margin-top: 0;
 }
@@ -81,6 +90,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
   gap: 15px;
+  
 }
 .job-card {
   border: 1px solid gray;
