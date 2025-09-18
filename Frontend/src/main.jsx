@@ -59,6 +59,9 @@ import "./Style/Resources.css"
 import "./Style/Landing.css"
 import "./Style/CommunitySection.css"
 
+import "./Style/AllJobsPage.css"
+import "./Style/Pricing.css"
+
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

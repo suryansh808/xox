@@ -82,6 +82,8 @@ import PrivacyPolicy from './Pages/PrivacyProlicy';
 import RefundCancellationPolicy from './Pages/RefundCancellationPolicy';
 import TermsAndConditions from './Pages/TermsAndConditions';
 import Resources from './Pages/Resources';
+import AllJobsPage from './Pages/AllJobs';
+import Pricing from './Pages/Pricing';
 
 
 
@@ -118,6 +120,8 @@ const AppContent = () => {
     "/refundcancellationpolicy",
     "/termsandconditions",
     "/resources",
+    "/alljobs",
+    "/pricing",
 
   ];
 
@@ -192,7 +196,8 @@ const AppContent = () => {
           <Route path="/RefundCancellationPolicy" element={<RefundCancellationPolicy/>} />
           <Route path="/TermsAndConditions" element={<TermsAndConditions/>} />
           <Route path="/Resources" element={<Resources/>} />
-           
+          <Route path="/AllJobs" element={<AllJobsPage/>} />
+          <Route path="/Pricing" element={<Pricing/>} />
 
 
 

@@ -60,7 +60,7 @@ export default function FeaturedRoles() {
               Curated opportunities for students and recent grads.
             </p>
           </div>
-          <button className="btn primary hidden-sm"><Link to="/StudentLogIn">See all roles</Link></button>
+          <button className="btn primary hidden-sm"><Link to="/AllJobs">See all roles</Link></button>
         </div>
 
         <div className="jobs-grid">
@@ -94,8 +94,8 @@ export default function FeaturedRoles() {
                 </div>
 
                 <div className="card-footer">
-                  <button className="btn small primary"><Link to="/StudentLogIn">Apply</Link></button>
-                  <Link to="/StudentLogIn" className="learn-more">
+                  <button className="btn small primary"><Link to="/AllJobs">Apply</Link></button>
+                  <Link to="/AllJobs" className="learn-more">
                     Learn more
                   </Link>
                 </div>
@@ -128,7 +128,7 @@ export default function FeaturedRoles() {
         </div> */}
 
         <div className="mobile-cta">
-        <Link to="/StudentLogIn"><button className="btn primary w-full">See all roles</button></Link>
+        <Link to="/AllJobs"><button className="btn primary w-full">See all roles</button></Link>
         </div>
       </div>
     </section>

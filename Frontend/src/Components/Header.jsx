@@ -92,7 +92,7 @@ const Header = () => {
               </li>
               <li onClick={() => toggleDropdown("what_we_do")}>WHAT WE DO</li>
               <li onClick={() => toggleDropdown("who_we_are")}>WHO WE ARE</li>
-              {/* <li onClick={() => toggleDropdown("insight")}>INSIGHT</li> */}
+              <li><Link to="/AllJobs">JOBS</Link></li>
               <li onClick={() => toggleDropdown()}>
                 <Link className=" hover:text-white" to="/About">
                   {" "}
