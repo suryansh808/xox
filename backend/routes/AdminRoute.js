@@ -248,4 +248,43 @@ router.post("/assign-to-hr", async (req, res) => {
   }
 });
 
+router.put('/company/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    // Fields you want to update
+    const {
+      companyName,
+      email,
+      phone,
+      companyType,
+      otherCompanyType,
+      position,
+      businessmodel,
+      jobPostLimit,
+    } = req.body;
+
+    const updatedCompany = await Company.findByIdAndUpdate(
+      id,
+      {
+        companyName,
+        email,
+        phone,
+        companyType,
+        otherCompanyType,
+        position,
+        businessmodel,
+        jobPostLimit,
+      },
+      { new: true }
+    );
+
+    if (!updatedCompany)
+      return res.status(404).json({ message: 'Company not found' });
+
+    res.json({ message: 'Company updated successfully', data: updatedCompany });
+  } catch (err) {
+    res.status(500).json({ message: 'Error updating company', error: err.message });
+  }
+});
+
 module.exports = router;

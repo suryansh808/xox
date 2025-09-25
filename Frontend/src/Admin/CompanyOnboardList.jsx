@@ -4,6 +4,8 @@ import axios from 'axios';
 
 const CompanyOnboardList = () => {
   const [responses, setResponses] = useState([]);
+   const [showEditForm, setShowEditForm] = useState(false);
+  const [currentCompany, setCurrentCompany] = useState(null);
 
   const fetchContactUs = async () => {
     try {
@@ -30,6 +32,30 @@ const CompanyOnboardList = () => {
     }
   };
 
+  const handleEditClick = (company) => {
+    setCurrentCompany(company);
+    setShowEditForm(true);
+  };
+
+  // 🔹 Update form fields dynamically
+  const handleFormChange = (e) => {
+    setCurrentCompany({ ...currentCompany, [e.target.name]: e.target.value });
+  };
+
+  // 🔹 Submit form to backend
+  const handleUpdateCompany = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.put(`${API}/company/${currentCompany._id}`, currentCompany);
+      alert('Company updated successfully');
+      setShowEditForm(false);
+      fetchContactUs();
+    } catch (err) {
+      alert('Error updating company: ' + (err.response?.data?.message || err.message));
+    }
+  };
+
+
   useEffect(() => {
     fetchContactUs();
   }, []);
@@ -52,6 +78,7 @@ const CompanyOnboardList = () => {
             <th>Limit</th>
             <th>Action</th>
             <th>D & T</th>
+            <th>Edit/Update</th>
           </tr>
         </thead>
         <tbody>
@@ -68,6 +95,7 @@ const CompanyOnboardList = () => {
                 <td>{item.jobPostLimit}</td>
                 <td><button title='Add Job Limits' onClick={() => handleAddJobLimit(item.companyId)} className="add-limit-button"><i class="fa fa-sliders"></i></button></td>
                 <td>{new Date(item.timestamp).toLocaleString()}</td>
+                <td><button onClick={() => handleEditClick(item)}  className="edit-update-btn"><i class="fa fa-pencil-square-o"></i></button></td>
               </tr>
             ))
           ) : (
@@ -79,6 +107,51 @@ const CompanyOnboardList = () => {
       </table>
        </div>
     </div>
+     {showEditForm && currentCompany && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h3>Edit Company</h3>
+            <form onSubmit={handleUpdateCompany} className="edit-company-form">
+              <label>
+                Company Name:
+                <input name="companyName" value={currentCompany.companyName} onChange={handleFormChange} />
+              </label>
+              <label>
+                Email:
+                <input name="email" value={currentCompany.email} onChange={handleFormChange} />
+              </label>
+              <label>
+                Phone:
+                <input name="phone" value={currentCompany.phone} onChange={handleFormChange} />
+              </label>
+              <label>
+                Company Type:
+                <input name="companyType" value={currentCompany.companyType} onChange={handleFormChange} />
+              </label>
+              <label>
+                Other Company Type:
+                <input name="otherCompanyType" value={currentCompany.otherCompanyType} onChange={handleFormChange} />
+              </label>
+              <label>
+                Position:
+                <input name="position" value={currentCompany.position} onChange={handleFormChange} />
+              </label>
+              <label>
+                Business Model:
+                <input name="businessmodel" value={currentCompany.businessmodel} onChange={handleFormChange} />
+              </label>
+              <label>
+                Job Post Limit:
+                <input name="jobPostLimit" value={currentCompany.jobPostLimit} onChange={handleFormChange} />
+              </label>
+              <div className="modal-buttons">
+                <button type="submit">Save</button>
+                <button type="button" onClick={() => setShowEditForm(false)}>Cancel</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
    </div>
   );
 };

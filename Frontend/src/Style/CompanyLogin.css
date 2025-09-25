@@ -115,6 +115,7 @@
     font-size: 1.25rem;
     padding: 0.75rem;
     border-radius: 1rem;
+     cursor: pointer;
     margin-bottom: 1rem;
     background: linear-gradient(to right, #000000, #00000059);
     box-shadow: 0 10px 25px rgba(56, 56, 56, 0.5);
