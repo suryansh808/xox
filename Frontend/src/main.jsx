@@ -30,7 +30,7 @@ import './Style/CompanyHeader.css'
 import './Style/Landingpage.css'
 import './Style/Joblist.css'
 import './Style/AssignedJobs.css'
-import './Style/CompanyProfile.css'
+// import './Style/CompanyProfile.css'
 import './Style/AdminCompanyJoblist.css'
 import './Style/CompanyHRSelected.css'
 import './Style/UserDashboard.css'
@@ -62,6 +62,8 @@ import "./Style/CommunitySection.css"
 import "./Style/AllJobsPage.css"
 import "./Style/Pricing.css"
 
+import "./Style/Loginwithotp.css"
+import "./Style/CommunityDashboard.css"
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

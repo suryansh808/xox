@@ -22,7 +22,6 @@ const AppliedStatus = () => {
     try {
       const response = await axios.get(`${API}/user-interviews`,{headers: { Authorization: token}});
       const interviewData = Array.isArray(response.data) ? response.data : response.data.interviews || [];
-      // console.log("User interviews raw response:", response.data);
       setInterviews(interviewData);
     } catch (error) {
       console.error("Fetch user interviews error:", error.message);

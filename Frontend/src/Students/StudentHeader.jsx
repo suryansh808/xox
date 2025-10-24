@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Cookies from 'js-cookie';
-
+import toast, { Toaster } from "react-hot-toast";
 const StudentHeader = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const sidebarRef = useRef(null);
@@ -9,15 +9,30 @@ const StudentHeader = () => {
     setIsSidebarOpen((prev) => !prev);
   };
 
+
+
   const navigate = useNavigate();
   const handleLogout = () => {
+    const userData = localStorage.getItem("user");
+    toast.success("Logout Successfully");
+    setTimeout(() => {
+      if (userData) {
+      const user = JSON.parse(userData);
+      sessionStorage.removeItem(`popupShown_${user._id}`);
+    }
     localStorage.removeItem("user");
     localStorage.removeItem("email");
     localStorage.removeItem("name");
     Cookies.remove('authToken', { path: '/' });
-    alert("Logout Successfully");
-    navigate("/");
+    
+     
+      navigate("/");
+    },2000);
+   
   };
+    const renderToCommunityPage = () => {
+    navigate("/community");
+  }
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -37,10 +52,12 @@ const StudentHeader = () => {
 
   return (
     <div id="studentHeader">
+       <Toaster position="top-center" reverseOrder={false} />
       <header className="student-header">
         <div className="logo">🎓 Dashboard</div>
-        <div className="menu-icon" onClick={toggleSidebar}>
-          ☰
+        <div className="menu-icon" >
+          <div onClick={renderToCommunityPage}><i title="Go to community" className="fa fa-commenting-o animate-pulse"></i></div>
+          <div onClick={toggleSidebar}>☰</div>
         </div>
       </header>
 
@@ -73,9 +90,9 @@ const StudentHeader = () => {
             </Link>
           </li>
           <li>
-            <Link onClick={toggleSidebar} to="/PrivateChats">
+            {/* <Link onClick={toggleSidebar} to="/PrivateChats">
               <i class="fa fa-comments-o"></i> Private Chats
-            </Link>
+            </Link> */}
           </li>
           <li>
             <Link onClick={toggleSidebar} to="/Settings">

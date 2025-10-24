@@ -12,6 +12,7 @@ const CompanyHeader = () => {
   const handleLogout = () => {
     localStorage.removeItem("companyId");
     localStorage.removeItem("name");
+    
      Cookies.remove('companyToken', { path: '/' });
     alert("Logout Successfully");
     navigate("/");

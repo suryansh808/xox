@@ -22,6 +22,7 @@ import ContactUs from './Components/ContactUs';
 import Recruitment from './Recruitment/Recruitment';
 
 import StudentLogIn from './Students/StudentLogin';
+
 import StudentSignUp from './Students/StudentSignUp';
 import Home from './Students/Home';
 import StudentHeader from './Students/StudentHeader';
@@ -70,6 +71,7 @@ import CompanyJobPost from './Company/CompanyJobPost';
 import CompanyInterviewProcess from './Company/CompanyInterviewProcess';
 import CompanyHiredCandidates from './Company/CompanyHiredCandidates';
 import CompanyHRSelected from './Company/CompanyHRSelected';
+import SubscriptionDialog from './Company/SubscriptionDialog';
 
 import ScrollToTop from './ScrollToTop';
 
@@ -84,6 +86,19 @@ import TermsAndConditions from './Pages/TermsAndConditions';
 import Resources from './Pages/Resources';
 import AllJobsPage from './Pages/AllJobs';
 import Pricing from './Pages/Pricing';
+
+
+import Loginwithotp from './Students/Loginwithotp';
+import CompanyLoginWithOTP from './Company/CompanyLoginWithOTP';
+
+import CommunitySignup from './Community/CommunitySignup';
+import CommunityLogin from './Community/CommunityLogin';
+import CommunityDashboard from './Community/CommunityDashboard';
+import CommunityHeader from './Community/CommunityHeader';
+import { CommunityPrivateRoute } from './PrivateRoute';
+import CommunityPrivateChat from './Community/CommunityPrivateChats';
+
+
 
 
 
@@ -163,7 +178,12 @@ const AppContent = () => {
     "/companyinterviewprocess",
     "/companyhiredcandidates",
     "/companyhrselected",
+     "/subscriptiondialog",
   ];
+    const communityHeaderPaths = [
+    "/communitydashboard",
+    "/communityprivatechat",
+  ];  
 
 
    
@@ -176,6 +196,7 @@ const AppContent = () => {
         {adminHeader.includes(location.pathname.toLowerCase()) && (<AdminHeader/>)}
         {hrHeader.includes(location.pathname.toLowerCase()) && (<HRHeader/>)}
         {companyHeaderPaths.includes(location.pathname.toLowerCase()) && <CompanyHeader/>}
+          {communityHeaderPaths.includes(location.pathname.toLowerCase()) && <CommunityHeader/>}
         <ScrollToTop/>
         <Routes>
           <Route path="/ITServices" element={<ITServices/>} />
@@ -210,6 +231,7 @@ const AppContent = () => {
 
           {/* Student */}
           <Route path="/StudentLogIn" element={<StudentLogIn/>} />
+          <Route path="/Loginwithotp" element={<Loginwithotp/>} />
           <Route path="/StudentSignUp" element={<StudentSignUp/>} />
           <Route path="/Home" element={<PrivateRoute><Home /></PrivateRoute>} />
           <Route path="/Joblist" element={<PrivateRoute><Joblist/></PrivateRoute>} />
@@ -223,6 +245,7 @@ const AppContent = () => {
 
           {/* company */}
           <Route path="/CompanyLogin" element={<CompanyLogin/>} />
+          <Route path="/CompanyLoginWithOTP" element={<CompanyLoginWithOTP/>} />
           <Route path="/CompanySignup" element={<CompanySignup/>} />
           <Route path="/CompanyDashboard" element={<CompanyPrivateRoute><CompanyDashboard/></CompanyPrivateRoute>} />
           {/* <Route path="/Selectaplan" element={<CompanyPrivateRoute><Selectaplan/></CompanyPrivateRoute>} /> */}
@@ -230,6 +253,7 @@ const AppContent = () => {
           <Route path="/CompanyInterviewProcess" element={<CompanyPrivateRoute><CompanyInterviewProcess/></CompanyPrivateRoute>} />
           <Route path="/CompanyHiredCandidates" element={<CompanyPrivateRoute><CompanyHiredCandidates/></CompanyPrivateRoute>} />
           <Route path="/CompanyHRSelected" element={<CompanyPrivateRoute><CompanyHRSelected/></CompanyPrivateRoute>} />
+           <Route path="/SubscriptionDialog" element={<CompanyPrivateRoute><SubscriptionDialog/></CompanyPrivateRoute>} />
 
 
             {/* HR */}
@@ -255,7 +279,11 @@ const AppContent = () => {
           <Route path="/CompanyOnboardList" element={<AdminPrivateRoute><CompanyOnboardList/></AdminPrivateRoute>}/>
           <Route path="/ContactUsResponse" element={<AdminPrivateRoute><ContactUsResponse/></AdminPrivateRoute>}/>
 
-
+            {/* community */}
+          <Route path="/CommunitySignup" element={<CommunitySignup/>} />
+          <Route path="/CommunityLogin" element={<CommunityLogin/>} />
+          <Route path="/CommunityDashboard" element={<CommunityPrivateRoute><CommunityDashboard/></CommunityPrivateRoute>} />
+          <Route path="/CommunityPrivateChat" element={<CommunityPrivateRoute><CommunityPrivateChat/></CommunityPrivateRoute>} />
 
         </Routes>
         <Footer/> 

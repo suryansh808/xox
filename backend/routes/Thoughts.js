@@ -1,30 +1,35 @@
 const express = require("express");
+const mongoose = require("mongoose");
 const Thought = require("../models/Thoughts");
 const Chat = require("../models/Chat");
-const User = require("../models/User");
-const jwt = require("jsonwebtoken");
-// const { sendEmail } = require("../controllers/MailController");
+const CommunityUser = require("../models/CommunityUser");
 const { sendEmail } = require("../controllers/MailController");
 const router = express.Router();
 
-// Previous endpoints (unchanged, included for completeness)
+// Post a new thought
 router.post("/thoughts", async (req, res) => {
   try {
     const { userId, text } = req.body;
     if (!userId || !text) {
-      return res.status(400).json({ message: "userId and text are required" });
+      return res.status(400).json({ success: false, message: "userId and text are required" });
     }
-    const user = await User.findById(userId).select("name");
+    if (!mongoose.isValidObjectId(userId)) {
+      return res.status(400).json({ success: false, message: "Invalid userId format" });
+    }
+    const user = await CommunityUser.findById(userId).select("name");
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ success: false, message: "User not found" });
     }
     const newThought = new Thought({
       userId,
       text,
+      owner: user.name,
+      visible: "show",
       replies: [],
     });
     const savedThought = await newThought.save();
     res.status(201).json({
+      success: true,
       _id: savedThought._id,
       userId: savedThought.userId.toString(),
       owner: user.name,
@@ -34,13 +39,18 @@ router.post("/thoughts", async (req, res) => {
       replies: [],
     });
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    console.error("Error in /thoughts:", error);
+    res.status(500).json({ success: false, message: "Server Error", error: error.message });
   }
 });
 
+// Get all visible thoughts
 router.get("/getthoughts", async (req, res) => {
   try {
-    const thoughts = await Thought.find({ visible: "show" }).populate("userId", "name").populate("replies.userId", "name profile").lean();;
+    const thoughts = await Thought.find({ visible: "show" })
+      .populate("userId", "name")
+      .populate("replies.userId", "name profile")
+      .lean();
     res.status(200).json(
       thoughts.map((thought) => ({
         _id: thought._id,
@@ -57,31 +67,39 @@ router.get("/getthoughts", async (req, res) => {
           visible: reply.visible,
           createdAt: reply.createdAt,
         })),
-      })
-    )
+      }))
     );
   } catch (error) {
-    console.error(error); 
-    res.status(500).json({ message: error.message });
+    console.error("Error in /getthoughts:", error);
+    res.status(500).json({ success: false, message: "Server Error", error: error.message });
   }
 });
 
+// Post a reply to a thought
 router.post("/thoughtsreplies/:id", async (req, res) => {
   try {
     const thought = await Thought.findById(req.params.id);
-    if (!thought) return res.status(404).json({ message: "Thought not found" });
-    const { userId, text } = req.body;
+    if (!thought) {
+      return res.status(404).json({ success: false, message: "Thought not found" });
+    }
+    const { userId, text, createdAt, visible } = req.body;
     if (!userId || !text) {
-      return res.status(400).json({ message: "userId and text are required" });
+      return res.status(400).json({ success: false, message: "userId and text are required" });
     }
-    const user = await User.findById(userId).select("name");
+    if (!mongoose.isValidObjectId(userId)) {
+      return res.status(400).json({ success: false, message: "Invalid userId format" });
+    }
+    const user = await CommunityUser.findById(userId).select("name");
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ success: false, message: "User not found" });
     }
-    thought.replies.push({ userId, text });
+    thought.replies.push({ userId, text, createdAt, visible });
     await thought.save();
-    const updatedThought = await Thought.findById(req.params.id).populate("userId", "name").populate("replies.userId", "name");
+    const updatedThought = await Thought.findById(req.params.id)
+      .populate("userId", "name")
+      .populate("replies.userId", "name");
     res.status(200).json({
+      success: true,
       _id: updatedThought._id,
       userId: updatedThought.userId._id.toString(),
       owner: updatedThought.userId?.name || "Unknown",
@@ -97,22 +115,28 @@ router.post("/thoughtsreplies/:id", async (req, res) => {
       })),
     });
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    console.error("Error in /thoughtsreplies/:id:", error);
+    res.status(500).json({ success: false, message: "Server Error", error: error.message });
   }
 });
 
+// Update thought visibility
 router.put("/changevisible/:id", async (req, res) => {
   try {
     const thought = await Thought.findById(req.params.id);
-    if (!thought) return res.status(404).json({ message: "Thought not found" });
-    if (req.body.visible === "show" || req.body.visible === "hide") {
-      thought.visible = req.body.visible;
-    } else {
-      return res.status(400).json({ message: "Invalid visibility value" });
+    if (!thought) {
+      return res.status(404).json({ success: false, message: "Thought not found" });
     }
+    if (req.body.visible !== "show" && req.body.visible !== "hide") {
+      return res.status(400).json({ success: false, message: "Invalid visibility value" });
+    }
+    thought.visible = req.body.visible;
     await thought.save();
-    const updatedThought = await Thought.findById(req.params.id).populate("userId", "name").populate("replies.userId", "name");
+    const updatedThought = await Thought.findById(req.params.id)
+      .populate("userId", "name")
+      .populate("replies.userId", "name");
     res.status(200).json({
+      success: true,
       _id: updatedThought._id,
       userId: updatedThought.userId._id.toString(),
       owner: updatedThought.userId?.name || "Unknown",
@@ -128,24 +152,32 @@ router.put("/changevisible/:id", async (req, res) => {
       })),
     });
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    console.error("Error in /changevisible/:id:", error);
+    res.status(500).json({ success: false, message: "Server Error", error: error.message });
   }
 });
 
+// Update reply visibility
 router.put("/changerepliesvisibilty/:thoughtId/replies/:replyIndex", async (req, res) => {
   try {
     const thought = await Thought.findById(req.params.thoughtId);
-    if (!thought) return res.status(404).json({ message: "Thought not found" });
-    const reply = thought.replies[req.params.replyIndex];
-    if (!reply) return res.status(404).json({ message: "Reply not found" });
-    if (req.body.visible === "show" || req.body.visible === "hide") {
-      reply.visible = req.body.visible;
-    } else {
-      return res.status(400).json({ message: "Invalid visibility value" });
+    if (!thought) {
+      return res.status(404).json({ success: false, message: "Thought not found" });
     }
+    const reply = thought.replies[req.params.replyIndex];
+    if (!reply) {
+      return res.status(404).json({ success: false, message: "Reply not found" });
+    }
+    if (req.body.visible !== "show" && req.body.visible !== "hide") {
+      return res.status(400).json({ success: false, message: "Invalid visibility value" });
+    }
+    reply.visible = req.body.visible;
     await thought.save();
-    const updatedThought = await Thought.findById(req.params.thoughtId).populate("userId", "name").populate("replies.userId", "name");
+    const updatedThought = await Thought.findById(req.params.thoughtId)
+      .populate("userId", "name")
+      .populate("replies.userId", "name");
     res.status(200).json({
+      success: true,
       _id: updatedThought._id,
       userId: updatedThought.userId._id.toString(),
       owner: updatedThought.userId?.name || "Unknown",
@@ -161,134 +193,149 @@ router.put("/changerepliesvisibilty/:thoughtId/replies/:replyIndex", async (req,
       })),
     });
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    console.error("Error in /changerepliesvisibilty/:thoughtId/replies/:replyIndex:", error);
+    res.status(500).json({ success: false, message: "Server Error", error: error.message });
   }
 });
 
+// Send a friend request
 router.post("/friendrequest", async (req, res) => {
   const { senderId, targetId } = req.body;
   try {
     if (!senderId || !targetId) {
-      return res.status(400).json({ message: "senderId and targetId are required" });
+      return res.status(400).json({ success: false, message: "senderId and targetId are required" });
     }
-    const sender = await User.findById(senderId).select("name");
+    if (!mongoose.isValidObjectId(senderId) || !mongoose.isValidObjectId(targetId)) {
+      return res.status(400).json({ success: false, message: "Invalid senderId or targetId format" });
+    }
+    const sender = await CommunityUser.findById(senderId).select("name");
     if (!sender) {
-      return res.status(404).json({ message: "Sender not found" });
+      return res.status(404).json({ success: false, message: "Sender not found" });
     }
-    const target = await User.findById(targetId).select("name friendRequests friends email");
+    const target = await CommunityUser.findById(targetId).select("name friendRequests friends email");
     if (!target) {
-      return res.status(404).json({ message: "Target user not found" });
+      return res.status(404).json({ success: false, message: "Target user not found" });
     }
     if (senderId === targetId) {
-      return res.status(400).json({ message: "Cannot add yourself as a friend" });
+      return res.status(400).json({ success: false, message: "Cannot add yourself as a friend" });
     }
     target.friendRequests = target.friendRequests || [];
     target.friends = target.friends || [];
-    if (target.friends.includes(senderId) || target.friendRequests.includes(senderId)) {
-      return res.status(400).json({ message: "Already friends or request pending" });
+    if (
+      target.friends.some((friend) => friend.userId.toString() === senderId) ||
+      target.friendRequests.some((req) => req.userId.toString() === senderId)
+    ) {
+      return res.status(400).json({ success: false, message: "Already friends or request pending" });
     }
-    target.friendRequests.push(senderId);
-      
+    target.friendRequests.push({
+      userId: new mongoose.Types.ObjectId(senderId),
+      name: sender.name,
+    });
+    await target.save();
     const emailMessage = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; border: 1px solid #ddd; border-radius: 8px; overflow: hidden;">
-  <div style="background-color: #4A90E2; color: #fff; text-align: center; padding: 20px;">
-      <h1>DOLTEC</h1>
-  </div>
-  <div style="padding: 20px; text-align: center;">
-      <p style="font-size: 16px; color: #333;">Hello ${target.name},</p>
-      <p style="font-size: 14px; color: #555;">You’ve received a new <strong>Friend Request</strong> from:</p>
-      <p style="font-size: 20px; font-weight: bold; color: #4A90E2; margin: 10px 0;">${sender.name}</p>
-      <p style="font-size: 14px; color: #555;">
-        To view and respond to this request, please log in to your Doltec account.  
-        While logging in, you can choose your preferred mode — <strong>Student</strong> or <strong>Company</strong> — to access the right dashboard.
-      </p>
-      <a href="https://www.doltec.in" style="display: inline-block; margin-top: 15px; padding: 10px 20px; background-color: #4A90E2; color: #fff; text-decoration: none; border-radius: 4px;">
-        Log In to Your Account
-      </a>
-      <p style="font-size: 12px; color: #888; margin-top: 20px;">
-        If the button above doesn't work, copy and paste the following link into your browser:
-      </p>
-      <p style="font-size: 12px; color: #888;">
-        <a href="https://www.doltec.in" style="color: #4A90E2;">https://www.doltec.in</a>
-      </p>
-  </div>
-  <div style="text-align: center; font-size: 12px; color: #888; padding: 10px 0; border-top: 1px solid #ddd;">
-      <p>If you don’t recognize this request, you can safely ignore this email.</p>
-      <p>&copy; 2025 Doltec Consultancy Services. All Rights Reserved.</p>
-  </div>
-</div>
+        <div style="background-color: #4A90E2; color: #fff; text-align: center; padding: 20px;">
+          <h1>DOLTEC</h1>
+        </div>
+        <div style="padding: 20px; text-align: center;">
+          <p style="font-size: 16px; color: #333;">Hello ${target.name},</p>
+          <p style="font-size: 14px; color: #555;">You’ve received a new <strong>Friend Request</strong> from:</p>
+          <p style="font-size: 20px; font-weight: bold; color: #4A90E2; margin: 10px 0;">${sender.name}</p>
+          <p style="font-size: 14px; color: #555;">
+            To view and respond to this request, please log in to your Doltec account.
+          </p>
+          <a href="https://www.doltec.in/CommunityLogin" style="display: inline-block; margin-top: 15px; padding: 10px 20px; background-color: #4A90E2; color: #fff; text-decoration: none; border-radius: 4px;">
+            Log In to Your Account
+          </a>
+          <p style="font-size: 12px; color: #888; margin-top: 20px;">
+            If the button above doesn't work, copy and paste the following link into your browser:
+          </p>
+          <p style="font-size: 12px; color: #888;">
+            <a href="https://www.doltec.in/CommunityLogin" style="color: #4A90E2;">https://www.doltec.in/CommunityLogin</a>
+          </p>
+        </div>
+        <div style="text-align: center; font-size: 12px; color: #888; padding: 10px 0; border-top: 1px solid #ddd;">
+          <p>If you don’t recognize this request, you can safely ignore this email.</p>
+          <p>&copy; 2025 Doltec Consultancy Services. All Rights Reserved.</p>
+        </div>
+      </div>
     `;
-     await Promise.all([
-       target.save(),
-        sendEmail({ email: target.email,subject: "You’ve Got a New Friend Request!", message: emailMessage }),
-    ]);
-     console.log("Friend request sent and email notification dispatched.");
-    res.status(200).json({ message: "Friend request sent", senderName: sender.name, targetName: target.name });
+    try {
+      await sendEmail({ email: target.email, subject: "You’ve Got a New Friend Request!", message: emailMessage });
+    } catch (emailError) {
+      console.error("Failed to send email notification:", emailError);
+    }
+    res.status(200).json({ success: true, message: "Friend request sent", senderName: sender.name, targetName: target.name });
   } catch (error) {
-    console.error(error);
-    res.status(400).json({ message: "Error sending friend request", error: error.message });
+    console.error("Error in /friendrequest:", error);
+    res.status(500).json({ success: false, message: "Server Error", error: error.message });
   }
 });
 
-router.get("/checkfriend", async (req, res) => {
-  const token = req.headers.authorization?.split(" ")[1];
+// Check friend status
+router.get("/checkfriend/:userId", async (req, res) => {
   try {
-    if (!token) {
-      return res.status(403).json({ error: "Access denied. No token provided." });
+    const { userId } = req.params;
+    if (!userId) {
+      return res.status(400).json({ success: false, message: "User ID is required" });
     }
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decoded.user._id;
-    const user = await User.findById(userId).select("friendRequests friends").populate("friendRequests", "name").populate("friends", "name");
+    if (!mongoose.isValidObjectId(userId)) {
+      return res.status(400).json({ success: false, message: "Invalid User ID format" });
+    }
+    const user = await CommunityUser.findById(userId)
+      .select("friendRequests friends")
+      .populate("friendRequests.userId", "name")
+      .populate("friends.userId", "name");
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ success: false, message: "User not found" });
     }
     user.friendRequests = user.friendRequests || [];
     user.friends = user.friends || [];
     res.status(200).json({
+      success: true,
       friendRequests: user.friendRequests.map((req) => ({
-        userId: req._id.toString(),
-        name: req.name || "Unknown",
+        userId: req.userId?._id.toString(),
+        name: req.userId?.name || req.name || "Unknown",
       })) || [],
       friends: user.friends.map((friend) => ({
-        userId: friend._id.toString(),
-        name: friend.name || "Unknown",
+        userId: friend.userId?._id.toString(),
+        name: friend.userId?.name || friend.name || "Unknown",
       })) || [],
     });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server Error", error: error.message });
+    console.error("Error in /checkfriend/:userId:", error);
+    res.status(500).json({ success: false, message: "Server Error", error: error.message });
   }
 });
 
+// Accept a friend request
 router.post("/acceptfriend", async (req, res) => {
-  const token = req.headers.authorization?.split(" ")[1];
-  const { senderId } = req.body;
+  const { senderId, userId } = req.body;
   try {
-    if (!token) {
-      return res.status(403).json({ error: "Access denied. No token provided." });
+    if (!senderId || !userId) {
+      return res.status(400).json({ success: false, message: "senderId and userId are required" });
     }
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decoded.user._id;
-    const user = await User.findById(userId);
+    if (!mongoose.isValidObjectId(senderId) || !mongoose.isValidObjectId(userId)) {
+      return res.status(400).json({ success: false, message: "Invalid senderId or userId format" });
+    }
+    const user = await CommunityUser.findById(userId);
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+    const sender = await CommunityUser.findById(senderId).select("name");
+    if (!sender) {
+      return res.status(404).json({ success: false, message: "Sender not found" });
     }
     user.friendRequests = user.friendRequests || [];
     user.friends = user.friends || [];
-    if (!user.friendRequests.includes(senderId)) {
-      return res.status(400).json({ message: "No friend request from this user" });
+    if (!user.friendRequests.some((req) => req.userId.toString() === senderId)) {
+      return res.status(400).json({ success: false, message: "No friend request from this user" });
     }
-    const sender = await User.findById(senderId).select("name");
-    if (!sender) {
-      return res.status(404).json({ message: "Sender not found" });
-    }
-    user.friendRequests = user.friendRequests.filter((id) => id.toString() !== senderId);
-    user.friends = [...user.friends, senderId];
-    await user.save();
+    user.friendRequests = user.friendRequests.filter((req) => req.userId.toString() !== senderId);
+    user.friends.push({ userId: new mongoose.Types.ObjectId(senderId), name: sender.name });
     sender.friends = sender.friends || [];
-    sender.friends = [...sender.friends, userId];
-    await sender.save();
-    // Create or update chat document
+    sender.friends.push({ userId: new mongoose.Types.ObjectId(userId), name: user.name });
+    await Promise.all([user.save(), sender.save()]);
     const chat = await Chat.findOne({
       participants: { $all: [userId, senderId] },
     });
@@ -299,30 +346,69 @@ router.post("/acceptfriend", async (req, res) => {
       });
     }
     res.status(200).json({
+      success: true,
       message: "Friend request accepted",
-      friends: (await User.findById(userId).populate("friends", "name")).friends.map((friend) => ({
-        userId: friend._id.toString(),
+      friends: user.friends.map((friend) => ({
+        userId: friend.userId.toString(),
         name: friend.name || "Unknown",
       })),
     });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server Error", error: error.message });
+    console.error("Error in /acceptfriend:", error);
+    res.status(500).json({ success: false, message: "Server Error", error: error.message });
   }
 });
 
-// New endpoint: Fetch user's chats and friend requests
-router.get("/getchats", async (req, res) => {
-  const token = req.headers.authorization?.split(" ")[1];
+// Reject a friend request
+router.post("/rejectfriend", async (req, res) => {
+  const { senderId, userId } = req.body;
   try {
-    if (!token) {
-      return res.status(403).json({ error: "Access denied. No token provided." });
+    if (!senderId || !userId) {
+      return res.status(400).json({ success: false, message: "senderId and userId are required" });
     }
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decoded.user._id;
-    const user = await User.findById(userId).select("friendRequests friends").populate("friendRequests", "name").populate("friends", "name profile");
+    if (!mongoose.isValidObjectId(senderId) || !mongoose.isValidObjectId(userId)) {
+      return res.status(400).json({ success: false, message: "Invalid senderId or userId format" });
+    }
+    const user = await CommunityUser.findById(userId);
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+    user.friendRequests = user.friendRequests || [];
+    if (!user.friendRequests.some((req) => req.userId.toString() === senderId)) {
+      return res.status(400).json({ success: false, message: "No friend request from this user" });
+    }
+    user.friendRequests = user.friendRequests.filter((req) => req.userId.toString() !== senderId);
+    await user.save();
+    res.status(200).json({
+      success: true,
+      message: "Friend request rejected",
+      friendRequests: user.friendRequests.map((req) => ({
+        userId: req.userId.toString(),
+        name: req.name || "Unknown",
+      })),
+    });
+  } catch (error) {
+    console.error("Error in /rejectfriend:", error);
+    res.status(500).json({ success: false, message: "Server Error", error: error.message });
+  }
+});
+
+// Fetch user's chats and friend requests
+router.get("/getchats/:userId", async (req, res) => {
+  try {
+    const { userId } = req.params;
+    if (!userId) {
+      return res.status(400).json({ success: false, message: "User ID is required" });
+    }
+    if (!mongoose.isValidObjectId(userId)) {
+      return res.status(400).json({ success: false, message: "Invalid User ID format" });
+    }
+    const user = await CommunityUser.findById(userId)
+      .select("friendRequests friends")
+      .populate("friendRequests.userId", "name")
+      .populate("friends.userId", "name profile");
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
     }
     user.friendRequests = user.friendRequests || [];
     user.friends = user.friends || [];
@@ -330,13 +416,14 @@ router.get("/getchats", async (req, res) => {
       participants: userId,
     }).populate("participants", "name");
     res.status(200).json({
+      success: true,
       friendRequests: user.friendRequests.map((req) => ({
-        userId: req._id.toString(),
-        name: req.name || "Unknown",
+        userId: req.userId?._id.toString(),
+        name: req.userId?.name || req.name || "Unknown",
       })),
       friends: user.friends.map((friend) => ({
-        userId: friend._id.toString(),
-        name: friend.name || "Unknown",
+        userId: friend.userId?._id.toString(),
+        name: friend.userId?.name || friend.name || "Unknown",
         profile: friend.profile || "",
       })),
       chats: chats.map((chat) => ({
@@ -352,28 +439,31 @@ router.get("/getchats", async (req, res) => {
       })),
     });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server Error", error: error.message });
+    console.error("Error in /getchats/:userId:", error);
+    res.status(500).json({ success: false, message: "Server Error", error: error.message });
   }
 });
 
-// New endpoint: Send a message
+// Send a message
 router.post("/sendmessage", async (req, res) => {
   const { senderId, recipientId, text } = req.body;
   try {
     if (!senderId || !recipientId || !text) {
-      return res.status(400).json({ message: "senderId, recipientId, and text are required" });
+      return res.status(400).json({ success: false, message: "senderId, recipientId, and text are required" });
     }
-    const sender = await User.findById(senderId).select("name friends");
+    if (!mongoose.isValidObjectId(senderId) || !mongoose.isValidObjectId(recipientId)) {
+      return res.status(400).json({ success: false, message: "Invalid senderId or recipientId format" });
+    }
+    const sender = await CommunityUser.findById(senderId).select("name friends");
     if (!sender) {
-      return res.status(404).json({ message: "Sender not found" });
+      return res.status(404).json({ success: false, message: "Sender not found" });
     }
-    const recipient = await User.findById(recipientId).select("name");
+    const recipient = await CommunityUser.findById(recipientId).select("name");
     if (!recipient) {
-      return res.status(404).json({ message: "Recipient not found" });
+      return res.status(404).json({ success: false, message: "Recipient not found" });
     }
-    if (!sender.friends.includes(recipientId)) {
-      return res.status(403).json({ message: "You can only message friends" });
+    if (!sender.friends.some((friend) => friend.userId.toString() === recipientId)) {
+      return res.status(403).json({ success: false, message: "You can only message friends" });
     }
     let chat = await Chat.findOne({
       participants: { $all: [senderId, recipientId] },
@@ -388,6 +478,7 @@ router.post("/sendmessage", async (req, res) => {
     await chat.save();
     const updatedChat = await Chat.findById(chat._id).populate("participants", "name");
     res.status(200).json({
+      success: true,
       chatId: chat._id.toString(),
       friendId: recipientId,
       friendName: recipient.name,
@@ -399,29 +490,30 @@ router.post("/sendmessage", async (req, res) => {
       })),
     });
   } catch (error) {
-    console.error(error);
-    res.status(400).json({ message: "Error sending message", error: error.message });
+    console.error("Error in /sendmessage:", error);
+    res.status(500).json({ success: false, message: "Server Error", error: error.message });
   }
 });
 
-// New endpoint: SSE for real-time messages
-router.get("/messages/stream", async (req, res) => {
-  const token = req.headers.authorization?.split(" ")[1];
+// SSE for real-time messages
+router.get("/messages/stream/:userId", async (req, res) => {
   try {
-    if (!token) {
-      return res.status(403).json({ error: "Access denied. No token provided." });
+    const { userId } = req.params;
+    if (!userId) {
+      return res.status(400).json({ success: false, message: "User ID is required" });
     }
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decoded.user._id;
-
+    if (!mongoose.isValidObjectId(userId)) {
+      return res.status(400).json({ success: false, message: "Invalid User ID format" });
+    }
+    const user = await CommunityUser.findById(userId);
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
     res.setHeader("Content-Type", "text/event-stream");
     res.setHeader("Cache-Control", "no-cache");
     res.setHeader("Connection", "keep-alive");
+    res.write("data: {}\n\n"); // Initial heartbeat
 
-    // Send initial heartbeat
-    res.write("data: {}\n\n");
-
-    // Poll for new messages every 5 seconds
     const interval = setInterval(async () => {
       try {
         const chats = await Chat.find({
@@ -451,14 +543,13 @@ router.get("/messages/stream", async (req, res) => {
       }
     }, 5000);
 
-    // Clean up on client disconnect
     req.on("close", () => {
       clearInterval(interval);
       res.end();
     });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server Error", error: error.message });
+    console.error("Error in /messages/stream/:userId:", error);
+    res.status(500).json({ success: false, message: "Server Error", error: error.message });
   }
 });
 

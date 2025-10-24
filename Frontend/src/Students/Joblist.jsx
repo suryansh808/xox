@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import API from "../API";
 import Cookies from "js-cookie";
-
+import toast, { Toaster } from "react-hot-toast";
 const Joblist = () => {
   const [joblist, setJoblist] = useState([]);
   const [filteredJobs, setFilteredJobs] = useState([]);
@@ -105,19 +105,19 @@ const Joblist = () => {
   const handleJobApplication = async (e) => {
     e.preventDefault();
     if (!userId) {
-      alert("User ID is missing. Please ensure you are logged in.");
+      toast.error("User ID is missing. Please ensure you are logged in.");
       return;
     }
     if (!selectedResumeId) {
-      alert("create a resume before applying to job.");
+     toast.error("create a resume before applying to job.");
       return;
     }
     if (!selectedJob) {
-      alert("No job selected.");
+     toast.error("No job selected.");
       return;
     }
     if (appliedJobs.length >= jobLimit) {
-      alert("You have reached your job application limit. Please subscribe to apply for more jobs.");
+     toast.error("You have reached your job application limit. Please subscribe to apply for more jobs.");
       return;
     }
     const jobId = selectedJob._id;
@@ -135,7 +135,7 @@ const Joblist = () => {
         }
         return prev;
       });
-      alert("Application submitted successfully!");
+     toast.success("Application submitted successfully!");
     } catch (error) {
       console.error("Error applying for job:", error.message);
       alert("Error applying for job. Please try again.");
@@ -148,6 +148,7 @@ const Joblist = () => {
 
   return (
     <div id="joblist">
+        <Toaster position="top-center" reverseOrder={false} />
       <div className="filterandsearchbar">
         <div className="searchbar">
           <input

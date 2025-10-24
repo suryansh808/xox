@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import API from "../API";
-// import SubscriptionDialog from './SubscriptionDialog';
+import { useLocation } from "react-router-dom";
 
 const formFields = [
   { name: "jobTitle", label: "Job Title", type: "text" },
@@ -18,11 +18,12 @@ const formFields = [
   { name: "noofposition", label: "No of Position", type: "number" },
   { name: "applicationDeadline", label: "Application Deadline", type: "date", InputLabelProps: { shrink: true } },
 ];
+
 const CompanyJobPost = () => {
   const initialJobDetails = {
     jobTitle: "",
     location: "",
-    city:"",
+    city: "",
     jobType: "",
     jobTiming: "",
     workingDays: "",
@@ -41,37 +42,48 @@ const CompanyJobPost = () => {
   const [loading, setLoading] = useState(false);
   const [selectedJobDetails, setSelectedJobDetails] = useState(false);
   const [selectedJob, setSelectedJob] = useState(null);
-  const [jobPostLimit, setJobPostLimit] = useState(2); 
+  const [jobPostLimit, setJobPostLimit] = useState(2);
   const companyId = localStorage.getItem("companyId");
+  const location = useLocation();
+
+  const fetchJobs = async () => {
+    try {
+      const response = await axios.get(`${API}/company-jobs`, {
+        params: { companyId },
+      });
+      setJobs(response.data || []);
+    } catch (error) {
+      console.error("Fetch jobs error:", error.message);
+      alert(error.response?.data?.message || "Failed to load jobs.");
+    }
+  };
+
+  const fetchCompanyDetails = async () => {
+    try {
+      const response = await axios.get(`${API}/company/${companyId}`);
+      const limit = response.data.jobPostLimit === null ? Infinity : response.data.jobPostLimit;
+      setJobPostLimit(limit);
+      console.log("Fetched job post limit:", limit);
+    } catch (error) {
+      console.error("Fetch company details error:", error.message);
+      alert(error.response?.data?.message || "Failed to load company details.");
+    }
+  };
 
   useEffect(() => {
     if (!companyId) {
       alert("Please log in to view jobs.");
       return;
     }
-    const fetchJobs = async () => {
-      try {
-        const response = await axios.get(`${API}/company-jobs`, {
-          params: { companyId },
-        });
-        setJobs(response.data || []);
-      } catch (error) {
-        console.error("Fetch jobs error:", error.message);
-        alert(error.response?.data?.message || "Failed to load jobs.");
-      }
-    };
-    const fetchCompanyDetails = async () => {
-      try {
-        const response = await axios.get(`${API}/company/${companyId}`);
-        setJobPostLimit(response.data.jobPostLimit || 2);
-      } catch (error) {
-        console.error("Fetch company details error:", error.message);
-        alert(error.response?.data?.message || "Failed to load company details.");
-      }
-    };
     fetchJobs();
     fetchCompanyDetails();
   }, [companyId]);
+
+  useEffect(() => {
+    if (location.state?.fromSubscription) {
+      fetchCompanyDetails();
+    }
+  }, [location.state]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -94,10 +106,9 @@ const CompanyJobPost = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!companyId) {
-      // console.log("No companyId for submit");
       return showError("Please log in to post a job.");
     }
-    if (!editingId && jobs.length >= jobPostLimit) {
+    if (!editingId && jobs.length >= jobPostLimit && jobPostLimit !== Infinity) {
       showError("Job post limit reached. Please subscribe to post more jobs.");
       return;
     }
@@ -156,6 +167,7 @@ const CompanyJobPost = () => {
       setLoading(false);
     }
   };
+
   const handleEditJob = (job) => {
     setJobDetails({
       ...job,
@@ -182,15 +194,14 @@ const CompanyJobPost = () => {
   };
 
   const handleSubscribe = () => {
-    window.location.href = "/subscribe";
+    window.location.href = "/SubscriptionDialog";
   };
-  const [dialogOpen, setDialogOpen] = useState(false);
 
   return (
     <div id="companyjobpost">
       <div className="heading">
         <h2 className="job-list-title">Job List</h2>
-        {jobs.length < jobPostLimit ? (
+        {jobPostLimit === Infinity || jobs.length < jobPostLimit ? (
           <button className="add-button" onClick={() => setOpen(true)}>
             Add/Post Job
           </button>
@@ -200,10 +211,7 @@ const CompanyJobPost = () => {
           </button>
         )}
       </div>
-       <div className="subscriptionbtn">
-         {/* <button onClick={() => setDialogOpen(true)}>Subscribe</button> */}
-      {/* <SubscriptionDialog isOpen={dialogOpen} onClose={() => setDialogOpen(false)} /> */}
-      </div>
+      <div className="subscriptionbtn"></div>
       <table className="job-table">
         <thead className="table-header">
           <tr className="header-row">

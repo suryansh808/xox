@@ -10,7 +10,7 @@ const Home = () => {
   const [joblist, setJoblist] = useState([]);
   const [date, setDate] = useState(new Date());
   const [count, setCount] = useState();
-
+const [showPopup, setShowPopup] = useState(false);
   const fetchJobs = async () => {
     try {
       const response = await axios.get(`${API}/company-all-jobs`);
@@ -36,6 +36,20 @@ const Home = () => {
   useEffect(() => {
     fetchJobs();
     fetchCounts();
+  }, []);
+
+  useEffect(() => {
+    const userData = localStorage.getItem("user");
+
+    if (userData) {
+      const user = JSON.parse(userData);
+      const popupKey = `popupShown_${user._id}`; // unique per user
+
+      if (!sessionStorage.getItem(popupKey)) {
+        setShowPopup(true);
+        sessionStorage.setItem(popupKey, "true");
+      }
+    }
   }, []);
 
   const navigate = useNavigate();
@@ -110,16 +124,72 @@ const Home = () => {
               <button onClick={resume} className="updatebtn">
                 UPDATE
               </button>
-            </div>
+            </div>      
           </div>
-
           <div className="calendar__container">
             <Calendar onChange={setDate} value={date} />
           </div>
         </div>
       </div>
+      {showPopup && (
+  <div style={overlayStyle}>
+    <div style={popupStyle}>
+      <h2>Welcome!</h2>
+      <p>
+        Here’s a quick overview of your dashboard features. Explore the 
+        <strong> Community Page</strong> to connect with others and make new friends!
+      </p>
+      <button style={popupbtn} onClick={() => setShowPopup(false)}>Close</button>
+      <button style={popupbtn} onClick={() => navigate("/community")}>
+        Go to Community Page
+      </button>
+    </div>
+  </div>
+)}
+
     </div>
   );
 };
+
+const overlayStyle = {
+  position: "fixed",
+  top: 0,
+  left: 0,
+  width: "100%",
+  height: "100%",
+  background: "rgba(0,0,0,0.5)",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+};
+
+const popupStyle = {
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  alignItems: "center",
+  background: "#fff",
+  color: "#000",
+  padding: "20px",
+  borderRadius: "8px",
+  textAlign: "center",
+  width: "300px",
+  boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
+  animation: "fadeIn 0.3s ease-in-out",
+};
+const popupbtn = {
+  marginTop: "20px",
+  padding: "10px 20px",
+  backgroundColor: "#007BFF",
+  color: "#fff",
+  border: "none",
+  borderRadius: "4px",
+  cursor: "pointer",
+  fontSize: "16px",
+  transition: "background-color 0.3s ease",
+  hover: {
+    backgroundColor: "#0056b3",
+    },
+  };
 
 export default Home;

@@ -60,7 +60,7 @@ const CompanySignup = () => {
       // console.log('Response:', res.data);
       if (res.data.success) {
         localStorage.setItem('companyId', res.data.companyId);
-        alert('Login successful');
+        alert('SignUp successful');
         navigate('/CompanyLogin');
       } else {
         alert(res.data.message || 'Invalid credentials');

@@ -32,3 +32,22 @@ export const AdminPrivateRoute = ({ children }) => {
   }
   return children;
 };
+
+
+export const CommunityPrivateRoute = ({ children }) => {
+  const communityUser = localStorage.getItem("com-user");
+  if (!communityUser) {
+    return <Navigate to="/CommunityLogin" replace />;
+  }
+  try {
+    const parsedUser = JSON.parse(communityUser);
+    if (!parsedUser.userId || !parsedUser.email) {
+      localStorage.removeItem("com-user");
+      return <Navigate to="/CommunityLogin" replace />;
+    }
+    return children;
+  } catch (error) {
+    localStorage.removeItem("com-user");
+    return <Navigate to="/CommunityLogin" replace />;
+  }
+};

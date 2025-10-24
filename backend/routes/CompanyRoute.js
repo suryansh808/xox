@@ -1,10 +1,13 @@
 const express = require("express");
 const Company = require("../models/CompanyUser");
 const router = express.Router();
+const { sendEmail } = require("../controllers/MailController");
 const CompanyPostedJob  = require("../models/CompanyPostedJob");
 const cloudinary = require("../middleware/cloudinary")
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
+const crypto = require('crypto'); 
+
 
 router.post('/company-signup', async (req, res) => {
   try {
@@ -35,27 +38,29 @@ router.post('/company-signup', async (req, res) => {
   }
 });
 
-router.post('/company-login', async (req, res) => {
+router.post('/company-login', async (req, res) => { 
   try {
     const { email, password } = req.body;
     if (!email || !password) {
       return res.status(400).json({ success: false, message: 'Please provide email and password' });
     }
-    const company = await Company.findOne({ email });
+    const company = await Company.findOne({ email: email.trim().toLowerCase() });
     if (!company) {
       return res.status(401).json({ success: false, message: 'Invalid email or password' });
     }
     if (company.password !== password) {
       return res.status(401).json({ success: false, message: 'Invalid email or password' });
     }
-     const payload = {  user: { _id: company._id }, role: "hr" };
-    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1d" });
-        
+    const payload = { companyId: company.companyId, role: 'hr' };
+    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1d' });
     res.status(200).json({
       success: true,
-      companyName: company.companyName, 
       companyId: company.companyId,
-      jobPostLimit : company.jobPostLimit,
+      name: company.companyName,
+      email: company.email,
+      subscriptionPlan: company.subscriptionPlan || null,
+      accessLevel: company.accessLevel || 'basic',
+      subscriptionEnd: company.subscriptionEnd || null,
       token,
     });
   } catch (err) {
@@ -63,6 +68,97 @@ router.post('/company-login', async (req, res) => {
     res.status(500).json({ success: false, message: 'Server error' });
   }
 });
+
+//Send OTP to BDA Email
+router.post("/companysendotp", async (req, res) => {
+  const { email } = req.body;
+  console.log("Received email for OTP:", email);
+  try {
+    const comapny = await Company.findOne({ email });
+    console.log("company found:", comapny);
+    if (!comapny) {
+      return res.status(404).json({ message: "User not found" });
+    }
+     
+    const otp = crypto.randomInt(100000, 1000000);
+    console.log("Generated OTP:", otp);
+
+      // Send OTP via Email
+         const emailMessage = `
+       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; border: 1px solid #ddd; border-radius: 8px; overflow: hidden;">
+  <div style="background-color: #0D6EFD; color: #fff; text-align: center; padding: 20px;">
+    <h1>Doltec</h1>
+  </div>
+  <div style="padding: 20px; text-align: center;">
+    <p style="font-size: 16px; color: #333;">Welcome back, Recruiter!</p>
+    <p style="font-size: 14px; color: #555;">Your One-Time Password (OTP) for secure company account verification is:</p>
+    <p style="font-size: 24px; font-weight: bold; color: #0D6EFD; margin: 10px 0;">${otp}</p>
+    <p style="font-size: 14px; color: #555;">This OTP is valid for <strong>10 minutes</strong>. Please keep it confidential and do not share it with anyone.</p>
+  </div>
+  <div style="text-align: center; font-size: 12px; color: #888; padding: 10px 0; border-top: 1px solid #ddd;">
+    <p>If you didn’t request this OTP, please ignore this email or contact the Doltec support team immediately.</p>
+    <p>&copy; 2025 Doltec. All Rights Reserved.</p>
+  </div>
+</div>
+
+      `;
+      console.log("Email message constructed");
+    comapny.otp = otp; 
+    await Promise.all([
+        comapny.save(),
+        sendEmail({ email , subject : "Login Credentials" ,  message: emailMessage }),
+    ]);
+    res.status(200).json({ message: "OTP sent to your email!" });
+    console.log("OTP sent successfully to:", email);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Failed to send OTP", error: error.message });
+  }
+});
+
+// Verify OTP and Login
+router.post("/companyverifyotp", async (req, res) => {
+  const { email, otp } = req.body;
+  console.log("Verifying OTP for email:", email, "with OTP:", otp);
+  try {
+    const company = await Company.findOne({ email });
+    console.log("Company found for OTP verification:", company);
+    if (!company) {
+      return res.status(404).json({ message: "user not found" });
+    }
+    if (company.otp !== otp) {
+      return res.status(400).json({ message: "Invalid OTP" });
+    }
+    console.log("OTP verified successfully for:", email);
+
+    // Clear OTP after successful login
+    company.otp = null;
+    await company.save();
+
+     console.log("OTP cleared after verification for:", email);
+
+     const payload = { companyId: company.companyId, role: 'hr' };
+    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1d' });
+    res.status(200).json({
+      success: true,
+      companyId: company.companyId,
+      name: company.companyName,
+      email: company.email,
+      subscriptionPlan: company.subscriptionPlan || null,
+      accessLevel: company.accessLevel || 'basic',
+      subscriptionEnd: company.subscriptionEnd || null,
+      token,
+    });
+
+    console.log("Login successful, token generated for:", email);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "OTP verification failed", error: error.message });
+  }
+});
+
 
 router.get("/allcompany", async (req, res) => {
   try {
@@ -241,5 +337,30 @@ router.get('/company/:companyId', async (req, res) => {
     res.status(500).json({ message: 'Server error while fetching company details' });
   }
 });
+
+
+// Endpoint to fetch company details by companyId
+router.get('/company/profile/:companyId', async (req, res) => {
+  const { companyId } = req.params;
+  try {
+    const company = await Company.findOne({ companyId });
+    if (!company) {
+      return res.status(404).json({ message: 'Company not found' });
+    }
+    res.status(200).json({
+      companyId: company.companyId,
+      companyName: company.companyName,
+      email: company.email,
+      subscriptionPlan: company.subscriptionPlan || null,
+      accessLevel: company.accessLevel || 'basic',
+      subscriptionEnd: company.subscriptionEnd || null,
+      jobPostLimit: company.jobPostLimit || 2, // Default to 2
+    });
+  } catch (error) {
+    console.error('Profile error:', error);
+    res.status(500).json({ message: 'Server error while fetching company details' });
+  }
+});
+
 
 module.exports = router;

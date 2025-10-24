@@ -36,9 +36,11 @@ const Header = () => {
   const noHeaderFooterRoutes = [
     "/",
     "/CompanyLogin",
+    "/CompanyLoginWithOTP",
     "/CompanySignup",
     "/adminlogin",
     "/StudentLogIn",
+    "/Loginwithotp",
     "/StudentSignUp",
     "/Home",
     "/chooseaplan",

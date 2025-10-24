@@ -1,12 +1,17 @@
 const express = require("express");
 const mongoose = require('mongoose');
 const User = require("../models/User");
+const { sendEmail } = require("../controllers/MailController");
+
 const Resume = require("../models/Resume");
 const router = express.Router();
 const cloudinary = require("../middleware/cloudinary");
 const Application = require("../models/Application");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
+const crypto = require('crypto'); 
+
+
 //login user
 router.post("/userlogin", async (req, res) => {
   try {
@@ -38,6 +43,95 @@ router.post("/userlogin", async (req, res) => {
     res.status(500).json({ message: "Server Error" });
   }
 });
+
+
+//Send OTP to BDA Email
+router.post("/sendotp", async (req, res) => {
+  const { email } = req.body;
+  console.log("Received email for OTP:", email);
+  try {
+    const bda = await User.findOne({ email });
+    console.log("BDA found:", bda);
+    if (!bda) {
+      return res.status(404).json({ message: "User not found" });
+    }
+     
+    const otp = crypto.randomInt(100000, 1000000);
+    console.log("Generated OTP:", otp);
+
+      // Send OTP via Email
+         const emailMessage = `
+         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; border: 1px solid #ddd; border-radius: 8px; overflow: hidden;">
+  <div style="background-color: #0D6EFD; color: #fff; text-align: center; padding: 20px;">
+    <h1>Doltec</h1>
+  </div>
+  <div style="padding: 20px; text-align: center;">
+    <p style="font-size: 16px; color: #333;">Welcome back, Student!</p>
+    <p style="font-size: 14px; color: #555;">Your One-Time Password (OTP) for account verification is:</p>
+    <p style="font-size: 24px; font-weight: bold; color: #0D6EFD; margin: 10px 0;">${otp}</p>
+    <p style="font-size: 14px; color: #555;">This OTP is valid for <strong>10 minutes</strong>. Please do not share it with anyone.</p>
+  </div>
+  <div style="text-align: center; font-size: 12px; color: #888; padding: 10px 0; border-top: 1px solid #ddd;">
+    <p>If you didn’t request this OTP, please ignore this email or reach out to our support team immediately.</p>
+    <p>&copy; 2025 Doltec. All Rights Reserved.</p>
+  </div>
+</div>
+      `;
+      console.log("Email message constructed");
+    bda.otp = otp; 
+    await Promise.all([
+        bda.save(),
+        sendEmail({ email , subject : "Login Credentials" ,  message: emailMessage }),
+    ]);
+    res.status(200).json({ message: "OTP sent to your email!" });
+    console.log("OTP sent successfully to:", email);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Failed to send OTP", error: error.message });
+  }
+});
+
+// Verify OTP and Login
+router.post("/verifyotp", async (req, res) => {
+  const { email, otp } = req.body;
+  try {
+    const bda = await User.findOne({ email });
+    if (!bda) {
+      return res.status(404).json({ message: "user not found" });
+    }
+    if (bda.otp !== otp) {
+      return res.status(400).json({ message: "Invalid OTP" });
+    }
+
+    // Clear OTP after successful login
+    bda.otp = null;
+    await bda.save();
+
+    const token = jwt.sign(
+      { id: bda._id, email: bda.email },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" }
+    );
+    res.status(200).json({
+      token,
+      bdaId: bda._id,
+      bdaName: bda.name,
+      message: "Login successful!",
+    });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "OTP verification failed", error: error.message });
+  }
+});
+
+
+
+
+
+
+
 //dashboard count
 router.get("/userdashboardcount", async (req, res) => {
   const token = req.headers.authorization;

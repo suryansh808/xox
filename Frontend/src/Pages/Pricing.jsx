@@ -90,7 +90,7 @@ export default function Pricing() {
                   <li key={idx}>{feature}</li>
                 ))}
               </ul>
-              {/* <button className="buy-button">Subscribe</button> */}
+             <button className="buy-button"><Link to="/CompanyLogin">Subscribe</Link></button>
             </div>
           );
         })}

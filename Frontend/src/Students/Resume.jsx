@@ -2,7 +2,7 @@ import React, { useEffect, useState} from "react";
 import axios from "axios";
 import API from "../API";
 import Cookies from "js-cookie";
-
+import toast, { Toaster } from "react-hot-toast";
 
 const Resume = () => {
   // const id = localStorage.getItem("user");
@@ -54,10 +54,10 @@ const Resume = () => {
        const config = { headers: { Authorization: token, },};
       if (isEditing) {
         await axios.put(`${API}/resumes/${editingId}`,resumeData,  config);
-        alert("Resume updated successfully!");
+        toast.success("Resume updated successfully!");
       } else {
         await axios.post(`${API}/resumes`,resumeData ,  config);
-        alert("Resume created successfully!");
+        toast.success("Resume created successfully!");
       }
       setPersonalInfo({
         name: "",
@@ -78,7 +78,7 @@ const Resume = () => {
       setEditingId(null);
       fetchUserResumes();
     } catch (error) {
-      alert("Error creating resume. Please try again.");
+     toast.error("Error creating resume. Please try again.");
       console.error("Error creating resume:", error.response.data.error);
     }
   };
@@ -116,6 +116,7 @@ const Resume = () => {
 
   return (
     <div id="resume">
+        <Toaster position="top-center" reverseOrder={false} />
       {viewData && (
         <div className="modal">
           <div className="modal-content">
