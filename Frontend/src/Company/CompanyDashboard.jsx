@@ -180,7 +180,7 @@ export default function CompanyDashboard() {
                         className={styles.logoImg}
                       />
                       <label className={styles.overlayLabel}>
-                        <i className={`fa fa-edit ${styles.iconStyle}`}></i>
+                        <i className={`fa fa-edit  ${styles.iconStyle}`}></i>
                         <input
                           type="file"
                           accept="image/*"

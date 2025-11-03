@@ -119,7 +119,7 @@ const [showPopup, setShowPopup] = useState(false);
                   ? new Date(
                       count.resumesUpdatedAt
                     ).toLocaleDateString()
-                  : "No resume updated"}
+                  : "Kindly Create Resume first"}
               </div>
               <button onClick={resume} className="updatebtn">
                 UPDATE

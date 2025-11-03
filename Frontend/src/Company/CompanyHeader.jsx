@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import toast, { Toaster } from "react-hot-toast";
 const CompanyHeader = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const sidebarRef = useRef(null);
@@ -14,8 +15,10 @@ const CompanyHeader = () => {
     localStorage.removeItem("name");
     
      Cookies.remove('companyToken', { path: '/' });
-    alert("Logout Successfully");
-    navigate("/");
+     toast.success("Logout Successfully");
+     setTimeout(() => {
+      navigate("/");
+     }, 1500);
   };
 
   useEffect(() => {
@@ -36,6 +39,7 @@ const CompanyHeader = () => {
 
   return (
     <div id="CompanyHeader">
+         <Toaster position="top-center" reverseOrder={false} />
       <header className="company-header">
         <div className="logo"></div>
         <div className="menu-icon" onClick={toggleSidebar}>

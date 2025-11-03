@@ -66,7 +66,7 @@ router.get("/user-applications", async (req, res) => {
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decoded.user._id;
+    const userId = decoded.userId;
     const applications = await Application.find({
       userId: new mongoose.Types.ObjectId(userId),
     });
@@ -86,7 +86,7 @@ router.get("/appliedjobs", async (req, res) => {
         .json({ error: "Access denied. No token provided." });}
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decoded.user._id;
+    const userId = decoded.userId;
     const applications = await Application.find({ userId })
       .populate("jobId", "jobTitle location ")
       .select("-hrId  -resumeId");
@@ -565,7 +565,7 @@ router.get("/user-interviews", async (req, res) => {
         .json({ error: "Access denied. No token provided." });}
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decoded.user._id;
+    const userId = decoded.userId;
     // const { userId } = req.params;
     if (!userId || !mongoose.Types.ObjectId.isValid(userId)) {
       return res.status(400).json({ message: "Invalid user ID" });

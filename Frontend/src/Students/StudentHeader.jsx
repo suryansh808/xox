@@ -89,11 +89,11 @@ const StudentHeader = () => {
               <i className="fa fa-file-text"></i> Create Resume
             </Link>
           </li>
-          <li>
-            {/* <Link onClick={toggleSidebar} to="/PrivateChats">
+          {/* <li>
+            <Link onClick={toggleSidebar} to="/PrivateChats">
               <i class="fa fa-comments-o"></i> Private Chats
-            </Link> */}
-          </li>
+            </Link>
+          </li> */}
           <li>
             <Link onClick={toggleSidebar} to="/Settings">
               <i className="fa fa-cog"></i> Settings

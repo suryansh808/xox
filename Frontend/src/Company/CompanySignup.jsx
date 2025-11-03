@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
-import API from '../API';
-
+import React, { useState } from "react";
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
+import API from "../API";
+import toast, { Toaster } from "react-hot-toast";
 const CompanySignup = () => {
   const [formData, setFormData] = useState({
-    companyName: '',
-    companyType: '',
-    otherCompanyType: '',
-    position: '',
-    businessmodel: '',
-    email: '',
-    phone: '',
-    password: '',
-    confirmPassword: '',
+    companyName: "",
+    companyType: "",
+    otherCompanyType: "",
+    position: "",
+    businessmodel: "",
+    email: "",
+    phone: "",
+    password: "",
+    confirmPassword: "",
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -22,7 +22,12 @@ const CompanySignup = () => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: name === 'companyName' || name === 'password' || name === 'confirmPassword' ? value.trim() : value,
+      [name]:
+        name === "companyName" ||
+        name === "password" ||
+        name === "confirmPassword"
+          ? value.trim()
+          : value,
     }));
   };
 
@@ -38,11 +43,11 @@ const CompanySignup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match');
+      setError("Passwords do not match");
       return;
     }
-    if (formData.companyType === 'Other' && !formData.otherCompanyType) {
-      alert('Please specify the company type');
+    if (formData.companyType === "Other" && !formData.otherCompanyType) {
+      toast.error("Please specify the company type");
       return;
     }
     const dataToSubmit = {
@@ -59,19 +64,24 @@ const CompanySignup = () => {
       const res = await axios.post(`${API}/company-signup`, dataToSubmit);
       // console.log('Response:', res.data);
       if (res.data.success) {
-        localStorage.setItem('companyId', res.data.companyId);
-        alert('SignUp successful');
-        navigate('/CompanyLogin');
+        localStorage.setItem("companyId", res.data.companyId);
+        toast.success("SignUp successful");
+        setTimeout(() => {
+          navigate("/CompanyLogin");
+        }, 1500);
       } else {
-        alert(res.data.message || 'Invalid credentials');
+        toast.error(res.data.message || "Invalid credentials");
       }
     } catch (err) {
-      console.error('Error message:', err.message);
-      alert('An error occurred during signup. Please try again with diffrent email.');
+      console.error("Error message:", err.message);
+      toast.error(
+        "An error occurred during signup. Please try again with diffrent email."
+      );
     }
   };
   return (
     <div id="companysignup">
+      <Toaster position="top-center" reverseOrder={false} />
       <div className="signup-container">
         {/* Left Form Side */}
         <div className="signup-form-wrapper">
@@ -125,7 +135,7 @@ const CompanySignup = () => {
                 <option value="Sales">Sales</option>
                 <option value="Other">Other</option>
               </select>
-              {formData.companyType === 'Other' && (
+              {formData.companyType === "Other" && (
                 <input
                   type="text"
                   name="otherCompanyType"
@@ -157,7 +167,7 @@ const CompanySignup = () => {
               {/* Password */}
               <div className="password-wrapper">
                 <input
-                  type={showPassword ? 'text' : 'password'}
+                  type={showPassword ? "text" : "password"}
                   name="password"
                   placeholder="Password"
                   value={formData.password}
@@ -167,13 +177,18 @@ const CompanySignup = () => {
                 />
                 <span
                   onClick={handleTogglePasswordVisibility}
-                  className="toggle-icon">
-                  {!showPassword ? <i class="fa fa-eye-slash"></i> : <i class="fa fa-eye"></i>}
+                  className="toggle-icon"
+                >
+                  {!showPassword ? (
+                    <i class="fa fa-eye-slash"></i>
+                  ) : (
+                    <i class="fa fa-eye"></i>
+                  )}
                 </span>
               </div>
               <div className="password-wrapper">
                 <input
-                  type={showConfirmPassword ? 'text' : 'password'}
+                  type={showConfirmPassword ? "text" : "password"}
                   name="confirmPassword"
                   placeholder="Confirm Password"
                   value={formData.confirmPassword}
@@ -185,7 +200,11 @@ const CompanySignup = () => {
                   onClick={handleToggleConfirmPasswordVisibility}
                   className="toggle-icon"
                 >
-                  {!showConfirmPassword ? <i class="fa fa-eye-slash"></i> : <i class="fa fa-eye"></i>}
+                  {!showConfirmPassword ? (
+                    <i class="fa fa-eye-slash"></i>
+                  ) : (
+                    <i class="fa fa-eye"></i>
+                  )}
                 </span>
               </div>
               <button type="submit" className="signup-button">

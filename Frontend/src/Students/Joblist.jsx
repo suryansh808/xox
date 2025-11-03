@@ -56,7 +56,7 @@ const Joblist = () => {
       setJobLimit(response.data.jobLimit || 2);
     } catch (error) {
       console.error("Fetch user details error:", error.message);
-      alert(error.response?.data?.message || "Failed to load user details.");
+      // alert(error.response?.data?.message || "Failed to load user details.");
     }
   };
 

@@ -44,7 +44,6 @@ router.post("/userlogin", async (req, res) => {
   }
 });
 
-
 //Send OTP to BDA Email
 router.post("/sendotp", async (req, res) => {
   const { email } = req.body;
@@ -93,43 +92,76 @@ router.post("/sendotp", async (req, res) => {
 });
 
 // Verify OTP and Login
+// router.post("/verifyotp", async (req, res) => {
+//   const { email, otp } = req.body;
+//   try {
+//     const bda = await User.findOne({ email });
+//     if (!bda) {
+//       return res.status(404).json({ message: "user not found" });
+//     }
+//     if (bda.otp !== otp) {
+//       return res.status(400).json({ message: "Invalid OTP" });
+//     }
+
+//     // Clear OTP after successful login
+//     bda.otp = null;
+//     await bda.save();
+
+//     const token = jwt.sign(
+//       { id: bda._id, email: bda.email },
+//       process.env.JWT_SECRET,
+//       { expiresIn: "1h" }
+//     );
+//     res.status(200).json({
+//       token,
+//       bdaId: bda._id,
+//       bdaName: bda.name,
+//       message: "Login successful!",
+//     });
+//   } catch (error) {
+//     res
+//       .status(500)
+//       .json({ message: "OTP verification failed", error: error.message });
+//   }
+// });
 router.post("/verifyotp", async (req, res) => {
   const { email, otp } = req.body;
+
   try {
-    const bda = await User.findOne({ email });
-    if (!bda) {
-      return res.status(404).json({ message: "user not found" });
-    }
-    if (bda.otp !== otp) {
+    const user = await User.findOne({ email });
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    if (String(user.otp) !== String(otp)) {
       return res.status(400).json({ message: "Invalid OTP" });
     }
 
-    // Clear OTP after successful login
-    bda.otp = null;
-    await bda.save();
+    // Clear OTP after verification
+    user.otp = null;
+    await user.save();
 
-    const token = jwt.sign(
-      { id: bda._id, email: bda.email },
-      process.env.JWT_SECRET,
-      { expiresIn: "1h" }
-    );
+    // Generate standardized JWT
+    const payload = { userId: user._id, role: "user" };
+    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1d" });
+
+    // ✅ Unified Response Structure
     res.status(200).json({
+      message: "User logged in successfully",
+      user: {
+        _id: user._id,
+        email: user.email,
+        name: user.name,
+        phone: user.phone,
+        jobLimit: user.jobLimit,
+        planType: user.planType,
+        accessLevel: user.accessLevel,
+      },
       token,
-      bdaId: bda._id,
-      bdaName: bda.name,
-      message: "Login successful!",
     });
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "OTP verification failed", error: error.message });
+    console.error("OTP Verification Error:", error);
+    res.status(500).json({ message: "Server Error", details: error.message });
   }
 });
-
-
-
-
-
 
 
 //dashboard count
@@ -141,7 +173,7 @@ router.get("/userdashboardcount", async (req, res) => {
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decoded.user._id;
+    const userId = decoded.userId;
 
       const result = await Application.aggregate([
       {
@@ -223,7 +255,7 @@ router.get('/user', async (req, res) => {
      if (!token) { return res.status(403).json({ error: "Access denied. No token provided." }); }
         
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
-            const userId = decoded.user._id;
+            const userId = decoded.userId;
     const user = await User.findById(userId).select('-password -__v -otp -confirmPassword');
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
@@ -267,7 +299,7 @@ router.post("/resumes", async (req, res) => {
       return res.status(403).json({ error: "Access denied. No token provided." });
     }
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decoded.user._id;
+    const userId = decoded.userId;
     const { personalInfo, educations, experience, skills ,summary, project } = req.body;
     if (!userId) {
       return res.status(400).json({ error: "User ID is required" });
@@ -296,7 +328,7 @@ router.get("/resume", async (req, res) => {
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decoded.user._id;
+    const userId = decoded.userId;
     // const { userId } = req.params;
 
     if (!userId) {
@@ -327,7 +359,7 @@ router.put("/resumes/:id", async (req, res) => {
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decoded.user._id;
+    const userId = decoded.userId;
     const updatedResume = await Resume.findByIdAndUpdate(
       req.params.id,
       {
@@ -357,7 +389,7 @@ router.put("/change-password", async (req, res) => {
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decoded.user._id;
+    const userId = decoded.userId;
 
     const { password } = req.body;
     if (!password) {
@@ -379,7 +411,7 @@ router.post("/uploadprofile", async (req, res) => {
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decoded.user._id;
+    const userId = decoded.userId;
     const { image } = req.body;
     if (!image) {
       return res.status(400).json({ message: "No image provided" });

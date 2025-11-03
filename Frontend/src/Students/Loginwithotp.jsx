@@ -1,10 +1,9 @@
-
-import React, { useState} from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import API from "../API";
-import Cookies from 'js-cookie';
-import toast ,{Toaster} from 'react-hot-toast';
+import Cookies from "js-cookie";
+import toast, { Toaster } from "react-hot-toast";
 
 const Loginwithotp = () => {
   const [email, setEmail] = useState("");
@@ -12,7 +11,7 @@ const Loginwithotp = () => {
   const [step, setStep] = useState(1);
   const navigate = useNavigate();
 
- // Send OTP 
+  // Send OTP
   const handleSendOTP = async (e) => {
     e.preventDefault();
     try {
@@ -30,21 +29,24 @@ const Loginwithotp = () => {
     try {
       const response = await axios.post(`${API}/verifyotp`, { email, otp });
       if (response.status === 200) {
-      const userDataToStore = {
-               ...response.data.user, 
-               jobLimit: 2,
-               planType: null,
-               accessLevel: 'basic'
-             };
-             localStorage.setItem("user", JSON.stringify(userDataToStore));
-             Cookies.set('authToken', response.data.token, {
-               expires: 1,
-               secure: true,
-               sameSite: "none",
-               path: '/',
-             });
-             navigate("/Home");
-    }
+        const userDataToStore = {
+          ...response.data.user,
+          jobLimit: 2,
+          planType: null,
+          accessLevel: "basic",
+        };
+        localStorage.setItem("user", JSON.stringify(userDataToStore));
+        Cookies.set("authToken", response.data.token, {
+          expires: 1,
+          secure: true,
+          sameSite: "none",
+          path: "/",
+        });
+
+        setTimeout(() => {
+          navigate("/Home");
+        }, 1500);
+      }
     } catch (error) {
       toast.error(error.response?.data?.message || "Failed to verify OTP!");
     }
@@ -52,14 +54,12 @@ const Loginwithotp = () => {
 
   return (
     <div id="loginwithotp">
-      <Toaster position="top-center" reverseOrder={false}/>
+      <Toaster position="top-center" reverseOrder={false} />
       <div className="loginform">
         <div className="backandexit">
-                    <Link to="/StudentLogin">&#8592;
-                    </Link>
-                    <Link to="/">&#10005;
-                    </Link>
-                </div>
+          <Link to="/StudentLogin">&#8592;</Link>
+          <Link to="/">&#10005;</Link>
+        </div>
         <h2>Login with Otp</h2>
         {step === 1 ? (
           <form onSubmit={handleSendOTP}>

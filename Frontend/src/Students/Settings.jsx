@@ -14,7 +14,6 @@ const Settings = () => {
    const token = Cookies.get("authToken");
 
   const handleChangePassword = async (e) => {
-    // console.log("Changing password...", password, confirmPassword);
     e.preventDefault();
     if (password !== confirmPassword) { alert("Passwords do not match!"); return; }
     try {
@@ -40,6 +39,7 @@ const Settings = () => {
   const fetchUserData = async () => {
     try {
       const response = await axios.get(`${API}/user`,{ headers: { Authorization: token, }});
+      console.log("User data fetched:", response.data);
       setUser(response.data);
     } catch (error) {
       console.error(
