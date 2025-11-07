@@ -212,7 +212,7 @@ const CommunityLogin = () => {
             </form>
              <div className="divline">--- or continue with google ---</div>
             <div className="continuewithgoogle">
-              <GoogleLogin onSuccess={credentialResponse} onError={credentialfailed}/>
+              <GoogleLogin className="googlelogin" onSuccess={credentialResponse} onError={credentialfailed}/>
             </div>
             <div className="login-footer">
               Don't have an account?{" "}
