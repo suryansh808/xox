@@ -26,9 +26,15 @@ export default function CommunitySection() {
             <li>💬 Private, secure one-to-one chats</li>
             <li>🌍 A growing network of curious minds like you</li>
           </ul>
-          <Link to="/community" className="community-btn">
-            Join the Community Today
+          <div className="community-buttons">
+            <Link to="/CommunityLogin" className="community-btn">
+            Join Now
           </Link>
+          <Link to="/community" className="community-btn">
+            Explore Community
+          </Link>
+        </div>
+
         </div>
 
         {/* Right Illustration */}

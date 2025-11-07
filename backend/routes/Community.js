@@ -87,6 +87,21 @@ router.post("/community-login", async (req, res) => {
     }
 });
 
+router.post("/checkauthgmail", async (req, res) => {
+  const { email } = req.body;
+  try {
+    const communityUser = await CommunityUser.findOne({ email });
+
+    if (!communityUser) {
+      return res.status(401).json({ error: "user not found" });
+    }
+   
+      res.status(200).json({success: true, userId: communityUser._id,name: communityUser.name, email: communityUser.email, });
+  } catch (error) {
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
 // Get all Community Users
 router.get("/getcommunityuser/:userId", async (req, res) => {
     try {

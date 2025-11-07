@@ -76,6 +76,10 @@ const Header = () => {
     "/CompanyRejectedCandidates",
     "/CompanyHRSelected",
     "/PrivateChats",
+     "/CommunityDashboard",
+    "/CommunityPrivateChat",
+    "/CommunityLogin"
+
   ];
   const showHeaderFooter = !noHeaderFooterRoutes.includes(location.pathname);
 

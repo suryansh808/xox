@@ -2,6 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 import './Style/Header.css'
 import './Style/Footer.css'
@@ -64,9 +65,12 @@ import "./Style/Pricing.css"
 
 import "./Style/Loginwithotp.css"
 import "./Style/CommunityDashboard.css"
+import "./Style/CommunityLogin.css"
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
+    <GoogleOAuthProvider clientId="960662701648-tdvrafib87gurrcgq9263oi1k2kuppqb.apps.googleusercontent.com">
       <App />
-  </StrictMode>,
+      </GoogleOAuthProvider>
+  </StrictMode>
 )

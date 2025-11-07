@@ -53,7 +53,13 @@
   color: #ffffff;
 }
 
-.community-btn {
+
+
+.community-buttons{
+  display: flex;
+  gap: 15px;
+
+  .community-btn {
   display: inline-block;
   background: #0077ff;
   color: #fff;
@@ -67,6 +73,10 @@
 .community-btn:hover {
   background: #005fcc;
 }
+
+}
+
+
 
 .community-image {
   flex: 1;

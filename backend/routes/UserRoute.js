@@ -47,16 +47,16 @@ router.post("/userlogin", async (req, res) => {
 //Send OTP to BDA Email
 router.post("/sendotp", async (req, res) => {
   const { email } = req.body;
-  console.log("Received email for OTP:", email);
+  // console.log("Received email for OTP:", email);
   try {
     const bda = await User.findOne({ email });
-    console.log("BDA found:", bda);
+    // console.log("BDA found:", bda);
     if (!bda) {
       return res.status(404).json({ message: "User not found" });
     }
      
     const otp = crypto.randomInt(100000, 1000000);
-    console.log("Generated OTP:", otp);
+    // console.log("Generated OTP:", otp);
 
       // Send OTP via Email
          const emailMessage = `
@@ -76,14 +76,14 @@ router.post("/sendotp", async (req, res) => {
   </div>
 </div>
       `;
-      console.log("Email message constructed");
+      // console.log("Email message constructed");
     bda.otp = otp; 
     await Promise.all([
         bda.save(),
         sendEmail({ email , subject : "Login Credentials" ,  message: emailMessage }),
     ]);
     res.status(200).json({ message: "OTP sent to your email!" });
-    console.log("OTP sent successfully to:", email);
+    // console.log("OTP sent successfully to:", email);
   } catch (error) {
     res
       .status(500)

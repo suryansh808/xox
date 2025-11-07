@@ -16,6 +16,7 @@ const crypto = require('crypto');
 const CompanyPayment = require('./routes/CompanyPayment');
 const Company = require('./models/CompanyUser');
 const Community = require('./routes/Community');
+const UserPayment = require('./routes/UserPayment');
 
 
 const app = express();
@@ -105,12 +106,108 @@ app.post('/company/payment/webhook', express.raw({ type: 'application/json' }), 
   }
 });
 
+// Webhook must be before any body parsers
+app.post('/api/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
+  try {
+    const secret = process.env.RAZORPAY_WEBHOOK_SECRET;
+    const signature = req.headers['x-razorpay-signature'];
+
+    if (!secret || !signature) {
+      console.error('Missing webhook secret or signature at', new Date().toLocaleString());
+      return res.status(400).json({ error: 'Missing webhook secret or signature' });
+    }
+
+    const rawBody = req.body.toString('utf8');
+    const expectedSignature = crypto
+      .createHmac('sha256', secret)
+      .update(rawBody)
+      .digest('hex');
+
+    if (expectedSignature !== signature) {
+      console.error('Webhook signature verification failed at', new Date().toLocaleString());
+      return res.status(400).json({ error: 'Invalid webhook signature' });
+    }
+
+    const event = JSON.parse(rawBody);
+    console.log('Received webhook payload:', event);
+    const { event: eventType, payload } = event;
+    const { userId, planType } = payload.payment?.entity?.notes || payload.subscription?.entity?.notes || {};
+
+    if (!userId || !planType) {
+      console.warn('Missing userId or planType in notes at', new Date().toLocaleString());
+      return res.status(200).json({ message: 'No action taken due to missing notes' });
+    }
+
+    const user = await User.findById(userId);
+    if (!user) {
+      console.error('User not found for webhook:', userId, 'at', new Date().toLocaleString());
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    const now = new Date();
+    let jobLimitIncrement = 0;
+    let subscriptionEnd = new Date(now);
+
+    switch (eventType) {
+      case 'payment.authorized':
+      case 'subscription.activated':
+        switch (planType) {
+          case 'daily':
+            jobLimitIncrement = 1;
+            subscriptionEnd.setDate(now.getDate() + 1);
+            break;
+          case 'gold':
+            jobLimitIncrement = 30;
+            subscriptionEnd.setMonth(now.getMonth() + 6);
+            break;
+          case 'premium':
+            jobLimitIncrement = -1;
+            subscriptionEnd.setFullYear(now.getFullYear() + 1);
+            break;
+          default:
+            console.warn('Unknown planType in webhook:', planType, 'at', new Date().toLocaleString());
+            return res.status(200).json({ message: 'Unknown plan type' });
+        }
+
+        user.jobLimit = (user.jobLimit || 2) + jobLimitIncrement;
+        user.subscriptionPlan = planType;
+        user.paid = true; // Set paid only here
+        user.subscriptionStart = now;
+        user.subscriptionEnd = subscriptionEnd;
+        await user.save();
+        console.log(`Webhook incremented user ${userId} jobLimit to ${user.jobLimit} for ${planType} at ${now.toLocaleString()}`);
+        break;
+
+      case 'subscription.cancelled':
+      case 'subscription.expired':
+        if (user.subscriptionEnd < now) {
+          user.jobLimit = 2;
+          user.subscriptionPlan = 'free';
+          user.paid = false; // Reset paid on expiration
+          user.subscriptionStart = null;
+          user.subscriptionEnd = null;
+          await user.save();
+          console.log(`Webhook expired plan for user ${userId} at ${now.toLocaleString()}`);
+        }
+        break;
+
+      default:
+        console.log(`Unhandled webhook event: ${eventType} at ${now.toLocaleString()}`);
+    }
+
+    res.status(200).json({ message: 'Webhook processed successfully' });
+  } catch (error) {
+    console.error('Error processing webhook:', error, 'at', new Date().toLocaleString());
+    res.status(500).json({ error: 'Server error processing webhook' });
+  }
+});
+
+
 app.use(express.json());
 app.use(cors({
   origin: process.env.FRONTEND_URL,
   credentials: true,
 }));
-
 app.use(bodyParser.json());
 
 
@@ -121,6 +218,7 @@ app.use('/', HrRoute);
 app.use('/', CompanyRoute);
 app.use('/', ApplicationRoute);
 app.use('/', Thought);
+app.use('/', UserPayment);
 app.use('/',CompanyPayment);
 app.use('/', Community)
 

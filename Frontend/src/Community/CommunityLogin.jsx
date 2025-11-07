@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import API from "../API";
-
+import { GoogleLogin } from '@react-oauth/google';
+import toast, { Toaster } from "react-hot-toast";
 const CommunityLogin = () => {
   const [formData, setFormData] = useState({
     email: "",
@@ -50,14 +51,16 @@ const CommunityLogin = () => {
 
     setIsLoading(true);
     try {
-      console.log("Sending login request:", formData);
+      // console.log("Sending login request:", formData);
       const response = await axios.post(`${API}/community-login`, {
         email: formData.email,
         password: formData.password,
       });
 
       if (response.status === 200 && response.data.success) {
-        const userData = {
+        toast.success("Login successful!");
+         setTimeout(() => {
+          const userData = {
           userId: response.data.userId,
           name: response.data.name,
           email: response.data.email,
@@ -67,7 +70,9 @@ const CommunityLogin = () => {
         setFormData({ email: "", password: "" });
         setErrors({});
         navigate("/CommunityDashboard", { replace: true });
+        }, 1000);
       } else {
+        toast.error("Login failed. Please try again.");
         console.error("Login failed, response not successful:", response.data);
         setErrors({ server: response.data.message || "Login failed. Please try again." });
       }
@@ -87,8 +92,49 @@ const CommunityLogin = () => {
     setShowPassword((prevShow) => !prevShow);
   };
 
+  const checkAuthGmail = async (email) => {
+    try {
+      const response = await axios.post(`${API}/checkauthgmail`, {email});
+      // console.log("fetch",response.data);
+      if (response.status === 200) {
+    
+        toast.success("Login successful!");
+        setTimeout(() => {
+           const userData = {
+          userId: response.data.userId,
+          name: response.data.name,
+          email: response.data.email,
+        };
+      
+        localStorage.setItem("com-user", JSON.stringify(userData));
+          navigate("/CommunityDashboard", { replace: true }); 
+        }, 1000);
+      }
+    } catch (err) {
+      toast.error("Login failed!");
+      console.log(err.response?.data?.error || "Login failed");
+    }
+  };
+
+ const credentialResponse = (response) => {
+    try {
+      const credential = response.credential;
+      const decodedToken = JSON.parse(atob(credential.split(".")[1]));
+      // console.log(decodedToken);
+      // console.log("User Email:", decodedToken.email);
+      checkAuthGmail(decodedToken.email);
+    } catch (err) {
+      console.log("Error decoding Google token", err);
+    }
+  };
+
+  const credentialfailed = () => {
+    alert("Google Login Failed!");
+  };
+
   return (
-    <div id="studentlogin">
+    <div id="communitylogin">
+      <Toaster position="top-center" reverseOrder={false} />
       <div className="login-container">
         <div className="login-image-side"></div>
         <div className="login-form-wrapper">
@@ -164,6 +210,10 @@ const CommunityLogin = () => {
                 {isLoading ? "Logging In..." : "Log In"}
               </button>
             </form>
+             <div className="divline">--- or continue with google ---</div>
+            <div className="continuewithgoogle">
+              <GoogleLogin onSuccess={credentialResponse} onError={credentialfailed}/>
+            </div>
             <div className="login-footer">
               Don't have an account?{" "}
               <Link className="login-signup-link" to="/CommunitySignup">

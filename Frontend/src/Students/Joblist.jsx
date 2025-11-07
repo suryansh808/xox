@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import API from "../API";
 import Cookies from "js-cookie";
-import toast, { Toaster } from "react-hot-toast";
+
 const Joblist = () => {
   const [joblist, setJoblist] = useState([]);
   const [filteredJobs, setFilteredJobs] = useState([]);
@@ -14,9 +14,23 @@ const Joblist = () => {
   const [resumes, setResumes] = useState([]);
   const [selectedResumeId, setSelectedResumeId] = useState("");
   const [appliedJobs, setAppliedJobs] = useState([]);
-  const [jobLimit, setJobLimit] = useState(2);
-  const userId = localStorage.getItem("user");
-   const token = Cookies.get("authToken");
+  const [jobLimit, setJobLimit] = useState(2); 
+  const [user, setUser] = useState(null);
+  const userIdString = localStorage.getItem("user");
+  const token = Cookies.get("authToken");
+
+  const getUserId = () => {
+    if (!userIdString) return null;
+    try {
+      const userData = JSON.parse(userIdString);
+      return userData?._id?._id || userData?._id || userData;
+    } catch (error) {
+      console.error("Error parsing userId from localStorage:", error);
+      return null;
+    }
+  };
+
+  const userId = getUserId();
 
   const fetchJobs = async () => {
     try {
@@ -29,21 +43,23 @@ const Joblist = () => {
 
   const fetchUserResumes = async () => {
     try {
-      const response = await axios.get(`${API}/resume`,{headers: { Authorization: token}});
+      const response = await axios.get(`${API}/resume`, { headers: { Authorization: token } });
       setResumes(response.data);
-      if (response.data.length > 0) {
+      if (response.data.length > 0 && !selectedResumeId) {
         setSelectedResumeId(response.data[0]._id);
+      } else {
+        alert("No resumes found. Please create a resume before applying.");
       }
     } catch (error) {
       console.error("Fetch resumes error:", error.message);
     }
   };
 
-
   const fetchAppliedJobs = async () => {
     try {
-      const response = await axios.get(`${API}/user-applications`,{headers: { Authorization: token}});
+      const response = await axios.get(`${API}/user-applications`, { headers: { Authorization: token } });
       const appliedJobIds = response.data.map((application) => application.jobId);
+      // console.log("Fetched applied jobs:", appliedJobIds);
       setAppliedJobs(appliedJobIds);
     } catch (error) {
       console.error("Fetch applied jobs error:", error.message);
@@ -52,22 +68,35 @@ const Joblist = () => {
 
   const fetchUserDetails = async () => {
     try {
-      const response = await axios.get(`${API}/user`,{headers: { Authorization: token}});
+      if (!userId) {
+        console.error("User ID is missing for fetchUserDetails");
+        return;
+      }
+      const response = await axios.get(`${API}/profile`, {
+        params: { userId },
+        headers: { Authorization: token },
+      });
+      // console.log("User details response:", response.data);
+      setUser(response.data);
       setJobLimit(response.data.jobLimit || 2);
     } catch (error) {
-      console.error("Fetch user details error:", error.message);
-      // alert(error.response?.data?.message || "Failed to load user details.");
+      console.error("Fetch user details error:", error.response?.data || error.message);
+      alert(error.response?.data?.error || "Failed to load user details.");  
     }
   };
+
+  const refreshUserData = useCallback(async () => {
+    await fetchUserDetails();
+    await fetchAppliedJobs();
+    await fetchUserResumes();
+  }, [userId, token]);
 
   useEffect(() => {
     fetchJobs();
     if (userId) {
-      fetchUserResumes();
-      fetchAppliedJobs();
-      fetchUserDetails();
+      refreshUserData();
     }
-  }, [userId]);
+  }, [userId, refreshUserData]);
 
   useEffect(() => {
     if (joblist && joblist.length > 0) {
@@ -75,11 +104,15 @@ const Joblist = () => {
     }
   }, [joblist]);
 
+  useEffect(() => {
+    // console.log("User state updated:", user, "Job Limit:", jobLimit, "Applied Jobs:", appliedJobs.length);
+  }, [user, jobLimit, appliedJobs]);
+
   const handleSelectedJobDetails = (job) => {
     setSelectedJob(job);
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e) => { 
     const { name, value } = e.target;
     setSearchParams((prev) => ({
       ...prev,
@@ -104,51 +137,65 @@ const Joblist = () => {
 
   const handleJobApplication = async (e) => {
     e.preventDefault();
+    // console.log("handleJobApplication triggered for job:", selectedJob?._id);
     if (!userId) {
-      toast.error("User ID is missing. Please ensure you are logged in.");
+      alert("User ID is missing. Please ensure you are logged in.");
       return;
     }
     if (!selectedResumeId) {
-     toast.error("create a resume before applying to job.");
+      alert("No resumes available. Please create a resume before applying.");
       return;
     }
     if (!selectedJob) {
-     toast.error("No job selected.");
+      alert("No job selected.");
       return;
     }
-    if (appliedJobs.length >= jobLimit) {
-     toast.error("You have reached your job application limit. Please subscribe to apply for more jobs.");
+
+    // console.log("Sending application with:", {
+    //   userId,
+    //   resumeId: selectedResumeId,
+    //   jobId: selectedJob._id,
+    //   token,
+    // });
+
+    const now = new Date();
+    const isLimitReached = appliedJobs.length >= (user?.jobLimit || jobLimit);
+    const isSubscriptionExpired = user?.subscriptionEnd && new Date(user.subscriptionEnd) < now;
+    const isPaid = user?.paid || false;
+
+    if (isLimitReached && !isPaid) {
+      alert("You have reached your job application limit. Please subscribe to apply for more jobs.");
+      return;
+    }
+    if (isSubscriptionExpired) {
+      alert("Your subscription has expired. Please renew to apply for more jobs.");
       return;
     }
     const jobId = selectedJob._id;
     const status = "pending";
     try {
-      const response = await axios.post(`${API}/apply-job`, {
-        userId,
-        resumeId: selectedResumeId,
-        jobId,
-        status,
-      });
-      setAppliedJobs((prev) => {
-        if (!prev.includes(jobId)) {
-          return [...prev, jobId];
-        }
-        return prev;
-      });
-     toast.success("Application submitted successfully!");
+      const response = await axios.post(
+        `${API}/apply-job`,
+        { userId, resumeId: selectedResumeId, jobId, status },
+        { headers: { Authorization: token } }
+      );
+      // console.log("Application response:", response.data);
+      setAppliedJobs((prev) => (prev.includes(jobId) ? prev : [...prev, jobId]));
+      await refreshUserData(); // Refresh immediately after application
+      alert("Application submitted successfully!");
     } catch (error) {
-      console.error("Error applying for job:", error.message);
-      alert("Error applying for job. Please try again.");
+      console.error("Error applying for job:", error.response?.data || error.message, error.stack);
+      alert("Error applying for job. Details: " + (error.response?.data?.error || error.message));
     }
   };
 
   const handleSubscribe = () => {
-    window.location.href = "/subscribe";
+    window.location.href = "/chooseaplan";
+    setTimeout(refreshUserData, 1000); 
   };
 
   return (
-    <div id="joblist">
-        <Toaster position="top-center" reverseOrder={false} />
+    <div id="joblist">,,
       <div className="filterandsearchbar">
         <div className="searchbar">
           <input
@@ -181,12 +228,9 @@ const Joblist = () => {
               className="job__titleandlocation"
             >
               <div className="company__logo">
-                <img
-                  src={job.companyLogoUrl || "/default-logo.png"}
-                  alt="logo"
-                />
+                <img src={job.companyLogoUrl || "/default-logo.png"} alt="logo" />
               </div>
-              <div className="company__name">
+              <div className="job__name">
                 <strong className="">{job.jobTitle}</strong>
                 <p className="">{job.city}</p>
               </div>
@@ -198,22 +242,33 @@ const Joblist = () => {
             <div className="job__details">
               <div className="job__apply">
                 <h1 className="job__title">{selectedJob.jobTitle}</h1>
-                {appliedJobs.length >= jobLimit && !appliedJobs.includes(selectedJob._id) ? (
-                  <button
-                    onClick={handleSubscribe}
-                    className="subscribe__button"
-                  >
+                {appliedJobs.includes(selectedJob._id) ? (
+                  <button className="apply__button applied" disabled>
+                    Applied
+                  </button>
+                ) : user?.jobLimit === 0 && !user?.paid ? (
+                  <button onClick={handleSubscribe} className="subscribe__button">
                     Subscribe
                   </button>
                 ) : (
                   <button
-                    onClick={handleJobApplication}
-                    className={`apply__button ${
-                      appliedJobs.includes(selectedJob._id) ? "applied" : ""
-                    }`}
-                    disabled={appliedJobs.includes(selectedJob._id)}
+                    onClick={(e) => {
+                      console.log("Click detected, state:", {
+                        applied: appliedJobs.length,
+                        limit: user?.jobLimit || jobLimit,
+                        disabled: appliedJobs.length >= (user?.jobLimit || jobLimit),
+                        userPaid: user?.paid,
+                        subscriptionEnd: user?.subscriptionEnd,
+                      });
+                      handleJobApplication(e);
+                    }}
+                    onMouseOver={() =>
+                      console.log("Hovering, disabled:", appliedJobs.length >= (user?.jobLimit || jobLimit))
+                    }
+                    className="apply__button"
+                    disabled={appliedJobs.length >= (user?.jobLimit || jobLimit)}
                   >
-                    {appliedJobs.includes(selectedJob._id) ? "Applied" : "Apply Now"}
+                    Apply Now
                   </button>
                 )}
               </div>
@@ -261,7 +316,7 @@ const Joblist = () => {
                 <p>{selectedJob.jobDescription.split("\n")[0]}</p>
                 <ul>
                   {selectedJob.jobDescription
-                    .split("\n")
+                    .split("\n")  
                     .slice(1)
                     .map(
                       (line, idx) =>

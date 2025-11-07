@@ -53,10 +53,6 @@ const CommunityDashboard = () => {
   }, [userData.userId]);
 
 
-  // const handleLogout = () => {
-  //   localStorage.removeItem('com-user');
-  //   navigate('/CommunityLogin');
-  // };
 
   return (
     <div className="dashboard-container">

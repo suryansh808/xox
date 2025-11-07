@@ -20,31 +20,26 @@ const StudentLogIn = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${API}/userlogin`, {
-        email,
-        password,
-      });
+      const response = await axios.post(`${API}/userlogin`, { email, password });
       setEmail("");
       setPassword("");
       toast.success("Login successful");
-      if (response.status === 200) {
+    if (response.status === 200) {
+        // Flatten the user data by spreading response.data.user and adding/overriding other fields
         const userDataToStore = {
-          ...response.data.user,
+          ...response.data.user,  // Spread the full user object (e.g., _id, name, email, etc.)
           jobLimit: 2,
           planType: null,
-          accessLevel: "basic",
+          accessLevel: 'basic'
         };
         localStorage.setItem("user", JSON.stringify(userDataToStore));
-        Cookies.set("authToken", response.data.token, {
+        Cookies.set('authToken', response.data.token, {
           expires: 1,
           secure: true,
           sameSite: "none",
-          path: "/",
+          path: '/',
         });
-
-        setTimeout(() => {
-          navigate("/Home");
-        }, 1500);
+        navigate("/Home");
       }
     } catch (error) {
       toast.error("Invalid email or password");
