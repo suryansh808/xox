@@ -148,10 +148,13 @@
     background-color: #1a1b1b;
     color: white;
     border: none;
-    padding: 10px 15px;
+    padding: 10px 10px;
     border-radius: 5px;
     cursor: pointer;
-    width: 100%;
+    margin: auto;
+    /* overflow: hidden; */
+    min-width: 250px;
+    max-width: 300px;
     font-size: 1rem;
   }
 }
