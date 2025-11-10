@@ -93,9 +93,10 @@ const CommunityLogin = () => {
   };
 
   const checkAuthGmail = async (email) => {
+    console.log("Checking auth for email:", email);
     try {
-      const response = await axios.post(`${API}/checkauthgmail`, {email});
-      // console.log("fetch",response.data);
+      const response = await axios.post(`${API}/checkauthcommunitygmail`, {email});
+      console.log("fetch",response.data);
       if (response.status === 200) {
     
         toast.success("Login successful!");
@@ -120,8 +121,8 @@ const CommunityLogin = () => {
     try {
       const credential = response.credential;
       const decodedToken = JSON.parse(atob(credential.split(".")[1]));
-      // console.log(decodedToken);
-      // console.log("User Email:", decodedToken.email);
+      console.log(decodedToken);
+      console.log("User Email:", decodedToken.email);
       checkAuthGmail(decodedToken.email);
     } catch (err) {
       console.log("Error decoding Google token", err);

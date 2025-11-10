@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import API from "../API";
@@ -9,23 +9,29 @@ const Loginwithotp = () => {
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
   const [step, setStep] = useState(1);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   // Send OTP
   const handleSendOTP = async (e) => {
     e.preventDefault();
+     setLoading(true);
     try {
       await axios.post(`${API}/sendotp`, { email });
       toast.success("OTP sent to your email!");
       setStep(2);
     } catch (error) {
       toast.error(error.response?.data?.message || "Failed to send OTP!");
+    }finally {
+      setLoading(false);
     }
+
   };
 
   //  Verify OTP
   const handleVerifyOTP = async (e) => {
     e.preventDefault();
+     setLoading(true);
     try {
       const response = await axios.post(`${API}/verifyotp`, { email, otp });
       if (response.status === 200) {
@@ -49,6 +55,8 @@ const Loginwithotp = () => {
       }
     } catch (error) {
       toast.error(error.response?.data?.message || "Failed to verify OTP!");
+    }finally {
+      setLoading(false);
     }
   };
 
@@ -75,7 +83,9 @@ const Loginwithotp = () => {
               />
             </div>
             <div>
-              <button type="submit">Send OTP</button>
+              <button type="submit">
+               {loading ? "Sending..." : "Send OTP"}
+                </button>
             </div>
           </form>
         ) : (
@@ -92,7 +102,9 @@ const Loginwithotp = () => {
               />
             </div>
             <div>
-              <button type="submit">Verify OTP</button>
+              <button type="submit">
+                 {loading ? "Verifying..." : "Verify OTP"}
+                </button>
             </div>
           </form>
         )}

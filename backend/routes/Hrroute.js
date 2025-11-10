@@ -31,6 +31,31 @@ router.post("/hrlogin", async (req, res) => {
   }
 });
 
+router.post("/checkauthgmail", async (req, res) => {
+  const { email } = req.body;
+  try {
+    const hr = await Createhr.findOne({ email });
+
+    if (!hr) {
+      return res.status(401).json({ error: "user not found" });
+    }
+   
+    const payload = {  user: { _id: hr._id }, role: "hr" };
+        const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1d" });
+    
+    res.status(200).json({
+      message: "HR logged in successfully",
+      hr: hr._id,
+      email: hr.email,
+      HrId: hr.HrId, 
+      token,
+    });
+    
+  } catch (error) {
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
 router.get("/gethr/:hrId", async (req, res) => {
   try {
     const hr = await Createhr.find({HrId:req.params.hrId}).select("-password");

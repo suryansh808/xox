@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import API from "../API";
 import Cookies from "js-cookie";
+import { GoogleLogin } from '@react-oauth/google';
+import toast, { Toaster } from "react-hot-toast";
 const HRLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -46,8 +48,49 @@ const HRLogin = () => {
     setShowPassword((prevShow) => !prevShow);
   };
 
+   const checkAuthGmail = async (email) => {
+      try {
+        const response = await axios.post(`${API}/checkauthgmail`, {email});
+        // console.log("fetch",response.data);
+        if (response.status === 200) {
+      
+          toast.success("Login successful!");
+          setTimeout(() => {
+             localStorage.setItem("HrId", response.data.HrId);
+        Cookies.set("hrToken", response.data.token, {
+          expires: 1,
+          secure: true,
+          sameSite: "none",
+          path: "/",
+        });
+            navigate("/HRHome");
+          }, 1000);
+        }
+      } catch (err) {
+        toast.error("Login failed!");
+        console.log(err.response?.data?.error || "Login failed");
+      }
+    };
+  
+   const credentialResponse = (response) => {
+      try {
+        const credential = response.credential;
+        const decodedToken = JSON.parse(atob(credential.split(".")[1]));
+        // console.log(decodedToken);
+        // console.log("User Email:", decodedToken.email);
+        checkAuthGmail(decodedToken.email);
+      } catch (err) {
+        console.log("Error decoding Google token", err);
+      }
+    };
+  
+    const credentialfailed = () => {
+      toast.error("Google Login Failed!");
+    };
+
   return (
     <div id="HRLogin">
+      <Toaster position="top-center" reverseOrder={false} />
       <div className="hr-login-container">
         <div className="hr-login-image-side" />
         <div className="hr-login-form-side">
@@ -89,7 +132,13 @@ const HRLogin = () => {
             <button type="submit" className="hr-login-button">
               Login
             </button>
+
+             <div className="continuewithgoogle">
+              <div className="hr-login-divline">--- or continue with google ---</div>
+             <GoogleLogin className="googlelogin" onSuccess={credentialResponse} onError={credentialfailed}/>
+             </div>
           </form>
+          
         </div>
       </div>
     </div>

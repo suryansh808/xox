@@ -76,7 +76,6 @@ const Joblist = () => {
         params: { userId },
         headers: { Authorization: token },
       });
-      // console.log("User details response:", response.data);
       setUser(response.data);
       setJobLimit(response.data.jobLimit || 2);
     } catch (error) {
@@ -105,7 +104,6 @@ const Joblist = () => {
   }, [joblist]);
 
   useEffect(() => {
-    // console.log("User state updated:", user, "Job Limit:", jobLimit, "Applied Jobs:", appliedJobs.length);
   }, [user, jobLimit, appliedJobs]);
 
   const handleSelectedJobDetails = (job) => {
@@ -137,7 +135,6 @@ const Joblist = () => {
 
   const handleJobApplication = async (e) => {
     e.preventDefault();
-    // console.log("handleJobApplication triggered for job:", selectedJob?._id);
     if (!userId) {
       alert("User ID is missing. Please ensure you are logged in.");
       return;
@@ -150,13 +147,6 @@ const Joblist = () => {
       alert("No job selected.");
       return;
     }
-
-    // console.log("Sending application with:", {
-    //   userId,
-    //   resumeId: selectedResumeId,
-    //   jobId: selectedJob._id,
-    //   token,
-    // });
 
     const now = new Date();
     const isLimitReached = appliedJobs.length >= (user?.jobLimit || jobLimit);
@@ -195,7 +185,7 @@ const Joblist = () => {
   };
 
   return (
-    <div id="joblist">,,
+    <div id="joblist">
       <div className="filterandsearchbar">
         <div className="searchbar">
           <input
@@ -216,118 +206,93 @@ const Joblist = () => {
             placeholder="Search by location..."
             title="Search by location"
           />
-          <button onClick={handleSearch}>Search</button>
+          <button  onClick={handleSearch}>Search</button>
         </div>
       </div>
       <div className="joblist__container">
-        <div className="joblist__sidebar">
-          {(filteredJobs.length > 0 ? filteredJobs : joblist).map((job, index) => (
-            <div
-              onClick={() => handleSelectedJobDetails(job)}
-              key={index}
-              className="job__titleandlocation"
-            >
-              <div className="company__logo">
-                <img src={job.companyLogoUrl || "/default-logo.png"} alt="logo" />
-              </div>
-              <div className="job__name">
-                <strong className="">{job.jobTitle}</strong>
-                <p className="">{job.city}</p>
-              </div>
-            </div>
-          ))}
+  <div className="joblist__sidebar">
+    {(filteredJobs.length > 0 ? filteredJobs : joblist).map((job, index) => (
+      <div
+        onClick={() => handleSelectedJobDetails(job)}
+        key={index}
+        className="job__titleandlocation"
+      >
+        <div className="company__logo">
+          <img src={job.companyLogoUrl || "/default-logo.png"} alt="logo" />
         </div>
-        <div className="joblist__content">
-          {selectedJob && (
-            <div className="job__details">
-              <div className="job__apply">
-                <h1 className="job__title">{selectedJob.jobTitle}</h1>
-                {appliedJobs.includes(selectedJob._id) ? (
-                  <button className="apply__button applied" disabled>
-                    Applied
-                  </button>
-                ) : user?.jobLimit === 0 && !user?.paid ? (
-                  <button onClick={handleSubscribe} className="subscribe__button">
-                    Subscribe
-                  </button>
-                ) : (
-                  <button
-                    onClick={(e) => {
-                      console.log("Click detected, state:", {
-                        applied: appliedJobs.length,
-                        limit: user?.jobLimit || jobLimit,
-                        disabled: appliedJobs.length >= (user?.jobLimit || jobLimit),
-                        userPaid: user?.paid,
-                        subscriptionEnd: user?.subscriptionEnd,
-                      });
-                      handleJobApplication(e);
-                    }}
-                    onMouseOver={() =>
-                      console.log("Hovering, disabled:", appliedJobs.length >= (user?.jobLimit || jobLimit))
-                    }
-                    className="apply__button"
-                    disabled={appliedJobs.length >= (user?.jobLimit || jobLimit)}
-                  >
-                    Apply Now
-                  </button>
-                )}
-              </div>
-              <div className="job__overview">
-                <p>
-                  <strong>Company :</strong> {selectedJob.companyName}
-                </p>
-                <p>
-                  <strong>Location :</strong> {selectedJob.location}
-                </p>
-                <p>
-                  <strong>Type :</strong> {selectedJob.jobType}
-                </p>
-                <p>
-                  <strong>Timing :</strong> {selectedJob.jobTiming}
-                </p>
-                <p>
-                  <strong>Positions :</strong> {selectedJob.noofposition}
-                </p>
-                <p>
-                  <strong>Salary :</strong> ₹{selectedJob.salary.minSalary} - ₹
-                  {selectedJob.salary.maxSalary} per {selectedJob.salary.per}
-                </p>
-                <p>
-                  <strong>Working Days :</strong> {selectedJob.workingDays}
-                </p>
-                <p>
-                  <strong>Application Deadline :</strong>{" "}
-                  {selectedJob.applicationDeadline}
-                </p>
-                <p>
-                  <strong>Experience :</strong> {selectedJob.experience} year(s)
-                </p>
-              </div>
-              <div className="job__requirements">
-                <strong>Desired Skills</strong>
-                <ul>
-                  {selectedJob.desiredSkills.split(",").map((skill, idx) => (
-                    <li key={idx}>*{skill.trim()}</li>
-                  ))}
-                </ul>
-              </div>
-              <div className="job__description">
-                <strong>Job Description</strong>
-                <p>{selectedJob.jobDescription.split("\n")[0]}</p>
-                <ul>
-                  {selectedJob.jobDescription
-                    .split("\n")  
-                    .slice(1)
-                    .map(
-                      (line, idx) =>
-                        line.trim() !== "" && <li key={idx}>{line}</li>
-                    )}
-                </ul>
-              </div>
-            </div>
-          )}
+        <div className="job__name">
+          <strong>{job.jobTitle}</strong>
+          <p>{job.city}</p>
         </div>
       </div>
+    ))}
+  </div>
+
+  <div className="joblist__content">
+    {selectedJob && (
+      <div className="job__details">
+        <div className="job__apply">
+          <h1 className="job__title">{selectedJob.jobTitle}</h1>
+
+          {appliedJobs.includes(selectedJob._id) ? (
+            <button className="apply__button applied" disabled>Applied</button>
+          ) : user?.jobLimit === 0 && !user?.paid ? (
+            <button onClick={handleSubscribe} className="subscribe__button">
+              Subscribe
+            </button>
+          ) : (
+            <button
+              onClick={handleJobApplication}
+              disabled={appliedJobs.length >= (user?.jobLimit || jobLimit)}
+              className="apply__button"
+            >
+              Apply Now
+            </button>
+          )}
+        </div>
+
+        <div className="job__overview">
+          <p><strong>Company:</strong> {selectedJob.companyName}</p>
+          <p><strong>Location:</strong> {selectedJob.location}</p>
+          <p><strong>Type:</strong> {selectedJob.jobType}</p>
+          <p><strong>Timing:</strong> {selectedJob.jobTiming}</p>
+          <p><strong>Positions:</strong> {selectedJob.noofposition}</p>
+          <p>
+            <strong>Salary:</strong> ₹{selectedJob.salary.minSalary} - ₹
+            {selectedJob.salary.maxSalary} per {selectedJob.salary.per}
+          </p>
+          <p><strong>Working Days:</strong> {selectedJob.workingDays}</p>
+          <p><strong>Application Deadline:</strong> {selectedJob.applicationDeadline}</p>
+          <p><strong>Experience:</strong> {selectedJob.experience} year(s)</p>
+        </div>
+
+        <div className="job__requirements">
+          <strong>Desired Skills</strong>
+          <ul>
+            {selectedJob.desiredSkills.split(",").map((skill, idx) => (
+              <li key={idx}>• {skill.trim()}</li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="job__description">
+          <strong>Job Description</strong>
+          <p>{selectedJob.jobDescription.split("\n")[0]}</p>
+          <ul>
+            {selectedJob.jobDescription
+              .split("\n")
+              .slice(1)
+              .map(
+                (line, idx) =>
+                  line.trim() !== "" && <li key={idx}>{line}</li>
+              )}
+          </ul>
+        </div>
+      </div>
+    )}
+  </div>
+      </div>
+
     </div>
   );
 };

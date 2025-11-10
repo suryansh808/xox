@@ -218,4 +218,130 @@
     background-color: #6c757d;
     cursor: not-allowed;
   }
+
+
 }
+  /* Responsive Design */
+  @media (max-width: 768px) {
+  #privatechats .whatsapp-container {
+    flex-direction: column;
+  }
+
+  /* Sidebar (Chat List) */
+  #privatechats .sidebar {
+    width: 100%;
+    height: 100vh;
+    border-right: none;
+    border-bottom: 1px solid #333;
+    transition: transform 0.3s ease;
+    background-color: #111;
+  }
+
+  #privatechats .sidebar-header {
+    padding: 15px;
+    font-size: 1.1rem;
+    border-bottom: 1px solid #444;
+  }
+
+  #privatechats .chat-list {
+    max-height: calc(100vh - 60px);
+    overflow-y: auto;
+  }
+
+  /* Hide chat window by default on mobile */
+  #privatechats .chat-window {
+    display: none;
+  }
+
+  /* When a chat is active, hide sidebar and show chat window */
+  #privatechats.mobile-chat-active .sidebar {
+    display: none;
+  }
+
+  #privatechats.mobile-chat-active .chat-window {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+
+  /* Chat header with back button */
+  #privatechats .chat-header {
+    position: relative;
+    font-size: 1rem;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    background-color: #1f1f1f;
+    border-bottom: 1px solid #333;
+  }
+
+  #privatechats .chat-header::before {
+    content: "←";
+    font-size: 1.4rem;
+    margin-right: 12px;
+    cursor: pointer;
+  }
+
+  /* Chat messages */
+  #privatechats .chat-messages {
+    padding: 12px;
+    background-size: cover;
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  #privatechats .message {
+    max-width: 80%;
+    font-size: 0.95rem;
+    padding: 8px 12px;
+  }
+
+  #privatechats .message.sent {
+    align-self: flex-end;
+    background-color: #075e54;
+  }
+
+  #privatechats .message.received {
+    align-self: flex-start;
+    background-color: #262626;
+  }
+
+  /* Input area */
+  #privatechats .chat-input {
+    padding: 8px;
+    background-color: #1c1c1c;
+  }
+
+  #privatechats .chat-input input {
+    font-size: 0.95rem;
+    padding: 10px;
+  }
+
+  #privatechats .chat-input button {
+    padding: 8px 10px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Larger Screens (Tablet and Desktop) */
+@media (min-width: 769px) {
+  #privatechats .whatsapp-container {
+    flex-direction: row;
+  }
+
+  #privatechats .sidebar {
+    width: 30%;
+    max-width: 340px;
+  }
+
+  #privatechats .chat-window {
+    display: flex;
+  }
+
+  #privatechats .chat-header::before {
+    content: "";
+  }
+}
+

@@ -19,6 +19,7 @@ const Footer = () => {
     "/UserDashBoard",
     "/HRLogin",
     "/HRHome",
+    "/CompanyOnboard",
     "/CompanyJoblist",
     "/JobApplications",
     "/InterviewProcess",

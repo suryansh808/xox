@@ -1,11 +1,14 @@
+
+
 #appliedjoblist {
   padding: 60px 10px 0 10px;
+  background-color: rgba(14, 14, 15, 0.8);
   position: relative;
-     background-color: rgba(14, 14, 15, 0.8);
 
   .joblist__container {
-    height: calc(100dvh - 60px);
     display: flex;
+    flex-direction: row;
+    height: calc(100dvh - 60px);
     gap: 8px;
     padding: 5px;
   }
@@ -14,13 +17,15 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-    width: 400px;
-    overflow-y: scroll;
+    width: 380px;
+    min-width: 280px;
+    /* max-width: 400px; */
+    overflow-y: auto;
     scrollbar-width: none;
-    padding: 5px;
     background: #eee;
     border-radius: 10px;
     border-right: 1px solid rgb(39, 39, 39);
+    padding: 5px;
 
     .job__titleandlocation {
       background: #080808;
@@ -31,19 +36,19 @@
       border-radius: 10px;
       cursor: pointer;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       gap: 10px;
 
       .company__name {
         width: 100%;
-        padding: 5px;
         strong {
-          font-size: 20px;
+          font-size: 18px;
           font-weight: 600;
+          display: block;
         }
         p {
-          font-size: 16px;
-          margin: 5px 0 0 0;
+          font-size: 14px;
+          margin: 4px 0 0 0;
           color: #cccccc;
         }
       }
@@ -59,20 +64,18 @@
   }
 
   .joblist__content {
+    flex: 1;
     background: #eee;
     color: #0f0f0f;
     box-shadow: 0 10px 25px rgba(190, 186, 186, 0.09);
-    transition: background 0.3s ease;
     border-radius: 10px;
-    width: 100%;
     padding: 20px;
     overflow: hidden;
 
     .job__details {
       display: flex;
       flex-direction: column;
-      /* gap: 20px; */
-      overflow-y: scroll;
+      overflow-y: auto;
       scrollbar-width: none;
       max-height: calc(100dvh - 100px);
     }
@@ -84,7 +87,7 @@
     .job__apply {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 6px;
       padding: 15px 0;
       border-bottom: 2px solid #333333;
 
@@ -93,43 +96,37 @@
         font-weight: 600;
         color: #1a1a1a;
       }
-      p{
-        font-size: 16px;
+
+      p {
+        font-size: 15px;
         font-weight: 400;
         color: #333333;
       }
     }
 
     .application__status {
-      padding: 10px 2px;
+      padding: 10px 0;
       display: flex;
       flex-direction: column;
       gap: 8px;
-      /* background-color: red; */
 
       h2 {
-        font-size: 18px;
+        font-size: 17px;
         font-weight: 600;
         color: #0f0f0f;
-        /* padding: 10px 15px; */
-        /* border-radius: 8px; */
-        /* margin: 0; */
-        display: inline-block;
-        width: fit-content;
       }
 
       p {
-        font-size: 16px;
+        font-size: 15px;
         font-weight: 400;
         color: #333333;
         background: #ffffff;
         padding: 10px;
-        /* border-radius: 8px; */
-        /* margin: 0; */
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         display: flex;
         align-items: center;
         gap: 10px;
+        flex-wrap: wrap;
 
         &:has(span.status--selected) {
           border-left: 4px solid #28a745;
@@ -157,7 +154,6 @@
       }
 
       &.candidate-evaluation {
-        /* border-top: 2px solid #333333; */
         border-bottom: 2px solid #333333;
 
         .interview__details {
@@ -165,16 +161,16 @@
         }
 
         .final-status {
-          font-size: 16px;
-          font-weight: 400;
+          font-size: 15px;
+          font-weight: 500;
           color: #333333;
           background: #ffffff;
           padding: 12px 15px;
-          /* border-radius: 8px; */
           box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
           display: flex;
           align-items: center;
           gap: 10px;
+          flex-wrap: wrap;
 
           &.status--shortlisted {
             border-left: 4px solid #28a745;
@@ -194,59 +190,104 @@
         }
       }
     }
+  }
 
-    .application__status:nth-child(3) {
-      border-bottom: 2px solid #333333;
+  /* ------------------------ Responsive ------------------------ */
+  @media (max-width: 1024px) {
+    .joblist__container {
+      flex-direction: column;
+      height: auto;
+    }
+
+    .joblist__sidebar {
+      width: 100%;
+      max-height: 300px;
+      overflow-y: auto;
+      scrollbar-width: none;
+    }
+
+    .joblist__content {
+      padding: 15px;
+
+      .job__details {
+        max-height: none;
+      }
+
+      .job__apply {
+        h2.job__title {
+          font-size: 18px;
+        }
+        p {
+          font-size: 14px;
+        }
+      }
+
+      .application__status {
+        h2 {
+          font-size: 16px;
+        }
+        p {
+          font-size: 14px;
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
     }
   }
 
-  @media (max-width: 768px) {
-    #appliedjoblist {
-      .joblist__container {
-        flex-direction: column;
-        height: auto;
+  @media (max-width: 600px) {
+      padding: 60px 5px 0 5px;
+
+    .joblist__container {
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .joblist__sidebar {
+      max-height: 220px;
+      border-radius: 8px;
+      padding: 5px;
+
+
+      .job__titleandlocation {
+        padding: 8px;
+        strong {
+          font-size: 16px;
+        }
+        p {
+          font-size: 13px;
+        }
+      }
+    }
+
+    .joblist__content {
+      border-radius: 8px;
+      padding: 12px;
+
+      .job__apply {
+        gap: 4px;
+        h2.job__title {
+          font-size: 17px;
+        }
+        p {
+          font-size: 13px;
+        }
       }
 
-      .joblist__sidebar {
-        width: 100%;
-        max-height: 300px;
-      }
+      .application__status {
+        gap: 6px;
 
-      .joblist__content {
-        padding: 15px;
-
-        .job__details {
-          max-height: none;
-          overflow-y: auto;
+        h2 {
+          font-size: 15px;
+        }
+        p {
+          font-size: 13px;
+          padding: 8px;
         }
 
-        .job__apply {
-          h1.job__title {
-            font-size: 24px;
-          }
-          h1:nth-child(2) {
-            font-size: 18px;
-          }
-          border-bottom: 2px solid #333333;
-        }
-
-        .application__status {
-          h2 {
-            font-size: 20px;
-          }
-          p {
-            font-size: 14px;
-          }
-
-          &.candidate-evaluation {
-            .final-status {
-              font-size: 14px;
-            }
-          }
-        }
-
-        .application__status:nth-child(3) {
-          border-bottom: 2px solid #333333;
+        .candidate-evaluation .final-status {
+          font-size: 13px;
+          padding: 10px;
         }
       }
     }

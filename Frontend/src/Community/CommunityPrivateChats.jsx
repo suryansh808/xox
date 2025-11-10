@@ -13,6 +13,23 @@ const CommunityPrivateChats = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showDialog, setShowDialog] = useState(null);
 
+  const [isMobileChatActive, setIsMobileChatActive] = useState(false);
+
+// Modify chat item click
+const handleChatSelect = (friendId) => {
+  setActiveChat(friendId);
+  if (window.innerWidth <= 768) {
+    setIsMobileChatActive(true);
+  }
+};
+
+// Handle back navigation (mobile)
+const handleBackToList = () => {
+  setIsMobileChatActive(false);
+};
+
+
+
   // Parse user data from localStorage
   let userData = {};
   try {
@@ -27,7 +44,11 @@ const CommunityPrivateChats = () => {
   // Redirect to login if user data is missing
   useEffect(() => {
     if (!userId || !userName) {
-      console.error("User not logged in: userId or userName missing", { userId, userName, userData });
+      console.error("User not logged in: userId or userName missing", {
+        userId,
+        userName,
+        userData,
+      });
       navigate("/CommunityLogin");
     }
   }, [userId, userName, navigate]);
@@ -37,14 +58,17 @@ const CommunityPrivateChats = () => {
     setIsLoading(true);
     try {
       const response = await axios.get(`${API}/getchats/${userId}`);
-      const chatData = response.data.chats.reduce((acc, chat) => ({
-        ...acc,
-        [chat.friendId]: chat.messages.map((msg) => ({
-          text: msg.text,
-          type: msg.senderId === userId ? "sent" : "received",
-          createdAt: msg.createdAt,
-        })),
-      }), {});
+      const chatData = response.data.chats.reduce(
+        (acc, chat) => ({
+          ...acc,
+          [chat.friendId]: chat.messages.map((msg) => ({
+            text: msg.text,
+            type: msg.senderId === userId ? "sent" : "received",
+            createdAt: msg.createdAt,
+          })),
+        }),
+        {}
+      );
       setChats(chatData);
       setFriendRequests(response.data.friendRequests);
       setFriends(response.data.friends);
@@ -52,7 +76,10 @@ const CommunityPrivateChats = () => {
         setActiveChat(response.data.friends[0].userId);
       }
     } catch (error) {
-      console.error("Error fetching chats:", error.response?.data || error.message);
+      console.error(
+        "Error fetching chats:",
+        error.response?.data || error.message
+      );
       alert(error.response?.data?.message || "Error fetching chats");
     } finally {
       setIsLoading(false);
@@ -119,13 +146,15 @@ const CommunityPrivateChats = () => {
       }));
       setNewMessage("");
     } catch (error) {
-      console.error("Error sending message:", error.response?.data || error.message);
+      console.error(
+        "Error sending message:",
+        error.response?.data || error.message
+      );
       alert(error.response?.data?.message || "Error sending message");
     } finally {
       setIsLoading(false);
     }
   };
-
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
@@ -133,11 +162,9 @@ const CommunityPrivateChats = () => {
     }
   };
 
-
   const handleFriendRequestClick = (request) => {
     setShowDialog(request);
   };
-
 
   const handleAcceptFriend = async (senderId, senderName) => {
     setIsLoading(true);
@@ -147,12 +174,17 @@ const CommunityPrivateChats = () => {
         userId,
       });
       alert(`Friend request from ${senderName} accepted!`);
-      setFriendRequests((prev) => prev.filter((req) => req.userId !== senderId));
+      setFriendRequests((prev) =>
+        prev.filter((req) => req.userId !== senderId)
+      );
       setFriends((prev) => [...prev, { userId: senderId, name: senderName }]);
       setChats((prev) => ({ ...prev, [senderId]: [] }));
       setShowDialog(null);
     } catch (error) {
-      console.error("Error accepting friend request:", error.response?.data || error.message);
+      console.error(
+        "Error accepting friend request:",
+        error.response?.data || error.message
+      );
       alert(error.response?.data?.message || "Error accepting friend request");
     } finally {
       setIsLoading(false);
@@ -168,10 +200,15 @@ const CommunityPrivateChats = () => {
         userId,
       });
       alert(`Friend request from ${senderName} rejected.`);
-      setFriendRequests((prev) => prev.filter((req) => req.userId !== senderId));
+      setFriendRequests((prev) =>
+        prev.filter((req) => req.userId !== senderId)
+      );
       setShowDialog(null);
     } catch (error) {
-      console.error("Error rejecting friend request:", error.response?.data || error.message);
+      console.error(
+        "Error rejecting friend request:",
+        error.response?.data || error.message
+      );
       alert(error.response?.data?.message || "Error rejecting friend request");
     } finally {
       setIsLoading(false);
@@ -179,7 +216,7 @@ const CommunityPrivateChats = () => {
   };
 
   return (
-    <div id="privatechats">
+    <div id="privatechats" className={isMobileChatActive ? "mobile-chat-active" : ""}>
       <div className="whatsapp-container">
         <div className="sidebar">
           <div className="sidebar-header">Chats</div>
@@ -193,12 +230,14 @@ const CommunityPrivateChats = () => {
                 {request.name} (Pending)
               </div>
             ))}
-            {friends.map((friend) => (
-              <div
-                key={friend.userId}
-                className={`chat-item ${activeChat === friend.userId ? "active" : ""}`}
-                onClick={() => setActiveChat(friend.userId)}
-              >
+           {friends.map((friend) => (
+  <div
+    key={friend.userId}
+    className={`chat-item ${activeChat === friend.userId ? "active" : ""}`}
+    onClick={() => handleChatSelect(friend.userId)}
+  >
+
+
                 <img src={friend.profile} alt="profilepicture" />
                 <h2>{friend.name}</h2>
               </div>
@@ -207,7 +246,10 @@ const CommunityPrivateChats = () => {
         </div>
 
         <div className="chat-window">
-          <div className="chat-header">{friends.find((f) => f.userId === activeChat)?.name || "Select a chat"}</div>
+          <div className="chat-header" onClick={handleBackToList}>
+  {friends.find((f) => f.userId === activeChat)?.name || "Chat"}
+</div>
+
           <div className="chat-messages">
             {activeChat && chats[activeChat] ? (
               chats[activeChat].map((msg, index) => (
@@ -217,7 +259,8 @@ const CommunityPrivateChats = () => {
               ))
             ) : (
               <p>
-                Select a friend from Community page to start chatting <span>Community page</span>
+                Select a friend from Community page to start chatting{" "}
+                <span>Community page</span>
               </p>
             )}
           </div>
@@ -245,18 +288,25 @@ const CommunityPrivateChats = () => {
               <p>Accept friend request from {showDialog.name}?</p>
               <div className="dialog-buttons">
                 <button
-                  onClick={() => handleAcceptFriend(showDialog.userId, showDialog.name)}
+                  onClick={() =>
+                    handleAcceptFriend(showDialog.userId, showDialog.name)
+                  }
                   disabled={isLoading}
                 >
                   Accept
                 </button>
                 <button
-                  onClick={() => handleRejectFriend(showDialog.userId, showDialog.name)}
+                  onClick={() =>
+                    handleRejectFriend(showDialog.userId, showDialog.name)
+                  }
                   disabled={isLoading}
                 >
                   Reject
                 </button>
-                <button onClick={() => setShowDialog(null)} disabled={isLoading}>
+                <button
+                  onClick={() => setShowDialog(null)}
+                  disabled={isLoading}
+                >
                   Cancel
                 </button>
               </div>
@@ -264,6 +314,8 @@ const CommunityPrivateChats = () => {
           </div>
         )}
       </div>
+    
+
     </div>
   );
 };

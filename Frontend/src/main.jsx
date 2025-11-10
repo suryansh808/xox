@@ -66,6 +66,7 @@ import "./Style/Pricing.css"
 import "./Style/Loginwithotp.css"
 import "./Style/CommunityDashboard.css"
 import "./Style/CommunityLogin.css"
+import "./Style/CommunitySignUp.css"
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

@@ -64,8 +64,8 @@ const CommunityDashboard = () => {
             <h2 className="card-title">Your Profile</h2>
             <div className="profile-info">
               <img
-                src="https://via.placeholder.com/80"
-                alt="Profile"
+                src=""
+                alt=""
                 className="profile-image"
               />
               <div>
@@ -91,7 +91,7 @@ const CommunityDashboard = () => {
                 {friendRequests.map((request) => (
                   <li key={request.userId} className="list-item">
                     <span>{request.name} (Pending)</span>
-                    <Link to="/CommunityPrivateChats" className="link">
+                    <Link to="/CommunityPrivateChat" className="link">
                       View Request
                     </Link>
                   </li>
@@ -110,7 +110,7 @@ const CommunityDashboard = () => {
                 {friends.map((friend) => (
                   <li key={friend.userId} className="list-item">
                     <span>{friend.name}</span>
-                    <Link to="/CommunityPrivateChats" className="link">
+                    <Link to="/CommunityPrivateChat" className="link">
                       Message
                     </Link>
                   </li>

@@ -25,6 +25,8 @@
       display: block;
     }
   }
+
+  
   
   .hr-login-form-side {
     display: flex;
@@ -51,6 +53,7 @@
     box-shadow: 0 10px 25px rgba(56, 56, 56, 0.5);
     position: relative;
     color: white;
+
   }
   
   .hr-login-back {
@@ -102,6 +105,16 @@
     transition: background 0.3s ease;
     box-shadow: 0 10px 25px rgba(56, 56, 56, 0.5);
 
+  }
+
+  .continuewithgoogle{
+    margin-top: 1rem;
+    text-align: center;
+
+    .hr-login-divline{
+      margin-bottom: 1rem;
+      color: #ffffff;
+    }
   }
   
   

@@ -97,6 +97,7 @@ import CommunityDashboard from './Community/CommunityDashboard';
 import CommunityHeader from './Community/CommunityHeader';
 import { CommunityPrivateRoute } from './PrivateRoute';
 import CommunityPrivateChat from './Community/CommunityPrivateChats';
+import CompanyOnboard from './Hr/CompanyOnboard';
 
 
 
@@ -169,6 +170,7 @@ const AppContent = () => {
     "/selectedcandidates",
     "/rejectedcandidates",
     "/hiredcandidates",
+    "/companyonboard",
      
     
   ];
@@ -265,6 +267,7 @@ const AppContent = () => {
           <Route path="/RejectedCandidates" element={<HrPrivateRoute><RejectedCandidates/></HrPrivateRoute>} />
           <Route path="/SelectedCandidates" element={<HrPrivateRoute><SelectedCandidates/></HrPrivateRoute>} />
           <Route path="/InterviewProcess" element={<HrPrivateRoute><InterviewProcess/></HrPrivateRoute>} />
+          <Route path="/CompanyOnboard" element={<HrPrivateRoute><CompanyOnboard/></HrPrivateRoute>} />
          
 
           {/* Admin */}

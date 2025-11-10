@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import API from "../API";
 import Cookies from "js-cookie";
+
 const AppliedStatus = () => {
   const [joblist, setJoblist] = useState([]);
   const [interviews, setInterviews] = useState([]);

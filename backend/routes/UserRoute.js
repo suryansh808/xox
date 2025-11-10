@@ -23,6 +23,7 @@ router.post("/userlogin", async (req, res) => {
       return res.status(400).json({ message: "Invalid email or password" });
     }
     const payload = { user: { _id: user._id }, role: "user" };
+    //  const payload = { userId: user._id, role: "user" };
     const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1d" });
 
     res.status(200).json({
@@ -140,7 +141,8 @@ router.post("/verifyotp", async (req, res) => {
     await user.save();
 
     // Generate standardized JWT
-    const payload = { userId: user._id, role: "user" };
+    // const payload = { userId: user._id, role: "user" };
+     const payload = { user: { _id: user._id }, role: "user" };
     const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1d" });
 
     // ✅ Unified Response Structure
@@ -173,7 +175,7 @@ router.get("/userdashboardcount", async (req, res) => {
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decoded.userId;
+    const userId = decoded.user._id;
 
       const result = await Application.aggregate([
       {
@@ -255,7 +257,7 @@ router.get('/user', async (req, res) => {
      if (!token) { return res.status(403).json({ error: "Access denied. No token provided." }); }
         
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
-            const userId = decoded.userId;
+            const userId = decoded.user._id;
     const user = await User.findById(userId).select('-password -__v -otp -confirmPassword');
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
@@ -299,7 +301,7 @@ router.post("/resumes", async (req, res) => {
       return res.status(403).json({ error: "Access denied. No token provided." });
     }
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decoded.userId;
+    const userId = decoded.user._id;
     const { personalInfo, educations, experience, skills ,summary, project } = req.body;
     if (!userId) {
       return res.status(400).json({ error: "User ID is required" });
@@ -328,7 +330,7 @@ router.get("/resume", async (req, res) => {
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decoded.userId;
+    const userId = decoded.user._id;
     // const { userId } = req.params;
 
     if (!userId) {
@@ -359,7 +361,7 @@ router.put("/resumes/:id", async (req, res) => {
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decoded.userId;
+    const userId = decoded.user._id;
     const updatedResume = await Resume.findByIdAndUpdate(
       req.params.id,
       {
@@ -389,7 +391,7 @@ router.put("/change-password", async (req, res) => {
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decoded.userId;
+    const userId = decoded.user._id;
 
     const { password } = req.body;
     if (!password) {
@@ -411,7 +413,7 @@ router.post("/uploadprofile", async (req, res) => {
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decoded.userId;
+    const userId = decoded.user._id;
     const { image } = req.body;
     if (!image) {
       return res.status(400).json({ message: "No image provided" });

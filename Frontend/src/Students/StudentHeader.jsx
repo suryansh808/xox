@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 import toast, { Toaster } from "react-hot-toast";
+
 const StudentHeader = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const sidebarRef = useRef(null);
@@ -9,30 +10,27 @@ const StudentHeader = () => {
     setIsSidebarOpen((prev) => !prev);
   };
 
-
-
   const navigate = useNavigate();
   const handleLogout = () => {
     const userData = localStorage.getItem("user");
     toast.success("Logout Successfully");
+    setIsSidebarOpen((prev) => !prev);
     setTimeout(() => {
       if (userData) {
-      const user = JSON.parse(userData);
-      sessionStorage.removeItem(`popupShown_${user._id}`);
-    }
-    localStorage.removeItem("user");
-    localStorage.removeItem("email");
-    localStorage.removeItem("name");
-    Cookies.remove('authToken', { path: '/' });
-    
-     
+        const user = JSON.parse(userData);
+        sessionStorage.removeItem(`popupShown_${user._id}`);
+      }
+      localStorage.removeItem("user");
+      localStorage.removeItem("email");
+      localStorage.removeItem("name");
+      Cookies.remove("authToken", { path: "/" });
+
       navigate("/");
-    },2000);
-   
+    }, 2000);
   };
-    const renderToCommunityPage = () => {
+  const renderToCommunityPage = () => {
     navigate("/community");
-  }
+  };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -52,11 +50,16 @@ const StudentHeader = () => {
 
   return (
     <div id="studentHeader">
-       <Toaster position="top-center" reverseOrder={false} />
+      <Toaster position="top-center" reverseOrder={false} />
       <header className="student-header">
         <div className="logo">🎓 Dashboard</div>
-        <div className="menu-icon" >
-          <div onClick={renderToCommunityPage}><i title="Go to community" className="fa fa-commenting-o animate-pulse"></i></div>
+        <div className="menu-icon">
+          <div onClick={renderToCommunityPage}>
+            <i
+              title="Explore Our Community"
+              className="fa fa-commenting-o text-blue-700 animate-pulse"
+            ></i>
+          </div>
           <div onClick={toggleSidebar}>☰</div>
         </div>
       </header>
@@ -89,11 +92,6 @@ const StudentHeader = () => {
               <i className="fa fa-file-text"></i> Create Resume
             </Link>
           </li>
-          {/* <li>
-            <Link onClick={toggleSidebar} to="/PrivateChats">
-              <i class="fa fa-comments-o"></i> Private Chats
-            </Link>
-          </li> */}
           <li>
             <Link onClick={toggleSidebar} to="/Settings">
               <i className="fa fa-cog"></i> Settings

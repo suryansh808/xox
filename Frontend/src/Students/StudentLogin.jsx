@@ -1,6 +1,6 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 import API from "../API";
 import Cookies from "js-cookie";
 import toast, { Toaster } from "react-hot-toast";
@@ -20,24 +20,26 @@ const StudentLogIn = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${API}/userlogin`, { email, password });
+      const response = await axios.post(`${API}/userlogin`, {
+        email,
+        password,
+      });
       setEmail("");
       setPassword("");
       toast.success("Login successful");
-    if (response.status === 200) {
-        // Flatten the user data by spreading response.data.user and adding/overriding other fields
+      if (response.status === 200) {
         const userDataToStore = {
-          ...response.data.user,  // Spread the full user object (e.g., _id, name, email, etc.)
+          ...response.data.user,
           jobLimit: 2,
           planType: null,
-          accessLevel: 'basic'
+          accessLevel: "basic",
         };
         localStorage.setItem("user", JSON.stringify(userDataToStore));
-        Cookies.set('authToken', response.data.token, {
+        Cookies.set("authToken", response.data.token, {
           expires: 1,
           secure: true,
           sameSite: "none",
-          path: '/',
+          path: "/",
         });
         navigate("/Home");
       }

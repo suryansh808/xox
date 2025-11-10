@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
-import API from "../API";
+// import axios from "axios";
+// import API from "../API";
 
 const CommunityHeader = () => {
-  const userData = JSON.parse(localStorage.getItem("com-user") || "{}");
-  const userId = userData.userId;
-  const [user, setUser] = useState(null);
+  // const userData = JSON.parse(localStorage.getItem("com-user") || "{}");
+  // const userId = userData.userId;
+  // const [user, setUser] = useState(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const sidebarRef = useRef(null);
   const navigate = useNavigate();
@@ -21,22 +21,27 @@ const CommunityHeader = () => {
     navigate("/");
   };
 
-  const fetchUser = async () => {
-    try {
-      if (!userId) {
-        console.error("No userId found in localStorage");
-        return;
-      }
-      const response = await axios.get(`${API}/getcommunityuser/${userId}`);
-      setUser(response.data.user);
-    } catch (error) {
-      console.error("Fetch user error:", error);
-    }
-  };
+  // const fetchUser = async () => {
+  //   try {
+  //     if (!userId) {
+  //       console.error("No userId found in localStorage");
+  //       return;
+  //     }
+  //     const response = await axios.get(`${API}/getcommunityuser/${userId}`);
+  //     setUser(response.data.user);
+  //   } catch (error) {
+  //     console.error("Fetch user error:", error);
+  //   }
+  // };
 
-  useEffect(() => {
-    fetchUser();
-  }, []);
+  // useEffect(() => {
+  //   fetchUser();
+  // }, []);
+  //  {user ? (
+  //           <strong>{user.name}'s Dashboard</strong>
+  //         ) : (
+  //           <strong>Loading...</strong>
+  //         )}
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -58,11 +63,7 @@ const CommunityHeader = () => {
     <div id="studentHeader">
       <header className="student-header">
         <div className="logo">
-          {user ? (
-            <strong>{user.name}'s Dashboard</strong>
-          ) : (
-            <strong>Loading...</strong>
-          )}
+          <h2>Dashboard</h2>
         </div>
         <div className="menu-icon" onClick={toggleSidebar}>
           ☰
@@ -84,7 +85,7 @@ const CommunityHeader = () => {
           </li>
           <li>
             <Link onClick={toggleSidebar} to="/CommunityPrivateChat">
-              <i className="fa fa-user"></i> Profile
+              <i className="fa fa-user"></i> Private Chats
             </Link>
           </li>
           <li>

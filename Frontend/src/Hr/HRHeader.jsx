@@ -99,14 +99,14 @@ const HRHeader = () => {
               <i className="fa fa-user-times"></i> Rejected Candidates
             </Link>
           </li>
-          {/* <li>
-            <Link onClick={toggleSidebar} to="/CompanyRejectedCandidates">
-              <i className="fa fa-user-check"></i> Company Rejected 
-            </Link>
-          </li> */}
           <li>
             <Link onClick={toggleSidebar} to="/HiredCandidates">
               <i className="fa fa-user-tie"></i> Hired Candidates
+            </Link>
+          </li>
+          <li>
+            <Link onClick={toggleSidebar} to="/CompanyOnboard">
+                <i className="fa fa-building"></i> Company Onboard list
             </Link>
           </li>
           <li>

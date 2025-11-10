@@ -89,7 +89,7 @@ const CommunitySignup = () => {
   };
 
   return (
-    <div id="studentsignup">
+    <div id="communitysignup">
       <div className="signup-container">
         <div className="signup-form-wrapper">
           <div className="signup-form-container">

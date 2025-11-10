@@ -87,8 +87,10 @@ router.post("/community-login", async (req, res) => {
     }
 });
 
-router.post("/checkauthgmail", async (req, res) => {
+router.post("/checkauthcommunitygmail", async (req, res) => {
+    console.log("Received request to /checkauthgmail");
   const { email } = req.body;
+  console.log("Received email for auth check:", email);
   try {
     const communityUser = await CommunityUser.findOne({ email });
 
